@@ -1,0 +1,16 @@
+{
+  "name": "Heltec_ESP32",
+  "keywords": "heltec, esp32, lora, wifi kit, oled",
+  "description": "A library for Heltec ESP32 (or ESP32+LoRa) based board",
+  "repository":{
+    "type": "git",
+    "url": "https://github.com/HelTecAutomation/Heltec_ESP32.git"
+  },
+  "authors":{
+        "name": "Heltec Automation(TM)",
+        "email": "support@heltec.cn"
+   },
+  "version": "1.0.2",
+  "frameworks": "arduino",
+  "platforms": "espressif32"
+}
