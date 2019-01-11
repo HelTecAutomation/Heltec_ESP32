@@ -15,11 +15,11 @@
  * - Timer test and some other Arduino basic functions.
  *
  * by Aaron.Lee from HelTec AutoMation, ChengDu, China
- * 成都惠利特自动化科技有限格式
+ * 成都惠利特自动化科技有限公司
  * www.heltec.cn
  *
  * this project also realess in GitHub:
- * https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series
+ * https://github.com/HelTecAutomation/Heltec_ESP32
 */
 
 #include "Arduino.h"
@@ -51,7 +51,7 @@ void WIFISetUp(void)
 	delay(1000);
 	WiFi.mode(WIFI_STA);
 	WiFi.setAutoConnect(true);
-	WiFi.begin("HelTec_AutoMation","hunter_3120");
+	WiFi.begin("Your WIFI SSID","Your WIFI Password");
 	delay(100);
 
 	byte count = 0;
