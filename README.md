@@ -1,6 +1,6 @@
 # Heltec ESP32 series Dev-boards Arduino Library
 
-English | [¼òÌåÖĞÎÄ](heltec.cn)
+English | [ç®€ä½“ä¸­æ–‡](http://www.heltec.cn/)
 
 This library need work with ESP32 development enviroment.
 
