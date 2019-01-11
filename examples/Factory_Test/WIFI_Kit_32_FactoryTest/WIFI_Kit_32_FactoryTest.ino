@@ -115,8 +115,6 @@ void WIFIScan(void)
 
 void setup()
 {
-	Heltec.VextON();
-
 	pinMode(LED,OUTPUT);
 	digitalWrite(LED,HIGH);
 

@@ -7,10 +7,12 @@
 
 #include <Arduino.h>
 #include <Wire.h>
-#include <SPI.h>
 
 #include "oled/SSD1306Wire.h"
-#include "lora/LoRa.h"
+#if !defined(WIFI_Kit_32)
+	#include <SPI.h>
+	#include "lora/LoRa.h"
+#endif
 
 
 class Heltec_ESP32 {
@@ -20,8 +22,9 @@ class Heltec_ESP32 {
 	~Heltec_ESP32();
 
     void begin(bool DisplayEnable=true, bool LoRaEnable=true, bool SerialEnable=true, bool PABOOST=true, long BAND=470E6);
-
+#if !defined(WIFI_Kit_32)
     LoRaClass LoRa;
+#endif
 
     SSD1306Wire *display;
 
