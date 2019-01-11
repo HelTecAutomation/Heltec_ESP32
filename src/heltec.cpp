@@ -21,9 +21,7 @@ void Heltec_ESP32::begin(bool DisplayEnable, bool LoRaEnable, bool SerialEnable,
 
 #if defined( WIFI_LoRa_32_V2 ) || defined( Wireless_Stick )
 
-	pinMode(LED,OUTPUT);
 	VextON();
-
 #endif
 
 	// UART
@@ -50,6 +48,12 @@ void Heltec_ESP32::begin(bool DisplayEnable, bool LoRaEnable, bool SerialEnable,
 	// LoRa INIT
 	if (LoRaEnable)
 	{
+		if(SerialEnable && WIFI_Kit_32){
+			Serial.print("The WiFi Kit 32 not have LoRa function, LoRa opintion must be FALSE!!!\r\n");
+		}
+
+
+#if !defined(WIFI_Kit_32)
 		//LoRaClass LoRa;
 
 		SPI.begin(SCK,MISO,MOSI,SS);
@@ -76,6 +80,7 @@ void Heltec_ESP32::begin(bool DisplayEnable, bool LoRaEnable, bool SerialEnable,
 			display->display();
 			delay(300);
 		}
+#endif
 	}
 }
 
