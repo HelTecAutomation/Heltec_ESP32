@@ -48,12 +48,14 @@ void Heltec_ESP32::begin(bool DisplayEnable, bool LoRaEnable, bool SerialEnable,
 	// LoRa INIT
 	if (LoRaEnable)
 	{
+#if defined(WIFI_Kit_32)
 		if(SerialEnable && WIFI_Kit_32){
-			Serial.print("The WiFi Kit 32 not have LoRa function, LoRa opintion must be FALSE!!!\r\n");
+			Serial.print("The WiFi Kit 32 not have LoRa function, LoRa option must be FALSE!!!\r\n");
 		}
+#endif
 
 
-#if !defined(WIFI_Kit_32)
+#if defined( WIFI_LoRa_32 ) || defined( WIFI_LoRa_32_V2 ) || defined( Wireless_Stick )
 		//LoRaClass LoRa;
 
 		SPI.begin(SCK,MISO,MOSI,SS);
