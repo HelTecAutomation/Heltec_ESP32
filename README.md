@@ -32,10 +32,9 @@ https://github.com/HelTecAutomation/Heltec_ESP32/blob/master/src/heltec.h
 
 
 #### Note:
-* How to install USB driver for establishing serial port
+* ESP series chips are faster to download, please make sure to use the high-quality Micro USB cable, otherwise it will be easy to download.
 
-  https://m5stack.github.io/m5-docs/#/en/related_documents/establish_serial_connection
+  
 
-* How to upgrade M5Stack Libary
+* Before downloading the program, press the PRG button on the board to greatly increase the download success rate.
 
-  https://m5stack.github.io/m5-docs/#/en/related_documents/upgrade_m5stack_lib
