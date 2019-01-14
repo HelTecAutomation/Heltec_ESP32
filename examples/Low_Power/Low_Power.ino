@@ -1,47 +1,34 @@
- /*
-Simple Deep Sleep with Timer Wake Up
-=====================================
-ESP32 offers a deep sleep mode for effective power
-saving as power is an important factor for IoT
-applications. In this mode CPUs, most of the RAM,
-and all the digital peripherals which are clocked
-from APB_CLK are powered off. The only parts of
-the chip which can still be powered on are:
-RTC controller, RTC peripherals ,and RTC memories
-
-This code displays the most basic deep sleep with
-a timer to wake it up and how to store data in
-RTC memory to use it over reboots
-
-This code is under Public Domain License.
-
-Author:
-Pranav Cherukupalli <cherukupallip@gmail.com>
+/*
+ * HelTec Automation(TM) Low_Power test code, witch includ
+ * Function summary:
+ *
+ * - Vext connected to 3.3V via a MOS-FET, the gate pin connected to GPIO21;
+ *
+ * - OLED display and PE4259(RF switch) use Vext as power supply;
+ *
+ * - WIFI Kit series V1 don't have Vext control function;
+ * 
+ * - Basic LoRa Function;
+ *
+ * - Esp_Deep_Sleep Function;
+ * 
+ * by lxyzn from HelTec AutoMation, ChengDu, China
+ * 
+ * www.heltec.cn
+ *
+ * this project also realess in GitHub:
+ * https://github.com/HelTecAutomation/Heltec_ESP32
 */
 
-#include <SPI.h>
-#include <LoRa.h>
+#include "heltec.h"
 
-#define SCK     5    // GPIO5  -- SX127x's SCK
-#define MISO    19   // GPIO19 -- SX127x's MISO
-#define MOSI    27   // GPIO27 -- SX127x's MOSI
-#define SS      18   // GPIO18 -- SX127x's CS
-#define RST     14   // GPIO14 -- SX127x's RESET
-#define DIO0    26   // GPIO26 -- SX127x's IRQ(Interrupt Request)
-#define DIO1    35
-#define DIO2    34
 
 #define uS_TO_S_FACTOR 1000000  /* Conversion factor for micro seconds to seconds */
 #define TIME_TO_SLEEP  10        /* Time ESP32 will go to sleep (in seconds) */
 
 #define BAND    433E6  //you can set band here directly,e.g. 868E6,915E6
-#define PABOOST true
 
-#define V2   1
 
-#ifdef V2 //WIFI Kit series V1 not support Vext control
-  #define Vext  21
-#endif
 
 RTC_DATA_ATTR int bootCount = 0;
 
@@ -90,20 +77,16 @@ void print_wakeup_reason(){
 }
 
 void setup(){
-  Serial.begin(115200);
-  delay(1000); //Take some time to open up the Serial Monitor
-
-  pinMode(Vext,OUTPUT);
-  digitalWrite(Vext, HIGH);    // set GPIO16 low to reset OLED
+  //WIFI Kit series V1 not support Vext control
+  Heltec.begin(true /*DisplayEnable Enable*/, true /*LoRa Disable*/, true /*Serial Enable*/, true /*PABOOST Enable*/, BAND /*long BAND*/);
 
   //Increment boot number and print it every reboot
   ++bootCount;
   Serial.println("Boot number: " + String(bootCount));
   delay(2);
 
-  SPI.begin(SCK,MISO,MOSI,SS);
-  LoRa.begin(BAND,PABOOST);
-  Serial.println("LoRa init done");
+  
+ 
 
   //Print the wakeup reason for ESP32
   print_wakeup_reason();

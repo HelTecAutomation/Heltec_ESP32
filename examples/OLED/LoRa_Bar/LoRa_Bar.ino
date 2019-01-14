@@ -1,5 +1,5 @@
 /*
- * HelTec Automation(TM) WIFI_LoRa_32 factory test code, witch includ
+ * HelTec Automation(TM) Wiress Stick test code, witch includ
  * follow functions:
  * 
  * - Basic OLED function test;
@@ -12,19 +12,17 @@
  * 
  * - LoRa Ping-Pong test(DIO0 -- GPIO26 interrup check the new incoming messages;
  * 
- * - Timer test and some other Arduino basic functions.
+ * - some other Arduino basic functions.
  *
- * by Aaron.Lee from HelTec AutoMation, ChengDu, China
+ * by lxyzn from HelTec AutoMation, ChengDu, China
  * 成都惠利特自动化科技有限格式
  * www.heltec.cn
  *
  * this project also realess in GitHub:
  * https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series
 */
-#include <SPI.h>
-#include <LoRa.h>
-#include <Wire.h>
-#include "SSD1306.h"
+#include "heltec.h"
+#include "oled/OLEDDisplayUi.h"
 #include "WiFi.h"
 #include "images.h"
 
@@ -39,29 +37,9 @@ bool receiveflag = false; // software flag for LoRa receiver, received data make
 long lastSendTime = 0;        // last send time
 int interval = 1000;          // interval between sends
 
-// Pin definetion of WIFI LoRa 32
-// HelTec AutoMation 2017 support@heltec.cn
-#define SCK     5    // GPIO5  -- SX127x's SCK
-#define MISO    19   // GPIO19 -- SX127x's MISO
-#define MOSI    27   // GPIO27 -- SX127x's MOSI
-#define SS      18   // GPIO18 -- SX127x's CS
-#define RST     14   // GPIO14 -- SX127x's RESET
-#define DI0     26   // GPIO26 -- SX127x's IRQ(Interrupt Request)
-#define SDA      4
-#define SCL     15
-#define RSTOLED  16   //RST must be set by software
-#define Light  25
-#define V2  1
 
-#ifdef V2 //WIFI Kit series V1 not support Vext control
-  #define Vext  21
-#endif
 
-#define BAND    868E6  //you can set band here directly,e.g. 868E6,915E6
-#define PABOOST true
-
-SSD1306  display(0x3c, SDA, SCL, RSTOLED);
-OLEDDisplayUi ui     ( &display );
+OLEDDisplayUi ui     ( Heltec.display );
 void WIFISetUp(void)
 {
 	// Set WiFi to station mode and disconnect from an AP if it was previously connected
@@ -78,10 +56,10 @@ void WIFISetUp(void)
 		count ++;
 		delay(500);
 	}
-	display.drawString(32, 32, "WIFI Setup OK");
-	display.display();
+	Heltec.display->drawString(32, 32, "WIFI Setup OK");
+	Heltec.display->display();
 	delay(500);
- display.clear();*/
+ Heltec.display->clear();*/
 }
 
 void WIFIScan(unsigned int value)
@@ -89,54 +67,44 @@ void WIFIScan(unsigned int value)
   unsigned int i;
   for(i=0;i<value;i++)
   {
-    display.drawString(32, 32, "Scan start...");
-    display.display();
+    Heltec.display->drawString(32, 32, "Scan start...");
+    Heltec.display->display();
 
     int n = WiFi.scanNetworks();
-    display.drawString(32, 40, "Scan done");
-    display.display();
+    Heltec.display->drawString(32, 40, "Scan done");
+    Heltec.display->display();
     delay(500);
-    display.clear();
-	  display.drawString(32, 40, (String)n + " nets found");
-		display.display();
+    Heltec.display->clear();
+	  Heltec.display->drawString(32, 40, (String)n + " nets found");
+		Heltec.display->display();
 		delay(5000);
-    display.clear();
+    Heltec.display->clear();
   }
 }
 
 void setup()
 {
-	pinMode(Light,OUTPUT);
+	pinMode(LED,OUTPUT);
 	pinMode(Vext,OUTPUT);
 	digitalWrite(Vext, LOW);    //// OLED USE Vext as power supply, must turn ON Vext before OLED init
 	delay(50);
+  
 
-	display.init();
-	display.flipScreenVertically();
-	display.setFont(ArialMT_Plain_10);
-	display.clear();
+  Heltec.begin(true /*DisplayEnable Enable*/, true /*LoRa Enable*/, true /*Serial Enable*/, true /*LoRa use PABOOST*/, 868E6 /*LoRa RF working band*/);
+
+	Heltec.display->init();
+	Heltec.display->flipScreenVertically();
+	Heltec.display->setFont(ArialMT_Plain_10);
+	Heltec.display->clear();
 
 	WIFISetUp();
 	WIFIScan(1);
 
-	Serial.begin(115200);
-	while (!Serial);
-	Serial.println("Uart is working");
-
-	SPI.begin(SCK,MISO,MOSI,SS);
-
-	LoRa.setPins(SS,RST,DI0);
-
-	if (!LoRa.begin(BAND,PABOOST))
-	{
-	  display.drawString(32,40,"LoRa failed");
-	  display.display();
-	  while (1);
-	}
-	display.drawString(32, 40, "LoRa success");
-	display.display();
+	
+	Heltec.display->drawString(32, 40, "LoRa success");
+	Heltec.display->display();
 	delay(300);
-	display.clear();
+	Heltec.display->clear();
 
 	// register the receive callback
 	LoRa.onReceive(onReceive);
@@ -156,28 +124,28 @@ void loop()
 
 		LoRa.receive();
 
-		digitalWrite(Light,HIGH);
-//		display.drawString(32, 54, (String)(counter-1) + " sent done");
-    //display.setFont(ArialMT_Plain_16);
-    //display.drawString(34, 30, "HelTec");
-    //display.setFont(ArialMT_Plain_10);
-    //display.drawString(34, 54, "AutoMation®");
-    display->drawXbm(x + 34, y + 12, LoRa_Logo_width, LoRa_Logo_height, LoRa_Logo_bits);
-		display.display();
+		digitalWrite(LED,HIGH);
+//		Heltec.display->drawString(32, 54, (String)(counter-1) + " sent done");
+    //Heltec.display->setFont(ArialMT_Plain_16);
+    //Heltec.display->drawString(34, 30, "HelTec");
+    //Heltec.display->setFont(ArialMT_Plain_10);
+    //Heltec.display->drawString(34, 54, "AutoMation®");
+    Heltec.display->drawXbm( 34, 12, LoRa_Logo_width, LoRa_Logo_height, LoRa_Logo_bits);
+		Heltec.display->display();
 
 		interval = random(1000) + 1000; //1~2 seconds
 		lastSendTime = millis();
 
-    display.clear();
+    Heltec.display->clear();
 	}
 	if(receiveflag)
 	{
-		display.drawString(32,29, "Received " + packSize);
-		display.drawString(32,38, packet);
-		display.drawString(32,47, rssi);
-		display.display();
+		Heltec.display->drawString(32,29, "Received " + packSize);
+		Heltec.display->drawString(32,38, packet);
+		Heltec.display->drawString(32,47, rssi);
+		Heltec.display->display();
 
-		digitalWrite(Light,LOW);
+		digitalWrite(LED,LOW);
 
 		receiveflag = false;
 	}

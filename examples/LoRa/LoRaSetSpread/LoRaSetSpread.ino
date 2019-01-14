@@ -1,8 +1,8 @@
 /*
-  LoRa Duplex communication with Spreading Factor
+  Heltec.LoRa Duplex communication with Spreading Factor
 
   Sends a message every half second, and polls continually
-  for new incoming messages. Sets the LoRa radio's spreading factor.
+  for new incoming messages. Sets the Heltec.LoRa radio's spreading factor.
 
   Spreading factor affects how far apart the radio's transmissions
   are, across the available bandwidth. Radios with different spreading
@@ -22,20 +22,8 @@
   this project also realess in GitHub:
   https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series
 */
-#include <SPI.h>
-#include <LoRa.h>
-
-// Pin definetion of WIFI LoRa 32
-// HelTec AutoMation 2017 support@heltec.cn 
-#define SCK     5    // GPIO5  -- SX127x's SCK
-#define MISO    19   // GPIO19 -- SX127x's MISO
-#define MOSI    27   // GPIO27 -- SX127x's MOSI
-#define SS      18   // GPIO18 -- SX127x's CS
-#define RST     14   // GPIO14 -- SX127x's RESET
-#define DI0     26   // GPIO26 -- SX127x's IRQ(Interrupt Request)
-
+#include "heltec.h"
 #define BAND    433E6  //you can set band here directly,e.g. 868E6,915E6
-#define PABOOST true
 
 
 byte msgCount = 0;            // count of outgoing messages
@@ -44,29 +32,19 @@ long lastSendTime = 0;        // time of last packet send
 
 void setup()
 {
-  Serial.begin(115200);                   // initialize serial
-  while (!Serial);
+   //WIFI Kit series V1 not support Vext control
+  Heltec.begin(true /*DisplayEnable Enable*/, true /*Heltec.Heltec.LoRa Disable*/, true /*Serial Enable*/, true /*PABOOST Enable*/, BAND /*long BAND*/);
 
-  Serial.println("LoRa Duplex - Set spreading factor");
 
-  SPI.begin(SCK,MISO,MOSI,SS);
-  LoRa.setPins(SS,RST,DI0); // set CS, reset, IRQ pin
-
-  if (!LoRa.begin(BAND,PABOOST))
-  {
-    Serial.println("LoRa init failed. Check your connections.");
-    while (true);                       // if failed, do nothing
-  }
-
-  LoRa.setSpreadingFactor(8);           // ranges from 6-12,default 7 see API docs
-  Serial.println("LoRa init succeeded.");
+  Heltec.LoRa.setSpreadingFactor(8);           // ranges from 6-12,default 7 see API docs
+  Serial.println("Heltec.LoRa init succeeded.");
 }
 
 void loop()
 {
   if (millis() - lastSendTime > interval)
   {
-    String message = "HeLoRa World! ";   // send a message
+    String message = "Heltec.LoRa World! ";   // send a message
     message += msgCount;
     sendMessage(message);
     Serial.println("Sending " + message);
@@ -76,14 +54,14 @@ void loop()
   }
 
   // parse for a packet, and call onReceive with the result:
-  onReceive(LoRa.parsePacket());
+  onReceive(Heltec.LoRa.parsePacket());
 }
 
 void sendMessage(String outgoing)
 {
-  LoRa.beginPacket();                   // start packet
-  LoRa.print(outgoing);                 // add payload
-  LoRa.endPacket();                     // finish packet and send it
+  Heltec.LoRa.beginPacket();                   // start packet
+  Heltec.LoRa.print(outgoing);                 // add payload
+  Heltec.LoRa.endPacket();                     // finish packet and send it
   msgCount++;                           // increment message ID
 }
 
@@ -94,14 +72,13 @@ void onReceive(int packetSize)
   // read packet header bytes:
   String incoming = "";
 
-  while (LoRa.available())
+  while (Heltec.LoRa.available())
   {
-    incoming += (char)LoRa.read();
+    incoming += (char)Heltec.LoRa.read();
   }
 
   Serial.println("Message: " + incoming);
-  Serial.println("RSSI: " + String(LoRa.packetRssi()));
-  Serial.println("Snr: " + String(LoRa.packetSnr()));
+  Serial.println("RSSI: " + String(Heltec.LoRa.packetRssi()));
+  Serial.println("Snr: " + String(Heltec.LoRa.packetSnr()));
   Serial.println();
 }
-

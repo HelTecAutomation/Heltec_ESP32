@@ -1,9 +1,32 @@
+/*
+ * HelTec Automation(TM) WIFI_LoRa_32 factory test code, witch includ
+ * follow functions:
+ * 
+ * - Basic OLED function test;
+ * 
+ * - Basic serial port test(in baud rate 115200);
+ * 
+ * - Basic LED test;
+ * 
+ * - WIFI join and scan test;
+ * 
+ * - ArduinoOTA By Wifi;
+ * 
+ * - Timer test and some other Arduino basic functions.
+ *
+ * by lxyzn from HelTec AutoMation, ChengDu, China
+ * 成都惠利特自动化科技有限公司
+ * www.heltec.cn
+ *
+ * this project also realess in GitHub:
+ * https://github.com/HelTecAutomation/Heltec_ESP32
+*/
 
 
 #include <ArduinoOTA.h>
 #include <WiFi.h>
 #include <Wire.h>
-#include "SSD1306.h"
+#include "heltec.h"
 
 
 /**********************************************  WIFI Client 注意编译时要设置此值 *********************************
@@ -31,9 +54,9 @@ const char* password = "xxxxxx"; //replace "xxxxxx" with your WIFI's password
 /*******************************************************************
  * OLED Arguments
  */
-#define RST_OLED 16                     //OLED Reset引脚，需要手动Reset，否则不显示
+//#define RST_OLED 16                     //OLED Reset引脚，需要手动Reset，否则不显示
 #define OLED_UPDATE_INTERVAL 500        //OLED屏幕刷新间隔ms
-SSD1306 display(0x3C, 4, 15);           //引脚4，15是绑定在Kit 32的主板上的，不能做其它用
+//SSD1306 display(0x3C, 4, 15);           //引脚4，15是绑定在Kit 32的主板上的，不能做其它用
 
 
 /********************************************************************
@@ -56,18 +79,18 @@ void setupOTA()
 
   ArduinoOTA.onStart([]()
   {
-    display.clear();
-    display.setFont(ArialMT_Plain_10);        //设置字体大小
-    display.setTextAlignment(TEXT_ALIGN_LEFT);//设置字体对齐方式
-    display.drawString(0, 0, "Start Updating....");
+    Heltec.display->clear();
+    Heltec.display->setFont(ArialMT_Plain_10);        //设置字体大小
+    Heltec.display->setTextAlignment(TEXT_ALIGN_LEFT);//设置字体对齐方式
+    Heltec.display->drawString(0, 0, "Start Updating....");
 
     Serial.printf("Start Updating....Type:%s\n", (ArduinoOTA.getCommand() == U_FLASH) ? "sketch" : "filesystem");
   });
 
   ArduinoOTA.onEnd([]()
   {
-    display.clear();
-    display.drawString(0, 0, "Update Complete!");
+    Heltec.display->clear();
+    Heltec.display->drawString(0, 0, "Update Complete!");
     Serial.println("Update Complete!");
 
     ESP.restart();
@@ -80,11 +103,11 @@ void setupOTA()
     //int progressbar = (progress / 5) % 100;
     //int pro = progress / (total / 100);
 
-    display.clear();
-    display.drawProgressBar(0, 32, 120, 10, progressbar);    // draw the progress bar    
-    display.setTextAlignment(TEXT_ALIGN_CENTER);          // draw the percentage as String
-    display.drawString(64, 15, pro);
-    display.display();
+    Heltec.display->clear();
+    Heltec.display->drawProgressBar(0, 32, 120, 10, progressbar);    // draw the progress bar    
+    Heltec.display->setTextAlignment(TEXT_ALIGN_CENTER);          // draw the percentage as String
+    Heltec.display->drawString(64, 15, pro);
+    Heltec.display->display();
 
     Serial.printf("Progress: %u%%\r", (progress / (total / 100)));
   });
@@ -121,8 +144,8 @@ void setupOTA()
         break;
     }
 
-    display.clear();
-    display.drawString(0, 0, info);    
+    Heltec.display->clear();
+    Heltec.display->drawString(0, 0, info);    
     ESP.restart();
   });
 
@@ -140,13 +163,13 @@ void setupOLED()
   delay(50);
   digitalWrite(RST_OLED, HIGH);       // while OLED is running, must set D16 in high
   
-  display.init();
-  display.flipScreenVertically();           //倒过来显示内容
-  display.setFont(ArialMT_Plain_10);        //设置字体大小
-  display.setTextAlignment(TEXT_ALIGN_LEFT);//设置字体对齐方式
+  Heltec.display->init();
+  Heltec.display->flipScreenVertically();           //倒过来显示内容
+  Heltec.display->setFont(ArialMT_Plain_10);        //设置字体大小
+  Heltec.display->setTextAlignment(TEXT_ALIGN_LEFT);//设置字体对齐方式
 
-  display.clear();
-  display.drawString(0, 0, "Initialize...");
+  Heltec.display->clear();
+  Heltec.display->drawString(0, 0, "Initialize...");
 }
 
 /*********************************************************************
@@ -154,10 +177,10 @@ void setupOLED()
  */
 void setupWIFI()
 {
-  display.clear();
-  display.drawString(0, 0, "Connecting...");
-  display.drawString(0, 10, String(ssid));
-  display.display();
+  Heltec.display->clear();
+  Heltec.display->drawString(0, 0, "Connecting...");
+  Heltec.display->drawString(0, 10, String(ssid));
+  Heltec.display->display();
   
   //连接WiFi，删除旧的配置，关闭WIFI，准备重新配置
   WiFi.disconnect(true);
@@ -183,12 +206,12 @@ void setupWIFI()
     Serial.print(".");
   }
 
-  display.clear();
+  Heltec.display->clear();
   if(WiFi.status() == WL_CONNECTED)
-    display.drawString(0, 0, "Connecting...OK."); 
+    Heltec.display->drawString(0, 0, "Connecting...OK."); 
   else
-    display.drawString(0, 0, "Connecting...Failed");
-  display.display();
+    Heltec.display->drawString(0, 0, "Connecting...Failed");
+  Heltec.display->display();
 }
 
 /******************************************************
@@ -196,10 +219,10 @@ void setupWIFI()
  */
 void setup() 
 {
+  Heltec.begin(true /*DisplayEnable Enable*/, false /*LoRa Disable*/, true /*Serial Enable*/);
   pinMode(25, OUTPUT);
   digitalWrite(25,HIGH);
   
-  Serial.begin(115200);
   while (!Serial) {
     ; // wait for serial port to connect. Needed for native USB port only
   }
@@ -278,4 +301,3 @@ void WiFiEvent(WiFiEvent_t event)
             break;
     }
 }
-

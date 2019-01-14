@@ -19,44 +19,30 @@
 */
 
 #include "Arduino.h"
-#include <Wire.h>
-#include "SSD1306.h"
-
-#define SDA		4  //OLED SDA pin
-#define SCL		15 //OLED SCL pin
-#define RST		16 //OLED nRST pin
-#define Vext		21 //Vext control pin, HIGH -- disable Vext; LOW -- enable Vext.
-
-SSD1306  display(0x3c, SDA, SCL, RST);
-
+#include "heltec.h"
 void setup()
 {
-	pinMode(Vext,OUTPUT);
-	Serial.begin(115200);
-
-	digitalWrite(Vext,LOW);
-	Serial.println("Turn ON Vext");//Vext turn on
-	delay(1000);
+	//WIFI Kit series V1 not support Vext control
+  Heltec.begin(true /*DisplayEnable Enable*/, false /*LoRa Disable*/, true /*Serial Enable*/);
 	//OLED use Vext power supply, Vext must be turn ON before OLED initialition.
-	display.init();
+	Heltec.display->init();
 
-	display.flipScreenVertically();
-	display.setFont(ArialMT_Plain_10);
-	display.drawString(0, 0, "Hello, I'm happy today");
-	display.display();
+	Heltec.display->flipScreenVertically();
+	Heltec.display->setFont(ArialMT_Plain_10);
+	Heltec.display->drawString(0, 0, "Hello, I'm happy today");
+	Heltec.display->display();
 	delay(1000);
 }
 
 void loop()
 {
-	display.sleep();//OLED sleep
-	digitalWrite(Vext,HIGH);
+	Heltec.display->sleep();//OLED sleep
+	Heltec.VextON();
 	Serial.println("Turn OFF Vext");
 	delay(5000);
 
-	digitalWrite(Vext,LOW);
+	Heltec.VextOFF();
 	Serial.println("Turn ON Vext");
-	display.wakeup();
+	Heltec.display->wakeup();
 	delay(5000);
 }
-

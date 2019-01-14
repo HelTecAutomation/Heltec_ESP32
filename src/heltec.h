@@ -15,6 +15,8 @@
 #endif
 
 
+
+
 class Heltec_ESP32 {
 
  public:
@@ -26,8 +28,16 @@ class Heltec_ESP32 {
     LoRaClass LoRa;
 #endif
 
+///////add by lxyzn of SSD1306DrawingDemo//////
+#if defined( WIFI_LoRa_32 ) || defined( WIFI_LoRa_32_V2 ) || defined( WIFI_Kit_32 )
+    
+   #define DISPLAY_HEIGHT 64
+   #define DISPLAY_WIDTH  128
+#endif
+
     SSD1306Wire *display;
 
+     //wifi kit 32 no vext////
     void VextON(void);
     void VextOFF(void);
 };
