@@ -1,4 +1,4 @@
-# M5Stack Library
+# Heltec_ESP32 Library
 
 English | [简体中文](docs/getting_started_cn.md)
 
