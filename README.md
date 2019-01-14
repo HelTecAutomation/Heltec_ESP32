@@ -28,7 +28,7 @@ https://github.com/HelTecAutomation/Heltec_ESP32/blob/master/src/heltec.h
 ## 4. H/W Reference
 
 ### PinoutDiagram
-![image](https://github.com/lxyzn/picture/blob/master/PinoutDiagram/WIFI_LoRa_32_V2.pdf)
+https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/blob/master/PinoutDiagram/WIFI_LoRa_32_V2.pdf
 
 
 #### Note:
