@@ -19,7 +19,8 @@ git clone the library in your  Arduino,it is like  C:\Users\***\Documents\Arduin
 https://github.com/HelTecAutomation/Heltec_ESP32/tree/master/examples
 
 ## 3. API Reference
-https://github.com/HelTecAutomation/Heltec_ESP32/blob/master/src/heltec.h
+[OLED API](https://github.com/HelTecAutomation/Heltec_ESP32/blob/master/src/oled/OLEDDisplay.h)
+[LoRa API](src/lora/API.md)
 
 ## 4. H/W Reference
 

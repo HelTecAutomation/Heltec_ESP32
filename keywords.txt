@@ -1,0 +1,94 @@
+#######################################
+# Syntax Coloring Map For Heltec_ESP32
+#######################################
+
+#######################################
+# Library (KEYWORD3)
+#######################################
+
+Heltec	KEYWORD3
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+LoRa	  KEYWORD1
+display	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+begin	        KEYWORD2
+end           KEYWORD2
+write         KEYWORD2
+sleep         KEYWORD2
+
+beginPacket	  KEYWORD2
+endPacket     KEYWORD2
+parsePacket   KEYWORD2
+packetRssi    KEYWORD2
+packetSnr     KEYWORD2     
+available     KEYWORD2
+peek          KEYWORD2
+flush         KEYWORD2
+onReceive     KEYWORD2
+receive       KEYWORD2
+read          KEYWORD2
+idle          KEYWORD2
+setTxPower    KEYWORD2
+setTxPowerMax KEYWORD2
+setFrequency  KEYWORD2
+setSpreadingFactor    KEYWORD2
+setSignalBandwidth    KEYWORD2
+setCodingRate4        KEYWORD2
+setPreambleLength     KEYWORD2
+setSyncWord   KEYWORD2
+enableCrc     KEYWORD2
+disableCrc    KEYWORD2
+crc           KEYWORD2
+noCrc         KEYWORD2
+random        KEYWORD2
+setpins       KEYWORD2
+setSPIFrequency       KEYWORD2
+dumpRegisters KEYWORD2
+
+drawString    KEYWORD2
+display       KEYWORD2
+wakeup        KEYWORD2
+resetDisplay  KEYWORD2
+setColor      KEYWORD2
+getColor      KEYWORD2
+setPixel      KEYWORD2
+drawLine      KEYWORD2
+drawRect      KEYWORD2
+fillRect      KEYWORD2
+drawCircle    KEYWORD2
+drawCircleQuads     KEYWORD2
+fillCircle    KEYWORD2
+drawHorizontalLine  KEYWORD2
+drawVerticalLine    KEYWORD2
+drawProgressBar     KEYWORD2
+drawFastImage       KEYWORD2
+drawXbm             KEYWORD2
+drawStringMaxWidth  KEYWORD2
+getStringWidth      KEYWORD2
+getStringWidth      KEYWORD2
+setTextAlignment    KEYWORD2
+setFont             KEYWORD2
+setFontTableLookupFunction    KEYWORD2
+displayOn           KEYWORD2
+displayOff          KEYWORD2
+invertDisplay       KEYWORD2
+normalDisplay       KEYWORD2
+setContrast         KEYWORD2
+setBrightness       KEYWORD2
+resetOrientation    KEYWORD2
+flipScreenVertically          KEYWORD2
+mirrorScreen        KEYWORD2
+clear               KEYWORD2
+setLogBuffer        KEYWORD2
+drawLogBuffer       KEYWORD2
+getWidth            KEYWORD2
+getHeight           KEYWORD2
+

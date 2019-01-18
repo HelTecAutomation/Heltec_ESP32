@@ -7,7 +7,7 @@
 #define REG_FRF_MID              0x07
 #define REG_FRF_LSB              0x08
 #define REG_PA_CONFIG            0x09
-#define REG_LR_OCP				 0X0b//过流保护控制寄存器
+#define REG_LR_OCP				 0X0b
 #define REG_LNA                  0x0c
 #define REG_FIFO_ADDR_PTR        0x0d
 #define REG_FIFO_TX_BASE_ADDR    0x0e
@@ -93,7 +93,7 @@ int LoRaClass::begin(long frequency,bool PABOOST)
   // set auto AGC
   writeRegister(REG_MODEM_CONFIG_3, 0x04);
   // set output power to 20 dBm
-  setTxPowerMax(20);  //PA_BOOST
+  setTxPowerMax(14);  //PA_BOOST
   // set Spreading Factor to 7 (6~12)
   setSpreadingFactor(11);
   // put in standby mode
