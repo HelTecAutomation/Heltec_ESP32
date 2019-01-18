@@ -20,6 +20,7 @@ https://github.com/HelTecAutomation/Heltec_ESP32/tree/master/examples
 
 ## 3. API Reference
 [OLED API](https://github.com/HelTecAutomation/Heltec_ESP32/blob/master/src/oled/OLEDDisplay.h)
+
 [LoRa API](src/lora/API.md)
 
 ## 4. H/W Reference
