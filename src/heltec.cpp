@@ -6,9 +6,9 @@
 
 Heltec_ESP32::Heltec_ESP32(){
 
-#if defined( WIFI_Kit_32 ) || ( WIFI_LoRa_32 ) || defined( WIFI_LoRa_32_V2 )
+#if defined( WIFI_Kit_32 ) || defined( WIFI_LoRa_32 ) || defined( WIFI_LoRa_32_V2 )
       display = new SSD1306Wire(0x3c, SDA_OLED, SCL_OLED, RST_OLED, GEOMETRY_128_64);
-#else
+#elif defined( Wireless_Stick )
 	  display = new SSD1306Wire(0x3c, SDA_OLED, SCL_OLED, RST_OLED, GEOMETRY_64_32);
 #endif
 }
