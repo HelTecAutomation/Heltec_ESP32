@@ -31,7 +31,7 @@ void logo(){
   Heltec.display->display();
 }
 
-void Heltec.LoRaData(){
+void LoRaData(){
   Heltec.display->clear();
   Heltec.display->setTextAlignment(TEXT_ALIGN_LEFT);
   Heltec.display->setFont(ArialMT_Plain_10);
@@ -46,7 +46,7 @@ void cbk(int packetSize) {
   packSize = String(packetSize,DEC);
   for (int i = 0; i < packetSize; i++) { packet += (char) Heltec.LoRa.read(); }
   rssi = "RSSI " + String(Heltec.LoRa.packetRssi(), DEC) ;
-  Heltec.LoRaData();
+  LoRaData();
 }
 
 void setup() { 
