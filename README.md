@@ -14,17 +14,28 @@ git clone the library in your  Arduino,it is like  /Users/***/Documents/Arduino/
 
 *For Windows*
 two ways to download and update the library
+
 -one is git clone the library in your  Arduino,it is like  C:\Users\***\Documents\Arduino\Heltec_ESP32
+
 -the other is open your [Arduino IDE](https://www.arduino.cc/en/Main/Software)
+
 -Click on Project - Load Library - Manage Library
 
+
 ![image](instruction_picture/Windows/Library.png)
+
+
 -Search for "heltec" in the library manager and download
 
+
 ![image](instruction_picture/Windows/Download.png)
+
+
 You will find the installed library in the following directory.
 
+
 ![image](instruction_picture/Windows/Directory.png)
+
 ## 2. Example
 https://github.com/HelTecAutomation/Heltec_ESP32/tree/master/examples
 
