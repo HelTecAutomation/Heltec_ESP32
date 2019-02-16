@@ -2,7 +2,9 @@
 
 English | [简体中文](#简体中文)
 
-**This library must work with [Heltec ESP32 develop framework](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series)! A detail document about how to install Heltec ESP32 development framework and this library available here: [http://docs.heltec.cn/#/en/user_manual/how_to_install_esp32_Arduino](http://docs.heltec.cn/#/en/user_manual/how_to_install_esp32_Arduino)**
+**This library must work with [Heltec ESP32 develop framework](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series)! A detail document about how to install Heltec ESP32 development framework and this library available here:**
+
+**[http://docs.heltec.cn/#/en/user_manual/how_to_install_esp32_Arduino](http://docs.heltec.cn/#/en/user_manual/how_to_install_esp32_Arduino)**
 
 ## CONTENT
 
@@ -74,13 +76,18 @@ A detail steps to execute some examples available here:
 
 [Summary of common problems](http://www.heltec.cn/summary-of-common-problems-in-wifi-kit-series-continuous-update/?lang=en)
 
-
-
-
+&nbsp;
+***
+***
+&nbsp;
 
 ## 简体中文
 
-**这个Arduino库必须配合[Heltec ESP32开发环境](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series)一起使用!**
+**这个Arduino库必须配合[Heltec ESP32编译环境](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series)一起使用！完整的“编译环境 + 库”的的教程可以参考这里：**
+
+**[http://docs.heltec.cn/#/en/user_manual/how_to_install_esp32_Arduino](http://docs.heltec.cn/#/en/user_manual/how_to_install_esp32_Arduino)**
+
+***
 
 ## 目录
 
@@ -113,7 +120,7 @@ A detail steps to execute some examples available here:
 <img src="http://docs.heltec.cn/img/how_to_install_esp32_Arduino/06.png">
 <img src="http://docs.heltec.cn/img/how_to_install_esp32_Arduino/07.jpg">
 
-### Use Git
+### 通过Git进行安装
 
 *首先,请确保`Git`和`Arduino IDE`都已经正确安装。如果没有，请参考这里的安装方法[How to install Git and Arduino](http://docs.heltec.cn/#/en/user_manual/how_to_install_git_and_arduino)。 *
 
