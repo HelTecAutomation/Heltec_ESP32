@@ -52,7 +52,7 @@ You will see such a new folder in your library path, install done.
 
 ## How to use this library
 
-**This library must work with [Heltec ESP32 develop framework](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series)!**
+**`This library must work with [Heltec ESP32 develop framework](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series)!`**
 
 A detail steps to execute some examples available here:
 
@@ -136,8 +136,6 @@ A detail steps to execute some examples available here:
 
 
 ## 怎样使用这个库
-
-**这个库仅仅是开发板的例程，并不包含ESP32 Arduino的编译环境，所以使用这个库之前，你需要正确安装ESP32的开发环境！**
 
 如何运行一个例程？详细的使用指南：:
 
