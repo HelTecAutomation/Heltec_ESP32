@@ -2,9 +2,9 @@
 
 English | [简体中文](#简体中文)
 
-**This library must work with [Heltec ESP32 develop framework](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series)! A detail document about how to install Heltec ESP32 development framework and this library available here:**
+?> **This library must work with [Heltec ESP32 develop framework](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series)! A detail document about how to install Heltec ESP32 development framework and this library available here:**
 
-**[http://docs.heltec.cn/#/en/user_manual/how_to_install_esp32_Arduino](http://docs.heltec.cn/#/en/user_manual/how_to_install_esp32_Arduino)**
+?> **[http://docs.heltec.cn/#/en/user_manual/how_to_install_esp32_Arduino](http://docs.heltec.cn/#/en/user_manual/how_to_install_esp32_Arduino)**
 
 ## CONTENT
 
