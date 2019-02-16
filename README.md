@@ -2,52 +2,71 @@
 
 English | [简体中文](#简体中文)
 
-This library need work with ESP32 development enviroment.
-[Heltec ESP32 & ESP8266 Series Arduino Develop Environment](https://github.com/HelTecAutomation/Heltec_ESP32)
+**This library must work with [Heltec ESP32 develop framework](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series)! A detail document about how to install Heltec ESP32 development framework and this library available here: [http://docs.heltec.cn/#/en/user_manual/how_to_install_esp32_Arduino](http://docs.heltec.cn/#/en/user_manual/how_to_install_esp32_Arduino)**
 
-## 1. Now Get Started
+## CONTENT
 
-#### Here is the way to get started
+1. [How to install this library](#how-to-install-this-library)
 
-*For MacOS*
-git clone the library in your  Arduino,it is like  finder－ /文稿（Document）/Arduino/libraries/Heltec_ESP32
+	- [Use Arduino Library Manager](#use-arduino-library-manager)
 
-*For Windows*
-two ways to download and update the library
+	- [Use Git](#use-git)
 
--one is git clone the library in your  Arduino,it is like  C:\Users\***\Documents\Arduino\libraries\Heltec_ESP32
+2. [How to use this library](#how-to-use-this-library)
 
--the other is open your [Arduino IDE](https://www.arduino.cc/en/Main/Software)
+3. [API Reference](#api-reference)
 
--Click on Project - Load Library - Manage Library
+4. [Hardware Reference](#hardware-reference)
 
+	- [PinoutDiagram](#pinoutdiagram)
 
-![image](instruction_picture/Windows/Library.png)
-
--Search for "heltec" in the library manager and download
+	- [Schematic Diagram](#schematic-diagram)
 
 
-![image](instruction_picture/Windows/Download.png)
-
-You will find the installed library in the following directory.
+***
 
 
-![image](instruction_picture/Windows/Directory.png)
+## How to install this library
+*We recommedn use Arduino library manager, it's the simplest way*
 
-## 2. Example
-https://github.com/HelTecAutomation/Heltec_ESP32/tree/master/examples
+### Use Arduino Library Manager
+Open Arduino IDE, then Select `Sketch`->`Include Library`->`Manage Libraries...`
+Search `Heltec ESP32` and install it.
+<img src="http://docs.heltec.cn/img/how_to_install_esp32_Arduino/06.png">
+<img src="http://docs.heltec.cn/img/how_to_install_esp32_Arduino/07.jpg">
 
-## 3. API Reference
+### Use Git
+
+*Firstly, makse sure `Git` and `Arduino IDE` has installed first. If not, please refer [How to install Git and Arduino](http://docs.heltec.cn/#/en/user_manual/how_to_install_git_and_arduino). For correctly installed Arduino, you will find a folder in "Username/Documents/Arduino/Library". **this library must in such a path!***
+
+Open "Git bash" in path "Username/Documents/Arduino/Library", and input:
+
+    git clone https://github.com/HelTecAutomation/Heltec_ESP32.git
+
+You will see such a new folder in your library path, install done.
+
+![image](img/location.png)
+
+
+## How to use this library
+
+**This library must work with [Heltec ESP32 develop framework](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series)!**
+
+A detail steps to execute some examples available here:
+
+[http://docs.heltec.cn/#/en/user_manual/how_to_install_esp32_Arduino?id=_1-execute-a-example-likes-factorytestino](http://docs.heltec.cn/#/en/user_manual/how_to_install_esp32_Arduino?id=_1-execute-a-example-likes-factorytestino)
+
+## API Reference
 [OLED API](https://github.com/HelTecAutomation/Heltec_ESP32/blob/master/src/oled/OLEDDisplay.h)
 
 [LoRa API](src/lora/API.md)
 
-## 4. H/W Reference
+## Hardware Reference
 
 ### PinoutDiagram
-https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/tree/master/PinoutDiagram
+[https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/tree/master/PinoutDiagram](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/tree/master/PinoutDiagram)
 ### Schematic Diagram
-https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/tree/master/SchematicDiagram
+[https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/tree/master/SchematicDiagram](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/tree/master/SchematicDiagram)
 
 
 #### Note:
@@ -61,56 +80,74 @@ https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/tree/master/SchematicDiagram
 
 ## 简体中文
 
-该库需要与ESP32开发环境协同工作[ESP32和esp8266开发环境]（https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series）
+**这个Arduino库必须配合[Heltec ESP32开发环境](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series)一起使用!**
 
-### 1. 以下是Heltec_ESP32库的安装方法
+## 目录
 
-*MacOS*
-克隆本库到本地，路径：finder－ /文稿（Document）/Arduino/libraries/Heltec_ESP32
+1. [安装方法](#安装方法)
 
-*Windows*
-有以下两种方法下载并持续更新此库
+	- [通过Arduino库管理器安装](#通过Arduino库管理器安装)
 
-- 一种是克隆本库到本地，路径： C:\Users\***\Documents\Arduino\libraries\Heltec_ESP32
+	- [通过Git进行安装](#use-git)
 
-- 另一种是打开最新版[Arduino IDE](https://www.arduino.cc/en/Main/Software)
+2. [怎样使用这个库](#怎样使用这个库)
 
--点击项目 - 加载库 - 管理库
+3. [API参考](#API参考)
 
+4. [硬件设计参考](#硬件设计参考)
 
-![image](instruction_picture/Windows/Library.png)
+	- [引脚图](#引脚图)
 
--在库管理器中搜索“heltec”安装
-
-
-![image](instruction_picture/Windows/Download.png)
-
-安装成功后会发现以下文件
+	- [原理图](#原理图)
 
 
-![image](instruction_picture/Windows/Directory.png)
+***
 
-## 2. 例程
-https://github.com/HelTecAutomation/Heltec_ESP32/tree/master/examples
 
-## 3. API参考
+## 安装方法
+*强烈推荐使用Arduino自带的“库管理器”进行安装*
+
+### 通过Arduino库管理器安装
+打开Arduino IDE, 选择`项目`->`加载库`->`管理库...`，打开“库管理器”
+搜索`Heltec ESP32`并安装.
+<img src="http://docs.heltec.cn/img/how_to_install_esp32_Arduino/06.png">
+<img src="http://docs.heltec.cn/img/how_to_install_esp32_Arduino/07.jpg">
+
+### Use Git
+
+*首先,请确保`Git`和`Arduino IDE`都已经正确安装。如果没有，请参考这里的安装方法[How to install Git and Arduino](http://docs.heltec.cn/#/en/user_manual/how_to_install_git_and_arduino)。 *
+
+**强调一下：这个库的路径必须位于操作系统的“文档/Arduino/libraries”文件夹内！！！文档文件夹是操作系统自带的，必须！必须！必须！**
+
+在“文档/Arduino/libraries”路径下打开"Git bash"，输入:
+
+    git clone https://github.com/HelTecAutomation/Heltec_ESP32.git
+
+如果一切正常，应该是这样的
+
+![image](img/location_cn.png)
+
+
+## 怎样使用这个库
+
+**这个库仅仅是开发板的例程，并不包含ESP32 Arduino的编译环境，所以使用这个库之前，你需要正确安装ESP32的开发环境！**
+
+如何运行一个例程？详细的使用指南：:
+
+[http://docs.heltec.cn/#/en/user_manual/how_to_install_esp32_Arduino?id=_1-execute-a-example-likes-factorytestino](http://docs.heltec.cn/#/en/user_manual/how_to_install_esp32_Arduino?id=_1-execute-a-example-likes-factorytestino)
+
+## API参考
 [OLED API](https://github.com/HelTecAutomation/Heltec_ESP32/blob/master/src/oled/OLEDDisplay.h)
 
 [LoRa API](src/lora/API.md)
 
-## 4. 引脚图参考
+## 硬件设计参考
 
-https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/tree/master/PinoutDiagram
+### 引脚图
+[https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/tree/master/PinoutDiagram](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/tree/master/PinoutDiagram)
+### 原理图
+[https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/tree/master/SchematicDiagram](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/tree/master/SchematicDiagram)
 
-### 原理图参考
-
-https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/tree/master/SchematicDiagram
-
-
-#### 注意事项:
-* ESP系列芯片下载速度更快，请务必使用高品质的Micro USB线，否则不便于下载。
-
-[Summary of common problems](http://www.heltec.cn/summary-of-common-problems-in-wifi-kit-series-continuous-update/?lang=en)
 
 
 
