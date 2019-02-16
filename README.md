@@ -2,9 +2,9 @@
 
 English | [简体中文](#简体中文)
 
-?> **This library must work with [Heltec ESP32 develop framework](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series)! A detail document about how to install Heltec ESP32 development framework and this library available here:**
+**This library must work with [Heltec ESP32 develop framework](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series)! A detail document about how to install Heltec ESP32 development framework and this library available here:**
 
-?> **[http://docs.heltec.cn/#/en/user_manual/how_to_install_esp32_Arduino](http://docs.heltec.cn/#/en/user_manual/how_to_install_esp32_Arduino)**
+**[http://docs.heltec.cn/#/en/user_manual/how_to_install_esp32_Arduino](http://docs.heltec.cn/#/en/user_manual/how_to_install_esp32_Arduino)**
 
 ## CONTENT
 
@@ -29,7 +29,7 @@ English | [简体中文](#简体中文)
 
 
 ## How to install this library
-*We recommedn use Arduino library manager, it's the simplest way*
+*`We recommedn use Arduino library manager, it's the simplest way`*
 
 ### Use Arduino Library Manager
 Open Arduino IDE, then Select `Sketch`->`Include Library`->`Manage Libraries...`
@@ -112,7 +112,7 @@ A detail steps to execute some examples available here:
 
 
 ## 安装方法
-*强烈推荐使用Arduino自带的“库管理器”进行安装*
+*`强烈推荐使用Arduino自带的“库管理器”进行安装!`*
 
 ### 通过Arduino库管理器安装
 打开Arduino IDE, 选择`项目`->`加载库`->`管理库...`，打开“库管理器”
