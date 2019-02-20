@@ -5,6 +5,8 @@
 
 #if defined(ESP32)
 
+#define Vext 21
+
 #include <Arduino.h>
 #include <Wire.h>
 
@@ -36,7 +38,7 @@ class Heltec_ESP32 {
 extern Heltec_ESP32 Heltec;
 
 #else
-#error ¡°This library only supports boards with ESP32 processor.¡±
+#error ï¿½ï¿½This library only supports boards with ESP32 processor.ï¿½ï¿½
 #endif
 
 
