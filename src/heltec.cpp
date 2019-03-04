@@ -84,6 +84,7 @@ void Heltec_ESP32::begin(bool DisplayEnable, bool LoRaEnable, bool SerialEnable,
 		}
 #endif
 	}
+	pinMode(LED,OUTPUT);
 }
 
 void Heltec_ESP32::VextON(void)
