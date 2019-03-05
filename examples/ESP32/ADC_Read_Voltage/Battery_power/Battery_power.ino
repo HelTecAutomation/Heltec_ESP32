@@ -22,33 +22,34 @@
 */
 #include "Arduino.h"
 #include <Wire.h>
-#include "SSD1306.h"
+#include "heltec.h"
 
-#define Vext 21
-
-#define SDA      4  //OLED SDA pin
-#define SCL     15 //OLED SCL pin
-#define RST     16 //OLED nRST pin
+//#define Vext 21
+//
+//#define SDA      4  //OLED SDA pin
+//#define SCL     15 //OLED SCL pin
+//#define RST     16 //OLED nRST pin
 #define Fbattery    3700  //The default battery is 3700mv when the battery is fully charged.
 
 float XS = 0.00225;      //The returned reading is multiplied by this XS to get the battery voltage.
 uint16_t MUL = 1000;
 uint16_t MMUL = 100;
-SSD1306  display(0x3c, SDA, SCL, RST);
+//SSD1306  display(0x3c, SDA, SCL, RST);
 
 void setup()
 {
-	pinMode(Vext, OUTPUT);
-	digitalWrite(Vext, LOW);
-	delay(1000);
+//	pinMode(Vext, OUTPUT);
+//	digitalWrite(Vext, LOW);
+//	delay(1000);
+Heltec.begin(true /*DisplayEnable Enable*/, false /*LoRa Enable*/, true /*Serial Enable*/);
 
-	display.init();
-	display.flipScreenVertically();
-	display.setFont(ArialMT_Plain_10);
-	display.drawString(0, 0, "OLED Start");
-	display.display();
+	Heltec.display->init();
+	Heltec.display->flipScreenVertically();
+	Heltec.display->setFont(ArialMT_Plain_10);
+	Heltec.display->drawString(0, 0, "OLED Start");
+	Heltec.display->display();
 	delay(1000);
-	display.clear();
+	Heltec.display->clear();
 
 	adcAttachPin(13);
 	analogSetClockDiv(255); // 1338mS
@@ -63,15 +64,14 @@ void loop()
    Serial.println(analogRead(13));
    //Serial.println((String)d);
   // Serial.printf("%x",analogRead(13));
-   display.drawString(0, 0, "Remaining battery still has:");
-   display.drawString(0, 10, "VBAT:");
-   display.drawString(35, 10, (String)c);
-   display.drawString(60, 10, "(mV)");
-  // display.drawString(90, 10, (String)d);
-  // display.drawString(98, 10, ".";
-  // display.drawString(107, 10, "%");
-   display.display();
+   Heltec.display->drawString(0, 0, "Remaining battery still has:");
+   Heltec.display->drawString(0, 10, "VBAT:");
+   Heltec.display->drawString(35, 10, (String)c);
+   Heltec.display->drawString(60, 10, "(mV)");
+  // Heltec.display->drawString(90, 10, (String)d);
+  // Heltec.display->drawString(98, 10, ".";
+  // Heltec.display->drawString(107, 10, "%");
+   Heltec.display->display();
    delay(2000);
-   display.clear();
+   Heltec.display->clear();
 }
-

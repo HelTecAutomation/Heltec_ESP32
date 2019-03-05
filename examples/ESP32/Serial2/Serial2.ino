@@ -3,7 +3,7 @@
  * work with ESP32's IO MUX
 */
 
-HardwareSerial Serial2(2);
+//HardwareSerial Serial2(2);
 
 void setup() {
 
