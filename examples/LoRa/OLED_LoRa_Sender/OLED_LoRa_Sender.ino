@@ -62,10 +62,10 @@ void loop()
   Heltec.display->display();
 
   // send packet
-  Heltec.LoRa.beginPacket();
-  Heltec.LoRa.print("hello ");
-  Heltec.LoRa.print(counter);
-  Heltec.LoRa.endPacket();
+  LoRa.beginPacket();
+  LoRa.print("hello ");
+  LoRa.print(counter);
+  LoRa.endPacket();
 
   counter++;
   digitalWrite(LED, HIGH);   // turn the LED on (HIGH is the voltage level)

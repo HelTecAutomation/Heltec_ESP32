@@ -44,8 +44,8 @@ void LoRaData(){
 void cbk(int packetSize) {
   packet ="";
   packSize = String(packetSize,DEC);
-  for (int i = 0; i < packetSize; i++) { packet += (char) Heltec.LoRa.read(); }
-  rssi = "RSSI " + String(Heltec.LoRa.packetRssi(), DEC) ;
+  for (int i = 0; i < packetSize; i++) { packet += (char) LoRa.read(); }
+  rssi = "RSSI " + String(LoRa.packetRssi(), DEC) ;
   LoRaData();
 }
 
@@ -64,12 +64,12 @@ void setup() {
   Heltec.display->drawString(0, 10, "Wait for incoming data...");
   Heltec.display->display();
   delay(1000);
-  //Heltec.LoRa.onReceive(cbk);
-  Heltec.LoRa.receive();
+  //LoRa.onReceive(cbk);
+  LoRa.receive();
 }
 
 void loop() {
-  int packetSize = Heltec.LoRa.parsePacket();
+  int packetSize = LoRa.parsePacket();
   if (packetSize) { cbk(packetSize);  }
   delay(10);
 }

@@ -25,10 +25,10 @@ void loop() {
   Serial.print("Sending packet: ");
   Serial.println(counter);
   // send packet
-  Heltec.LoRa.beginPacket();
-  Heltec.LoRa.print("hello ");
-  Heltec.LoRa.print(counter);
-  Heltec.LoRa.endPacket();
+  LoRa.beginPacket();
+  LoRa.print("hello ");
+  LoRa.print(counter);
+  LoRa.endPacket();
   
   counter++;
   digitalWrite(25, HIGH);   // turn the LED on (HIGH is the voltage level)

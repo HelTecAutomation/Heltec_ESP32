@@ -36,7 +36,7 @@ void setup()
   Heltec.begin(true /*DisplayEnable Enable*/, true /*Heltec.Heltec.LoRa Disable*/, true /*Serial Enable*/, true /*PABOOST Enable*/, BAND /*long BAND*/);
 
 
-  Heltec.LoRa.setSpreadingFactor(8);           // ranges from 6-12,default 7 see API docs
+  LoRa.setSpreadingFactor(8);           // ranges from 6-12,default 7 see API docs
   Serial.println("Heltec.LoRa init succeeded.");
 }
 
@@ -54,14 +54,14 @@ void loop()
   }
 
   // parse for a packet, and call onReceive with the result:
-  onReceive(Heltec.LoRa.parsePacket());
+  onReceive(LoRa.parsePacket());
 }
 
 void sendMessage(String outgoing)
 {
-  Heltec.LoRa.beginPacket();                   // start packet
-  Heltec.LoRa.print(outgoing);                 // add payload
-  Heltec.LoRa.endPacket();                     // finish packet and send it
+  LoRa.beginPacket();                   // start packet
+  LoRa.print(outgoing);                 // add payload
+  LoRa.endPacket();                     // finish packet and send it
   msgCount++;                           // increment message ID
 }
 
@@ -72,13 +72,13 @@ void onReceive(int packetSize)
   // read packet header bytes:
   String incoming = "";
 
-  while (Heltec.LoRa.available())
+  while (LoRa.available())
   {
-    incoming += (char)Heltec.LoRa.read();
+    incoming += (char)LoRa.read();
   }
 
   Serial.println("Message: " + incoming);
-  Serial.println("RSSI: " + String(Heltec.LoRa.packetRssi()));
-  Serial.println("Snr: " + String(Heltec.LoRa.packetSnr()));
+  Serial.println("RSSI: " + String(LoRa.packetRssi()));
+  Serial.println("Snr: " + String(LoRa.packetSnr()));
   Serial.println();
 }

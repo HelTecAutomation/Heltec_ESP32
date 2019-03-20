@@ -20,16 +20,16 @@ void setup() {
 
 void loop() {
   // try to parse packet
-  int packetSize = Heltec.LoRa.parsePacket();
+  int packetSize = LoRa.parsePacket();
   if (packetSize) {
     // received a packet
     Serial.print("Received packet '");
     // read packet
-    while (Heltec.LoRa.available()) {
-      Serial.print((char)Heltec.LoRa.read());
+    while (LoRa.available()) {
+      Serial.print((char)LoRa.read());
     }
     // print RSSI of packet
     Serial.print("' with RSSI ");
-    Serial.println(Heltec.LoRa.packetRssi());
+    Serial.println(LoRa.packetRssi());
   }
 }

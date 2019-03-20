@@ -140,8 +140,8 @@ void setup()
 	WIFISetUp();
 	WIFIScan(1);
 
-	Heltec.LoRa.onReceive(onReceive);
-	Heltec.LoRa.receive();
+	LoRa.onReceive(onReceive);
+	LoRa.receive();
 }
 
 
@@ -149,12 +149,12 @@ void loop()
 {
 	if(millis() - lastSendTime > interval)//waiting LoRa interrupt
 	{
-		Heltec.LoRa.beginPacket();
-		Heltec.LoRa.print("hello ");
-		Heltec.LoRa.print(counter++);
-		Heltec.LoRa.endPacket();
+		LoRa.beginPacket();
+		LoRa.print("hello ");
+		LoRa.print(counter++);
+		LoRa.endPacket();
 
-		Heltec.LoRa.receive();
+		LoRa.receive();
 
 		digitalWrite(LED,HIGH);
 		Heltec.display -> drawString(0, 50, "Packet " + (String)(counter-1) + " sent done");
@@ -176,11 +176,11 @@ void onReceive(int packetSize)//LoRa receiver interrupt service
 
     while (LoRa.available())
     {
-		packet += (char) Heltec.LoRa.read();
+		packet += (char) LoRa.read();
     }
 
     Serial.println(packet);
-    rssi = "RSSI: " + String(Heltec.LoRa.packetRssi(), DEC);
+    rssi = "RSSI: " + String(LoRa.packetRssi(), DEC);
 
     receiveflag = true;
 }
