@@ -1,7 +1,10 @@
 
   /*.........................................................................................
- * HelTec Automation(TM) WIFI_LoRa_32 factory test code, witch includ
+ * HelTec Automation(TM) Wireless Stick Lite factory test code, witch include
  * follow functions:
+ *
+ * - Node A search WiFi and send WiFi AP number to another node B via LoRa, Node B
+ *   will send a string "abc" back to Node A, if Node A received "abc", test pass.
  *
  * - Basic serial port test(in baud rate 115200);
  *
@@ -26,7 +29,8 @@
 
 String packet;
 uint64_t chipid;
-bool receiveflag = false; // software flag for LoRa receiver, received data makes it true.
+bool IsACKRecvied = false;
+
 
 void WIFISetUp(void)
 {
@@ -36,7 +40,7 @@ void WIFISetUp(void)
   delay(1000);
   WiFi.mode(WIFI_STA);
   WiFi.setAutoConnect(true);
-  WiFi.begin("WiFi SSID","WiFi password");
+  WiFi.begin("WiFi SSID","WIFI password");
   delay(100);
 
   byte count = 0;
@@ -64,19 +68,7 @@ void setup()
 {
   Heltec.begin(false /*DisplayEnable Enable*/, true /*LoRa Enable*/, true /*Serial Enable*/, true /*LoRa use PABOOST*/, 868E6 /*LoRa RF working band*/);
 
-  pinMode(25,OUTPUT);
-
-  pinMode(Vext,OUTPUT);
-  digitalWrite(Vext, LOW);    //// OLED USE Vext as power supply, must turn ON Vext before OLED init
-  delay(50);
-
   WIFISetUp();
-
-  LoRa.beginPacket();
-  LoRa.print(WiFi.scanNetworks());
-  LoRa.print(" networks found");
-  LoRa.endPacket();
-  Serial.printf("LoRa data sent success!\r\n");
 
   // register the receive callback
   LoRa.onReceive(onReceive);
@@ -87,28 +79,65 @@ void setup()
 
 void loop()
 {
-  if(receiveflag)
-  {
-    chipid=ESP.getEfuseMac();//The chip ID is essentially its MAC address(length: 6 bytes).
-    Serial.printf("ESP32ChipID=%04X",(uint16_t)(chipid>>32));//print High 2 bytes
-    Serial.printf("%08X\r\n",(uint32_t)chipid);//print Low 4bytes.
+	unsigned char WiFiCount = 0;
 
-    receiveflag = false;
-  }
-  //delay(1000);
+	if(!IsACKRecvied) //Scan native WiFi
+	{
+		WiFiCount = WiFi.scanNetworks();
+
+		LoRa.beginPacket();
+		LoRa.print("H");//data header
+		LoRa.print(WiFiCount);
+		LoRa.endPacket();
+		Serial.printf("%d", WiFiCount);
+		Serial.printf(" WiFi found\r\n");
+	}
+
+	// If received LoRa package with WIFI information, send ACK to node
+
+	else if((packet[0] == 'H') && (packet[1] >= 0x31))
+	{
+		packet = "";
+
+		digitalWrite(LED,LOW);
+
+		Serial.printf("Received WiFi packet number.\r\n");
+
+		LoRa.beginPacket();
+		LoRa.print("abc");
+		LoRa.endPacket();
+		delay(10);
+
+		Serial.printf("LoRa sent 'abc' done.\r\n");
+	}
+
+	else if((packet[0] == 'a') && (packet[1] == 'b') && (packet[2] == 'c')) // If received ACK package == "abc", test pass and print ChipID
+	{
+		packet = "";
+
+		digitalWrite(LED,HIGH);
+
+		chipid=ESP.getEfuseMac();//The chip ID is essentially its MAC address(length: 6 bytes).
+		Serial.printf("ESP32ChipID=%04X",(uint16_t)(chipid>>32));//print High 2 bytes
+		Serial.printf("%08X\r\n",(uint32_t)chipid);//print Low 4bytes.
+
+		digitalWrite(LED,HIGH);
+	}
+
+	LoRa.receive();
+	delay(2000);
 }
 
 void onReceive(int packetSize)//LoRa receiver interrupt service
 {
-  packet = "";
+	packet = "";
 
-  while (LoRa.available())
-  {
-      packet += (char) LoRa.read();
-  }
-  if((packet[0] == 'a')&&(packet[1] == 'b')&&(packet[2] == 'c'))
-   {
-    digitalWrite(25,HIGH);
-    receiveflag = true;
-   }
+	while (LoRa.available())
+	{
+		packet += (char) LoRa.read();
+	}
+	Serial.println(packet);
+	Serial.println(LoRa.packetRssi());
+
+	IsACKRecvied = true;
 }
