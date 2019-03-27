@@ -132,7 +132,11 @@ void WIFIScan(unsigned int value)
 void setup()
 {
 	Heltec.begin(true /*DisplayEnable Enable*/, true /*LoRa Enable*/, true /*Serial Enable*/, true /*LoRa use PABOOST*/, 470E6 /*LoRa RF working band*/);
-
+  	
+	Heltec.display->init();
+  	Heltec.display->flipScreenVertically();  
+  	Heltec.display->setFont(ArialMT_Plain_10);
+	
 	logo();
 	delay(300);
 	Heltec.display -> clear();
