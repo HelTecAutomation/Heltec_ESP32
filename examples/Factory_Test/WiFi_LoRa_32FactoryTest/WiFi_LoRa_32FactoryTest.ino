@@ -51,7 +51,7 @@ void WIFISetUp(void)
 	delay(1000);
 	WiFi.mode(WIFI_STA);
 	WiFi.setAutoConnect(true);
-	WiFi.begin("HelTec_AutoMation","hunter_3120");
+	WiFi.begin("Your SSID","Your Password");
 	delay(100);
 
 	byte count = 0;
@@ -167,7 +167,7 @@ void loop()
 	}
  if(receiveflag)
  {
-    Heltec.display -> drawString(0, 0, "Received " + packSize + " packages:");
+    Heltec.display -> drawString(0, 0, "Received Size" + packSize + " packages:");
     Heltec.display -> drawString(0, 10, packet);
     Heltec.display -> drawString(0, 20, "With " + rssi);
     Heltec.display -> display();
