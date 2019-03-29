@@ -51,7 +51,7 @@ void WIFISetUp(void)
 	delay(1000);
 	WiFi.mode(WIFI_STA);
 	WiFi.setAutoConnect(true);
-	WiFi.begin("Your WIFI SSID","Your WIFI Password");
+	WiFi.begin("HelTec_AutoMation","hunter_3120");
 	delay(100);
 
 	byte count = 0;
@@ -75,7 +75,7 @@ void WIFISetUp(void)
 		Heltec.display -> clear();
 		Heltec.display -> drawString(0, 0, "Connecting...Failed");
 		Heltec.display -> display();
-		while(1);
+		//w                       hile(1);
 	}
 	Heltec.display -> drawString(0, 10, "WIFI Setup done");
 	Heltec.display -> display();
@@ -131,7 +131,7 @@ void WIFIScan(unsigned int value)
 
 void setup()
 {
-	Heltec.begin(true /*DisplayEnable Enable*/, true /*LoRa Enable*/, true /*Serial Enable*/, true /*LoRa use PABOOST*/, 470E6 /*LoRa RF working band*/);
+	Heltec.begin(true /*DisplayEnable Enable*/, true /*LoRa Enable*/, true /*Serial Enable*/, true /*LoRa use PABOOST*/, 868E6 /*LoRa RF working band*/);
 
 	logo();
 	delay(300);
@@ -165,6 +165,17 @@ void loop()
 
 		Heltec.display -> clear();
 	}
+ if(receiveflag)
+ {
+    Heltec.display -> drawString(0, 0, "Received " + packSize + " packages:");
+    Heltec.display -> drawString(0, 10, packet);
+    Heltec.display -> drawString(0, 20, "With " + rssi);
+    Heltec.display -> display();
+
+    digitalWrite(25,LOW);
+
+    receiveflag = false;
+  }
 }
 
 void onReceive(int packetSize)//LoRa receiver interrupt service
@@ -184,4 +195,3 @@ void onReceive(int packetSize)//LoRa receiver interrupt service
 
     receiveflag = true;
 }
-
