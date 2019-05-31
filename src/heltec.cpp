@@ -117,4 +117,3 @@ void Heltec_ESP32::VextOFF(void) //Vext default OFF
 }
 
 Heltec_ESP32 Heltec;
-
