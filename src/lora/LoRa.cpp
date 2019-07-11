@@ -101,7 +101,7 @@ int LoRaClass::begin(long frequency,bool PABOOST)
   setSignalBandwidth(125E3);
   //setCodingRate4(5);
   setSyncWord(0x34);
-  crc();
+  enableCrc();
   idle();
   return 1;
 }
