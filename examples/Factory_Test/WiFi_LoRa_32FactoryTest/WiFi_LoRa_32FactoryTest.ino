@@ -51,7 +51,7 @@ void WIFISetUp(void)
 	delay(1000);
 	WiFi.mode(WIFI_STA);
 	WiFi.setAutoConnect(true);
-	WiFi.begin("Your SSID","Your Password");
+	WiFi.begin("heltec_test","heltec_test_pwd");
 	delay(100);
 
 	byte count = 0;
@@ -129,6 +129,23 @@ void WIFIScan(unsigned int value)
 	}
 }
 
+bool resendflag=false;
+bool deepsleepflag=false;
+void resend()
+{
+  delay(10);
+  if(digitalRead(0)==0)
+  {
+      if(digitalRead(LED)==LOW)
+      {resendflag=true;}
+      else
+      {
+        deepsleepflag=true;
+      }     
+  }
+}
+
+
 void setup()
 {
 	Heltec.begin(true /*DisplayEnable Enable*/, true /*LoRa Enable*/, true /*Serial Enable*/, true /*LoRa use PABOOST*/, 868E6 /*LoRa RF working band*/);
@@ -139,50 +156,77 @@ void setup()
 
 	WIFISetUp();
 	WIFIScan(1);
-
+  
+  attachInterrupt(0,resend,FALLING);
 	LoRa.onReceive(onReceive);
-	LoRa.receive();
+  send();
+  LoRa.receive();
+  displaySendReceive();
 }
 
 
 void loop()
 {
-	if(millis() - lastSendTime > interval)//waiting LoRa interrupt
-	{
-		LoRa.beginPacket();
-		LoRa.print("hello ");
-		LoRa.print(counter++);
-		LoRa.endPacket();
-
-		LoRa.receive();
-
-		digitalWrite(LED,HIGH);
-		Heltec.display -> drawString(0, 50, "Packet " + (String)(counter-1) + " sent done");
-		Heltec.display -> display();
-
-		interval = random(1000) + 1000; //1~2 seconds
-		lastSendTime = millis();
-
-		Heltec.display -> clear();
-	}
+ if(deepsleepflag)
+ {
+  LoRa.end();
+  LoRa.sleep();
+  delay(100);
+  pinMode(4,INPUT);
+  pinMode(5,INPUT);
+  pinMode(14,INPUT);
+  pinMode(15,INPUT);
+  pinMode(16,INPUT);
+  pinMode(17,INPUT);
+  pinMode(18,INPUT);
+  pinMode(19,INPUT);
+  pinMode(26,INPUT);
+  pinMode(27,INPUT);
+  digitalWrite(Vext,HIGH);
+  delay(2);
+  esp_deep_sleep_start();
+ }
+ if(resendflag)
+ {
+   resendflag=false;
+   send();      
+   LoRa.receive();
+   displaySendReceive();
+ }
  if(receiveflag)
  {
+    digitalWrite(25,HIGH);
+    displaySendReceive();
+    delay(1000);
+    receiveflag = false;  
+    send();
+    LoRa.receive();
+    displaySendReceive();
+  }
+}
+
+void send()
+{
+    LoRa.beginPacket();
+    LoRa.print("hello ");
+    LoRa.print(counter++);
+    LoRa.endPacket();
+}
+void displaySendReceive()
+{
+    Heltec.display -> drawString(0, 50, "Packet " + (String)(counter-1) + " sent done");
     Heltec.display -> drawString(0, 0, "Received Size" + packSize + " packages:");
     Heltec.display -> drawString(0, 10, packet);
     Heltec.display -> drawString(0, 20, "With " + rssi);
     Heltec.display -> display();
-
-    digitalWrite(25,LOW);
-
-    receiveflag = false;
-  }
+    delay(100);
+    Heltec.display -> clear();
 }
-
 void onReceive(int packetSize)//LoRa receiver interrupt service
 {
 	//if (packetSize == 0) return;
 
-	packet = "";
+	  packet = "";
     packSize = String(packetSize,DEC);
 
     while (LoRa.available())
@@ -191,7 +235,6 @@ void onReceive(int packetSize)//LoRa receiver interrupt service
     }
 
     Serial.println(packet);
-    rssi = "RSSI: " + String(LoRa.packetRssi(), DEC);
-
-    receiveflag = true;
+    rssi = "RSSI: " + String(LoRa.packetRssi(), DEC);    
+    receiveflag = true;    
 }
