@@ -27,10 +27,14 @@
 #include "heltec.h"
 #include "WiFi.h"
 
-String packet;
 uint64_t chipid;
 bool IsACKRecvied = false;
 
+String rssi = "RSSI --";
+String packSize = "--";
+String packet;
+
+unsigned int counter = 0;
 
 void WIFISetUp(void)
 {
@@ -40,7 +44,7 @@ void WIFISetUp(void)
   delay(1000);
   WiFi.mode(WIFI_STA);
   WiFi.setAutoConnect(true);
-  WiFi.begin("WiFi SSID","WIFI password");
+  WiFi.begin("Your WiFi SSID","Your Password");//fill in "Your WiFi SSID","Your Password"
   delay(100);
 
   byte count = 0;
@@ -64,80 +68,146 @@ void WIFISetUp(void)
   Serial.println("WIFI Setup done");
 }
 
+void WIFIScan(unsigned int value)
+{
+  unsigned int i;
+  if(WiFi.status() != WL_CONNECTED)
+  {
+    WiFi.mode(WIFI_MODE_NULL);
+  }
+
+  for(i=0;i<value;i++)
+  {
+    Serial.println("Scan start...");
+
+    int n = WiFi.scanNetworks();
+    Serial.println("Scan done");
+    delay(500);
+
+    if (n == 0)
+    {
+      Serial.println("no network found");
+      //while(1);
+    }
+    else
+    {
+      Serial.print(n);
+      Serial.println("networks found:");
+      delay(500);
+
+      for (int i = 0; i < n; ++i) {
+      // Print SSID and RSSI for each network found
+        Serial.print((i + 1));
+        Serial.print(":");
+        Serial.print((String)(WiFi.SSID(i)));
+        Serial.print(" (");
+        Serial.print((String)(WiFi.RSSI(i)));
+        Serial.println(")");;
+        delay(10);
+      }
+    }
+    delay(800);
+  }
+}
+
+bool receiveflag = false;
+bool resendflag=false;
+bool deepsleepflag=false;
+void interrupt_GPIO0()
+{
+  delay(10);
+  if(digitalRead(0)==0)
+  {
+      if(digitalRead(LED)==LOW)
+      {resendflag=true;}
+      else
+      {
+        deepsleepflag=true;
+      }     
+  }
+}
 void setup()
 {
-  Heltec.begin(false /*DisplayEnable Enable*/, true /*LoRa Enable*/, true /*Serial Enable*/, true /*LoRa use PABOOST*/, 868E6 /*LoRa RF working band*/);
+  pinMode(LED,OUTPUT);
+  Heltec.begin(true /*DisplayEnable Enable*/, true /*LoRa Disable*/, true /*Serial Enable*/, true /*PABOOST Enable*/, 868E6 /**/);
 
   WIFISetUp();
+  WIFIScan(1);
 
-  // register the receive callback
+  attachInterrupt(0,interrupt_GPIO0,FALLING);
   LoRa.onReceive(onReceive);
-
-  // put the radio into receive mode
+  send();
   LoRa.receive();
 }
 
 void loop()
 {
-	unsigned char WiFiCount = 0;
-
-	if(!IsACKRecvied) //Scan native WiFi
-	{
-		WiFiCount = WiFi.scanNetworks();
-
-		LoRa.beginPacket();
-		LoRa.print("H");//data header
-		LoRa.print(WiFiCount);
-		LoRa.endPacket();
-		Serial.printf("%d", WiFiCount);
-		Serial.printf(" WiFi found\r\n");
-	}
-
-	// If received LoRa package with WIFI information, send ACK to node
-
-	else if((packet[0] == 'H') && (packet[1] >= 0x31))
-	{
-		packet = "";
-
-		digitalWrite(LED,LOW);
-
-		Serial.printf("Received WiFi packet number.\r\n");
-
-		LoRa.beginPacket();
-		LoRa.print("abc");
-		LoRa.endPacket();
-		delay(10);
-
-		Serial.printf("LoRa sent 'abc' done.\r\n");
-	}
-
-	else if((packet[0] == 'a') && (packet[1] == 'b') && (packet[2] == 'c')) // If received ACK package == "abc", test pass and print ChipID
-	{
-		packet = "";
-
-		digitalWrite(LED,HIGH);
-
-		chipid=ESP.getEfuseMac();//The chip ID is essentially its MAC address(length: 6 bytes).
-		Serial.printf("ESP32ChipID=%04X",(uint16_t)(chipid>>32));//print High 2 bytes
-		Serial.printf("%08X\r\n",(uint32_t)chipid);//print Low 4bytes.
-
-		digitalWrite(LED,HIGH);
-	}
-
-	LoRa.receive();
-	delay(2000);
+ if(deepsleepflag)
+ {
+  delay(1000);
+  LoRa.end();
+  LoRa.sleep();  
+  pinMode(4,INPUT);
+  pinMode(5,INPUT);
+  pinMode(14,INPUT);
+  pinMode(15,INPUT);
+  pinMode(16,INPUT);
+  pinMode(17,INPUT);
+  pinMode(18,INPUT);
+  pinMode(19,INPUT);
+  pinMode(26,INPUT);
+  pinMode(27,INPUT);
+  digitalWrite(Vext,HIGH);
+  delay(2);
+  esp_deep_sleep_start();
+ }
+ if(resendflag)
+ {
+   resendflag=false;
+   send();      
+   LoRa.receive();
+ }
+ if(receiveflag)
+ {
+    digitalWrite(25,HIGH);
+    Serial.print("Received Size ");
+    Serial.print(packSize);
+    Serial.print(" pakeges: ");
+    Serial.print(packet);
+    Serial.print(" With ");
+    Serial.println(rssi);    
+    receiveflag = false;  
+    delay(1000);
+    send();
+    LoRa.receive();
+  }
 }
+
+void send()
+{
+    LoRa.beginPacket();
+    LoRa.print("hello ");
+    LoRa.print(counter++);
+    LoRa.endPacket();
+    Serial.print("Packet ");
+    Serial.print(counter-1);
+    Serial.println(" sent done");
+}
+
 
 void onReceive(int packetSize)//LoRa receiver interrupt service
 {
-	packet = "";
+  //if (packetSize == 0) return;
 
-	while (LoRa.available())
-	{
-		packet += (char) LoRa.read();
-	}
-	Serial.println(packet);
-	Serial.println(LoRa.packetRssi());
+  packet = "";
+    packSize = String(packetSize,DEC);
 
-	IsACKRecvied = true;
+    while (LoRa.available())
+    {
+        packet += (char) LoRa.read();
+    }
+    
+    rssi = "RSSI: " + String(LoRa.packetRssi(), DEC);
+
+    receiveflag = true;
 }

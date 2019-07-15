@@ -51,7 +51,7 @@ void WIFISetUp(void)
 	delay(1000);
 	WiFi.mode(WIFI_STA);
 	WiFi.setAutoConnect(true);
-	WiFi.begin("heltec_test","heltec_test_pwd");
+  WiFi.begin("Your WiFi SSID","Your Password");//fill in "Your WiFi SSID","Your Password"
 	delay(100);
 
 	byte count = 0;
@@ -75,7 +75,7 @@ void WIFISetUp(void)
 		Heltec.display -> clear();
 		Heltec.display -> drawString(0, 0, "Connecting...Failed");
 		Heltec.display -> display();
-		//w                       hile(1);
+		//while(1);
 	}
 	Heltec.display -> drawString(0, 10, "WIFI Setup done");
 	Heltec.display -> display();
@@ -85,6 +85,10 @@ void WIFISetUp(void)
 void WIFIScan(unsigned int value)
 {
 	unsigned int i;
+  if(WiFi.status() != WL_CONNECTED)
+  {
+    WiFi.mode(WIFI_MODE_NULL);
+  }	
 	for(i=0;i<value;i++)
 	{
 		Heltec.display -> drawString(0, 20, "Scan start...");
@@ -101,7 +105,7 @@ void WIFIScan(unsigned int value)
 			Heltec.display -> clear();
 			Heltec.display -> drawString(0, 0, "no network found");
 			Heltec.display -> display();
-			while(1);
+			//while(1);
 		}
 		else
 		{
@@ -131,7 +135,7 @@ void WIFIScan(unsigned int value)
 
 bool resendflag=false;
 bool deepsleepflag=false;
-void resend()
+void interrupt_GPIO0()
 {
   delay(10);
   if(digitalRead(0)==0)
@@ -157,7 +161,7 @@ void setup()
 	WIFISetUp();
 	WIFIScan(1);
   
-  attachInterrupt(0,resend,FALLING);
+  attachInterrupt(0,interrupt_GPIO0,FALLING);
 	LoRa.onReceive(onReceive);
   send();
   LoRa.receive();
