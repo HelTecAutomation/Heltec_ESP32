@@ -11,6 +11,26 @@
 #define PA_OUTPUT_PA_BOOST_PIN  1
 #define PA_OUTPUT_RFO_PIN       0
 
+/*!
+ * RegPaConfig
+ */
+#define RF_PACONFIG_PASELECT_MASK                   0x7F
+#define RF_PACONFIG_PASELECT_PABOOST                0x80
+#define RF_PACONFIG_PASELECT_RFO                    0x00 // Default
+
+#define RF_PACONFIG_MAX_POWER_MASK                  0x8F
+
+#define RF_PACONFIG_OUTPUTPOWER_MASK                0xF0
+
+/*!
+ * RegPaDac
+ */
+#define RF_PADAC_20DBM_MASK                         0xF8
+#define RF_PADAC_20DBM_ON                           0x07
+#define RF_PADAC_20DBM_OFF                          0x04  // Default
+
+
+
 #if defined (__STM32F1__)
 inline unsigned char  digitalPinToInterrupt(unsigned char Interrupt_pin) { return Interrupt_pin; } //This isn't included in the stm32duino libs (yet)
 #define portOutputRegister(port) (volatile byte *)( &(port->regs->ODR) ) //These are defined in STM32F1/variants/generic_stm32f103c/variant.h but return a non byte* value
@@ -47,7 +67,7 @@ public:
   void idle();
   void sleep();
 
-  void setTxPower(int level, int outputPin);
+  void setTxPower(int8_t power, int8_t outputPin);
   void setTxPowerMax(int level);
   void setFrequency(long frequency);
   void setSpreadingFactor(int sf);

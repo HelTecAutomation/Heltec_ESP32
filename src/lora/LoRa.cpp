@@ -47,6 +47,7 @@
 #define IRQ_PAYLOAD_CRC_ERROR_MASK 0x20
 #define IRQ_RX_DONE_MASK           0x40
 
+
 #define MAX_PKT_LENGTH           255
 
 LoRaClass::LoRaClass() :
@@ -277,37 +278,66 @@ void LoRaClass::sleep()
   writeRegister(REG_OP_MODE, MODE_LONG_RANGE_MODE | MODE_SLEEP);
 }
 
-void LoRaClass::setTxPower(int level, int outputPin)
+void LoRaClass::setTxPower(int8_t power, int8_t outputPin)
 {
-  if (PA_OUTPUT_RFO_PIN == outputPin)
-  {
-    // RFO
-    if (level < -1)      {
-		level = -1;
-	}
-    else if (level > 14){
-		level = 14;
-	}
-	writeRegister(REG_PaDac,0x84);
-  	writeRegister(REG_PA_CONFIG, RFO | (level + 1));
-	//spiWrite(RH_RF95_REG_09_PA_CONFIG, RH_RF95_MAX_POWER | (power + 1));
-//  	writeRegister(REG_PA_CONFIG, RFO | level);
-  }
+	  uint8_t paConfig = 0;
+	  uint8_t paDac = 0;
 
-  else {
-    // PA BOOST
-    if (level < 2)
-    {
-		level = 2; 
-	}
-    else if (level > 17)
-    {
-    	level = 17;
-	}
-	//writeRegister(REG_LR_OCP,0x3f);
-	writeRegister(REG_PaDac,0x87);
-	writeRegister(REG_PA_CONFIG, PA_BOOST | (level - 2));//writeRegister(REG_PA_CONFIG, PA_BOOST | (level - 2))
-  }
+	  paConfig = readRegister( REG_PA_CONFIG );
+	  paDac = readRegister( REG_PaDac );
+
+	  paConfig = ( paConfig & RF_PACONFIG_PASELECT_MASK ) | outputPin;
+	  paConfig = ( paConfig & RF_PACONFIG_MAX_POWER_MASK ) | 0x70;
+
+	  if( ( paConfig & RF_PACONFIG_PASELECT_PABOOST ) == RF_PACONFIG_PASELECT_PABOOST )
+	  {
+	    if( power > 17 )
+	    {
+	      paDac = ( paDac & RF_PADAC_20DBM_MASK ) | RF_PADAC_20DBM_ON;
+	    }
+	    else
+	    {
+	      paDac = ( paDac & RF_PADAC_20DBM_MASK ) | RF_PADAC_20DBM_OFF;
+	    }
+	    if( ( paDac & RF_PADAC_20DBM_ON ) == RF_PADAC_20DBM_ON )
+	    {
+	      if( power < 5 )
+	      {
+	        power = 5;
+	      }
+	      if( power > 20 )
+	      {
+	        power = 20;
+	      }
+	      paConfig = ( paConfig & RF_PACONFIG_OUTPUTPOWER_MASK ) | ( uint8_t )( ( uint16_t )( power - 5 ) & 0x0F );
+	    }
+	    else
+	    {
+	      if( power < 2 )
+	      {
+	        power = 2;
+	      }
+	      if( power > 17 )
+	      {
+	        power = 17;
+	      }
+	      paConfig = ( paConfig & RF_PACONFIG_OUTPUTPOWER_MASK ) | ( uint8_t )( ( uint16_t )( power - 2 ) & 0x0F );
+	    }
+	  }
+	  else
+	  {
+	    if( power < -1 )
+	    {
+	      power = -1;
+	    }
+	    if( power > 14 )
+	    {
+	      power = 14;
+	    }
+	    paConfig = ( paConfig & RF_PACONFIG_OUTPUTPOWER_MASK ) | ( uint8_t )( ( uint16_t )( power + 1 ) & 0x0F );
+	  }
+	  writeRegister( REG_PA_CONFIG, paConfig );
+	  writeRegister( REG_PaDac, paDac );
 }
 
 void LoRaClass::setTxPowerMax(int level)

@@ -20,7 +20,7 @@
 #include "heltec.h"
 #include "images.h"
 
-#define BAND    433E6  //you can set band here directly,e.g. 868E6,915E6
+#define BAND    868E6  //you can set band here directly,e.g. 868E6,915E6
 
 unsigned int counter = 0;
 String rssi = "RSSI --";
@@ -63,6 +63,9 @@ void loop()
 
   // send packet
   LoRa.beginPacket();
+
+  //LoRa.setTxPower(txPower,RFOUT_pin);RFOUT_pin could be RF_PACONFIG_PASELECT_PABOOST or RF_PACONFIG_PASELECT_RFO, this board only support RF_PACONFIG_PASELECT_PABOOST
+  LoRa.setTxPower(14,RF_PACONFIG_PASELECT_PABOOST);
   LoRa.print("hello ");
   LoRa.print(counter);
   LoRa.endPacket();
