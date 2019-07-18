@@ -26,6 +26,14 @@ void loop() {
   Serial.println(counter);
   // send packet
   LoRa.beginPacket();
+/*
+* LoRa.setTxPower(txPower,RFOUT_pin);
+* txPower -- 0 ~ 20
+* RFOUT_pin could be RF_PACONFIG_PASELECT_PABOOST or RF_PACONFIG_PASELECT_RFO
+*   - RF_PACONFIG_PASELECT_PABOOST -- LoRa single output via PABOOST, maximum output 20dBm
+*   - RF_PACONFIG_PASELECT_RFO     -- LoRa single output via RFO_HF / RFO_LF, maximum output 14dBm
+*/
+  LoRa.setTxPower(14,RF_PACONFIG_PASELECT_PABOOST);
   LoRa.print("hello ");
   LoRa.print(counter);
   LoRa.endPacket();
