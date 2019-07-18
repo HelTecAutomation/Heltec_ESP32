@@ -27,6 +27,8 @@
 #include "WiFi.h"
 #include "images.h"
 
+#define BAND    868E6  //you can set band here directly,e.g. 868E6,915E6
+
 String rssi = "RSSI --";
 String packSize = "--";
 String packet;
@@ -152,7 +154,7 @@ void interrupt_GPIO0()
 
 void setup()
 {
-	Heltec.begin(true /*DisplayEnable Enable*/, true /*LoRa Enable*/, true /*Serial Enable*/, true /*LoRa use PABOOST*/, 868E6 /*LoRa RF working band*/);
+	Heltec.begin(true /*DisplayEnable Enable*/, true /*LoRa Enable*/, true /*Serial Enable*/, true /*LoRa use PABOOST*/, BAND /*LoRa RF working band*/);
 
 	logo();
 	delay(300);

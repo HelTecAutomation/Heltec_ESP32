@@ -24,6 +24,8 @@
 #include "heltec.h"
 #include "WiFi.h"
 
+#define BAND    868E6  //you can set band here directly,e.g. 868E6,915E6
+
 String rssi = "RSSI --";
 String packSize = "--";
 String packet;
@@ -130,7 +132,7 @@ void interrupt_GPIO0()
 void setup()
 {
   pinMode(LED,OUTPUT);
-  Heltec.begin(true /*DisplayEnable Enable*/, true /*LoRa Disable*/, true /*Serial Enable*/, true /*PABOOST Enable*/, 868E6 /**/);
+  Heltec.begin(true /*DisplayEnable Enable*/, true /*LoRa Disable*/, true /*Serial Enable*/, true /*PABOOST Enable*/, BAND /**/);
 
   WIFISetUp();
   WIFIScan(1);
