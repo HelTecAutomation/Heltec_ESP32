@@ -40,8 +40,8 @@
 #define MODE_RX_SINGLE           0x06
 
 // PA config
-#define PA_BOOST                 0x80
-#define RFO                      0x70
+//#define PA_BOOST                 0x80
+//#define RFO                      0x70
 // IRQ masks
 #define IRQ_TX_DONE_MASK           0x08
 #define IRQ_PAYLOAD_CRC_ERROR_MASK 0x20
@@ -93,10 +93,11 @@ int LoRaClass::begin(long frequency,bool PABOOST)
   writeRegister(REG_LNA, readRegister(REG_LNA) | 0x03);
   // set auto AGC
   writeRegister(REG_MODEM_CONFIG_3, 0x04);
-  // set output power to 20 dBm
-  setTxPower(14, PA_OUTPUT_PA_BOOST_PIN);
-  //setTxPowerMax(14);  //PA_BOOST
-  // set Spreading Factor to 7 (6~12)
+  // set output power to 14 dBm
+  if(PABOOST == true)
+	  setTxPower(14, RF_PACONFIG_PASELECT_PABOOST);
+  else
+	  setTxPower(14, RF_PACONFIG_PASELECT_RFO);
   setSpreadingFactor(11);
   // put in standby mode
   setSignalBandwidth(125E3);
@@ -350,7 +351,7 @@ void LoRaClass::setTxPowerMax(int level)
 	}
 	writeRegister(REG_LR_OCP,0x3f);
 	writeRegister(REG_PaDac,0x87);//Open PA_BOOST
-	writeRegister(REG_PA_CONFIG, PA_BOOST | (level - 5));
+	writeRegister(REG_PA_CONFIG, RF_PACONFIG_PASELECT_PABOOST | (level - 5));
 }
 
 void LoRaClass::setFrequency(long frequency)
