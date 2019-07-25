@@ -8,7 +8,7 @@
  *		- Comment all Wire.***() codes;
  * 		- Uncomment all Wire1.***() codes;
  *
- * I2C scan example and I2C1
+ * I2C scan example and I2C0
  *
  * HelTec AutoMation, Chengdu, China
  * 成都惠利特自动化科技有限公司
