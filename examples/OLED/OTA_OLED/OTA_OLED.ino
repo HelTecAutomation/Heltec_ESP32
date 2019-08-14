@@ -1,17 +1,17 @@
 /*
  * HelTec Automation(TM) WIFI_LoRa_32 factory test code, witch includ
  * follow functions:
- * 
+ *
  * - Basic OLED function test;
- * 
+ *
  * - Basic serial port test(in baud rate 115200);
- * 
+ *
  * - Basic LED test;
- * 
+ *
  * - WIFI join and scan test;
- * 
+ *
  * - ArduinoOTA By Wifi;
- * 
+ *
  * - Timer test and some other Arduino basic functions.
  *
  * by lxyzn from HelTec AutoMation, ChengDu, China
@@ -104,9 +104,15 @@ void setupOTA()
     //int pro = progress / (total / 100);
 
     Heltec.display->clear();
-    Heltec.display->drawProgressBar(0, 32, 120, 10, progressbar);    // draw the progress bar    
+#ifdef Wireless_Stick
+    Heltec.display->drawProgressBar(0, 11, 64, 8, progressbar);    // draw the progress bar
+    Heltec.display->setTextAlignment(TEXT_ALIGN_CENTER);          // draw the percentage as String
+    Heltec.display->drawString(10, 20, pro);
+#elif
+    Heltec.display->drawProgressBar(0, 32, 120, 10, progressbar);    // draw the progress bar
     Heltec.display->setTextAlignment(TEXT_ALIGN_CENTER);          // draw the percentage as String
     Heltec.display->drawString(64, 15, pro);
+#endif
     Heltec.display->display();
 
     Serial.printf("Progress: %u%%\r", (progress / (total / 100)));
@@ -125,51 +131,31 @@ void setupOTA()
 
       case OTA_BEGIN_ERROR:
         info += "Begin Failed";
-        Serial.println("Begin Failed");        
+        Serial.println("Begin Failed");
         break;
 
       case OTA_CONNECT_ERROR:
         info += "Connect Failed";
-        Serial.println("Connect Failed");        
+        Serial.println("Connect Failed");
         break;
 
       case OTA_RECEIVE_ERROR:
         info += "Receive Failed";
-        Serial.println("Receive Failed");        
+        Serial.println("Receive Failed");
         break;
 
       case OTA_END_ERROR:
         info += "End Failed";
-        Serial.println("End Failed");        
+        Serial.println("End Failed");
         break;
     }
 
     Heltec.display->clear();
-    Heltec.display->drawString(0, 0, info);    
+    Heltec.display->drawString(0, 0, info);
     ESP.restart();
   });
 
   ArduinoOTA.begin();
-}
-
-/********************************************************************
- * setup oled
- */
-void setupOLED()
-{
-  pinMode(RST_OLED, OUTPUT);
-  //复位OLED电路
-  digitalWrite(RST_OLED, LOW);        // turn D16 low to reset OLED
-  delay(50);
-  digitalWrite(RST_OLED, HIGH);       // while OLED is running, must set D16 in high
-  
-  Heltec.display->init();
-  Heltec.display->flipScreenVertically();           //倒过来显示内容
-  Heltec.display->setFont(ArialMT_Plain_10);        //设置字体大小
-  Heltec.display->setTextAlignment(TEXT_ALIGN_LEFT);//设置字体对齐方式
-
-  Heltec.display->clear();
-  Heltec.display->drawString(0, 0, "Initialize...");
 }
 
 /*********************************************************************
@@ -181,14 +167,14 @@ void setupWIFI()
   Heltec.display->drawString(0, 0, "Connecting...");
   Heltec.display->drawString(0, 10, String(ssid));
   Heltec.display->display();
-  
+
   //连接WiFi，删除旧的配置，关闭WIFI，准备重新配置
   WiFi.disconnect(true);
   delay(1000);
-  
-  WiFi.mode(WIFI_STA);  
-  //WiFi.onEvent(WiFiEvent); 
-  WiFi.setAutoConnect(true);      
+
+  WiFi.mode(WIFI_STA);
+  //WiFi.onEvent(WiFiEvent);
+  WiFi.setAutoConnect(true);
   WiFi.setAutoReconnect(true);    //断开WiFi后自动重新连接,ESP32不可用
   //WiFi.setHostname(HOSTNAME);
   WiFi.begin(ssid, password);
@@ -208,28 +194,27 @@ void setupWIFI()
 
   Heltec.display->clear();
   if(WiFi.status() == WL_CONNECTED)
-    Heltec.display->drawString(0, 0, "Connecting...OK."); 
+    Heltec.display->drawString(0, 0, "Connected");
   else
-    Heltec.display->drawString(0, 0, "Connecting...Failed");
+    Heltec.display->drawString(0, 0, "Connect False");
   Heltec.display->display();
 }
 
 /******************************************************
  * arduino setup
  */
-void setup() 
+void setup()
 {
   Heltec.begin(true /*DisplayEnable Enable*/, false /*LoRa Disable*/, true /*Serial Enable*/);
   pinMode(25, OUTPUT);
   digitalWrite(25,HIGH);
-  
+
   while (!Serial) {
     ; // wait for serial port to connect. Needed for native USB port only
   }
 
   Serial.println("Initialize...");
-  
-  setupOLED();
+
   setupWIFI();
   setupOTA();
 }
@@ -237,7 +222,7 @@ void setup()
 /******************************************************
  * arduino loop
  */
-void loop() 
+void loop()
 {
   ArduinoOTA.handle();
   unsigned long ms = millis();
@@ -250,48 +235,49 @@ void loop()
 /****************************************************
  * [通用函数]ESP32 WiFi Kit 32事件处理
  */
-void WiFiEvent(WiFiEvent_t event) 
+void WiFiEvent(WiFiEvent_t event)
 {
     Serial.printf("[WiFi-event] event: %d\n", event);
-    switch(event) 
+    switch(event)
     {
         case SYSTEM_EVENT_WIFI_READY:               /**< ESP32 WiFi ready */
             break;
         case SYSTEM_EVENT_SCAN_DONE:                /**< ESP32 finish scanning AP */
             break;
-            
+
         case SYSTEM_EVENT_STA_START:                /**< ESP32 station start */
             break;
         case SYSTEM_EVENT_STA_STOP:                 /**< ESP32 station stop */
             break;
-            
+
         case SYSTEM_EVENT_STA_CONNECTED:            /**< ESP32 station connected to AP */
             break;
-            
+
         case SYSTEM_EVENT_STA_DISCONNECTED:         /**< ESP32 station disconnected from AP */
             break;
-            
+
         case SYSTEM_EVENT_STA_AUTHMODE_CHANGE:      /**< the auth mode of AP connected by ESP32 station changed */
             break;
-            
+
         case SYSTEM_EVENT_STA_GOT_IP:               /**< ESP32 station got IP from connected AP */
         case SYSTEM_EVENT_STA_LOST_IP:              /**< ESP32 station lost IP and the IP is reset to 0 */
             break;
-            
+
         case SYSTEM_EVENT_STA_WPS_ER_SUCCESS:       /**< ESP32 station wps succeeds in enrollee mode */
         case SYSTEM_EVENT_STA_WPS_ER_FAILED:        /**< ESP32 station wps fails in enrollee mode */
         case SYSTEM_EVENT_STA_WPS_ER_TIMEOUT:       /**< ESP32 station wps timeout in enrollee mode */
         case SYSTEM_EVENT_STA_WPS_ER_PIN:           /**< ESP32 station wps pin code in enrollee mode */
             break;
-            
+
         case SYSTEM_EVENT_AP_START:                 /**< ESP32 soft-AP start */
         case SYSTEM_EVENT_AP_STOP:                  /**< ESP32 soft-AP stop */
         case SYSTEM_EVENT_AP_STACONNECTED:          /**< a station connected to ESP32 soft-AP */
         case SYSTEM_EVENT_AP_STADISCONNECTED:       /**< a station disconnected from ESP32 soft-AP */
         case SYSTEM_EVENT_AP_PROBEREQRECVED:        /**< Receive probe request packet in soft-AP interface */
         case SYSTEM_EVENT_AP_STA_GOT_IP6:           /**< ESP32 station or ap interface v6IP addr is preferred */
+        case SYSTEM_EVENT_AP_STAIPASSIGNED:
             break;
-            
+
         case SYSTEM_EVENT_ETH_START:                /**< ESP32 ethernet start */
         case SYSTEM_EVENT_ETH_STOP:                 /**< ESP32 ethernet stop */
         case SYSTEM_EVENT_ETH_CONNECTED:            /**< ESP32 ethernet phy link up */

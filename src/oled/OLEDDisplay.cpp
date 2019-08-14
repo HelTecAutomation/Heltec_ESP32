@@ -36,7 +36,8 @@ OLEDDisplay::~OLEDDisplay() {
 
 bool OLEDDisplay::init() {
   if (!this->connect()) {
-    DEBUG_OLEDDISPLAY("[OLEDDISPLAY][init] Can't establish connection to display\n");
+    //DEBUG_OLEDDISPLAY("[OLEDDISPLAY][init] Can't establish connection to display\n");
+    Serial.print("Can't establish connection to display\n");
     return false;
   }
 
@@ -44,7 +45,8 @@ bool OLEDDisplay::init() {
   this->buffer = (uint8_t*) malloc(sizeof(uint8_t) * displayBufferSize);
 
   if(!this->buffer) {
-    DEBUG_OLEDDISPLAY("[OLEDDISPLAY][init] Not enough memory to create display\n");
+    //DEBUG_OLEDDISPLAY("[OLEDDISPLAY][init] Not enough memory to create display\n");
+    Serial.print("Not enough memory to create display\n");
     return false;
   }
   }
@@ -54,7 +56,8 @@ bool OLEDDisplay::init() {
   this->buffer_back = (uint8_t*) malloc(sizeof(uint8_t) * displayBufferSize);
 
   if(!this->buffer_back) {
-    DEBUG_OLEDDISPLAY("[OLEDDISPLAY][init] Not enough memory to create back buffer\n");
+    //DEBUG_OLEDDISPLAY("[OLEDDISPLAY][init] Not enough memory to create back buffer\n");
+    Serial.print("Not enough memory to create back buffer\n");
     free(this->buffer);
     return false;
   }
