@@ -104,11 +104,11 @@ void setupOTA()
     //int pro = progress / (total / 100);
 
     Heltec.display->clear();
-#ifdef Wireless_Stick
+#if defined (Wireless_Stick)
     Heltec.display->drawProgressBar(0, 11, 64, 8, progressbar);    // draw the progress bar
     Heltec.display->setTextAlignment(TEXT_ALIGN_CENTER);          // draw the percentage as String
     Heltec.display->drawString(10, 20, pro);
-#elif
+#else
     Heltec.display->drawProgressBar(0, 32, 120, 10, progressbar);    // draw the progress bar
     Heltec.display->setTextAlignment(TEXT_ALIGN_CENTER);          // draw the percentage as String
     Heltec.display->drawString(64, 15, pro);
