@@ -100,3 +100,6 @@ const char inactiveSymbol[] PROGMEM = {
 };
 
 #endif
+
+//Added by Sloeber 
+#pragma once
