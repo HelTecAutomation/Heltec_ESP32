@@ -98,13 +98,13 @@ int LoRaClass::begin(long frequency,bool PABOOST)
 	  setTxPower(14, RF_PACONFIG_PASELECT_PABOOST);
   else
 	  setTxPower(14, RF_PACONFIG_PASELECT_RFO);
-  setSpreadingFactor(8);
+  setSpreadingFactor(11);
   // put in standby mode
   setSignalBandwidth(125E3);
-  setCodingRate4(5);
-  setSyncWord(0x12);
+  //setCodingRate4(5);
+  setSyncWord(0x34);
   disableCrc();
-//  crc();
+  crc();
   idle();
   return 1;
 }
