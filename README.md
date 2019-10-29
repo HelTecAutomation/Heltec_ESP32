@@ -29,7 +29,7 @@ English | [简体中文](#简体中文)
 
 
 ## How to install this library
-*`We recommedn use Arduino library manager, it's the simplest way`*
+*`We recommend using the Arduino library manager, it's the simplest way`*
 
 ### Use Arduino Library Manager
 Open Arduino IDE, then Select `Sketch`->`Include Library`->`Manage Libraries...`
@@ -39,7 +39,7 @@ Search `Heltec ESP32` and install it.
 
 ### Use Git
 
-*Firstly, makse sure `Git` and `Arduino IDE` has installed first. If not, please refer [How to install Git and Arduino](http://docs.heltec.cn/#/en/user_manual/how_to_install_git_and_arduino). For correctly installed Arduino, you will find a folder in "Username/Documents/Arduino/Library". **this library must in such a path!***
+*Firstly, make sure git and the Arduino IDE have been installed first. If not, please refer [How to install Git and Arduino](http://docs.heltec.cn/#/en/user_manual/how_to_install_git_and_arduino). When Arduino is installed correctly, you will find a folder in "Username/Documents/Arduino/Library". **this library must in this path!***
 
 Open "Git bash" in path "Username/Documents/Arduino/Library", and input:
 
@@ -52,9 +52,9 @@ You will see such a new folder in your library path, install done.
 
 ## How to use this library
 
-**`This library must work with [Heltec ESP32 develop framework](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series)!`**
+**`This library requires the [Heltec ESP32 develop framework](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series)!`**
 
-A detail steps to execute some examples available here:
+A detailed step by step instructions to execute some examples available here:
 
 [http://docs.heltec.cn/#/en/user_manual/how_to_install_esp32_Arduino?id=_1-execute-a-example-likes-factorytestino](http://docs.heltec.cn/#/en/user_manual/how_to_install_esp32_Arduino?id=_1-execute-a-example-likes-factorytestino)
 
@@ -65,14 +65,14 @@ A detail steps to execute some examples available here:
 
 ## Hardware Reference
 
-### PinoutDiagram
+### Pinout Diagram
 [https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/tree/master/PinoutDiagram](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/tree/master/PinoutDiagram)
 ### Schematic Diagram
 [https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/tree/master/SchematicDiagram](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/tree/master/SchematicDiagram)
 
 
 #### Note:
-* ESP series chips are faster to download, please make sure to use the high-quality Micro USB cable,  it will be easy to download.
+* ESP series chips are faster to download, please make sure to use the high-quality Micro USB cable, it will be easier to download with.
 
 [Summary of common problems](http://www.heltec.cn/summary-of-common-problems-in-wifi-kit-series-continuous-update/?lang=en)
 
