@@ -100,4 +100,3 @@ const char inactiveSymbol[] PROGMEM = {
 };
 
 #endif
-

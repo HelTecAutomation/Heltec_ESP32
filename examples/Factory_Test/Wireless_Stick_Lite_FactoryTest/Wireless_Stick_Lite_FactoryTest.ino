@@ -134,6 +134,12 @@ void setup()
   Heltec.begin(true /*DisplayEnable Enable*/, true /*LoRa Disable*/, true /*Serial Enable*/, true /*PABOOST Enable*/, BAND /**/);
 
   WIFISetUp();
+  
+  WiFi.disconnect(true); //重新初始化WIFI
+  delay(1000);
+  WiFi.mode(WIFI_STA);
+  WiFi.setAutoConnect(true);
+  
   WIFIScan(1);
 
   attachInterrupt(0,interrupt_GPIO0,FALLING);

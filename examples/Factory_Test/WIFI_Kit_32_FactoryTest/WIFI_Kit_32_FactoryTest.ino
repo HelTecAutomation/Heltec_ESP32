@@ -62,7 +62,7 @@ void WIFISetUp(void)
 		Heltec.display -> clear();
 		Heltec.display -> drawString(0, 0, "Connecting...Failed");
 		Heltec.display -> display();
-		while(1);
+//		while(1);
 	}
 	Heltec.display -> drawString(0, 10, "WIFI Setup done");
 	Heltec.display -> display();
@@ -89,6 +89,7 @@ void WIFIScan(void)
 	}
 	else
 	{
+    Serial.print(n);
 		Heltec.display -> drawString(0, 0, (String)n);
 		Heltec.display -> drawString(14, 0, "networks found:");
 		Heltec.display -> display();
@@ -123,8 +124,12 @@ void setup()
 	logo();
 	delay(300);
 	Heltec.display->clear();
-
 	WIFISetUp();
+  
+  WiFi.disconnect(true);//重新初始化WIFI
+  delay(1000);
+  WiFi.mode(WIFI_STA);
+  WiFi.setAutoConnect(true);
 }
 
 void loop()

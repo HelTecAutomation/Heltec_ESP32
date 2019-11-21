@@ -161,6 +161,11 @@ void setup()
 	Heltec.display -> clear();
 
 	WIFISetUp();
+  WiFi.disconnect(true); //重新初始化WIFI
+  delay(1000);
+  WiFi.mode(WIFI_STA);
+  WiFi.setAutoConnect(true);
+	
 	WIFIScan(1);
   
   attachInterrupt(0,interrupt_GPIO0,FALLING);
