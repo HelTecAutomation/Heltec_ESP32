@@ -24,6 +24,7 @@
 
 #include "Arduino.h"
 #include "heltec.h"
+#include "LoRa.h"
 #include "WiFi.h"
 #include "images.h"
 
@@ -226,9 +227,9 @@ void send()
 void displaySendReceive()
 {
     Heltec.display -> drawString(0, 50, "Packet " + (String)(counter-1) + " sent done");
-    Heltec.display -> drawString(0, 0, "Received Size" + packSize + " packages:");
+    Heltec.display -> drawString(0, 0, "Received Size  " + packSize + " packages:");
     Heltec.display -> drawString(0, 10, packet);
-    Heltec.display -> drawString(0, 20, "With " + rssi);
+    Heltec.display -> drawString(0, 20, "With " + rssi + "db");
     Heltec.display -> display();
     delay(100);
     Heltec.display -> clear();
