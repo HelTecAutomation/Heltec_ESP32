@@ -64,9 +64,8 @@ bool OLEDDisplay::init() {
   }
   #endif
 
-//  resetDisplay(16);
+  resetDisplay(16);
   sendInitCommands();
-  resetDisplay();
 
   return true;
 }
@@ -91,11 +90,11 @@ void OLEDDisplay::wakeup() {
 	sendCommand(0xAF);
 }
 
-void OLEDDisplay::resetDisplay() {
-//	pinMode(rstPin, OUTPUT);
-//	digitalWrite(rstPin,LOW);
-//	delay(5000);
-//	digitalWrite(rstPin,HIGH);
+void OLEDDisplay::resetDisplay(uint8_t rstPin) {
+	pinMode(rstPin, OUTPUT);
+	digitalWrite(rstPin,LOW);
+	delay(500);
+	digitalWrite(rstPin,HIGH);
 
 	clear();
 	#ifdef OLEDDISPLAY_DOUBLE_BUFFER
@@ -496,11 +495,11 @@ void OLEDDisplay::drawString(int16_t xMove, int16_t yMove, String strUser) {
 //  unsigned char c = 0,i = 0,j = 0,ch[3];
 //  String strUser;
 //
-//  ch[0] = Num/100 + 48;//¼ÓÉÏÊ®½øÖÆµÄ48ÊÇÎªÁË¸øNum¼ÓÉÏASCLLÂëµÄ¸ß4Î»0011 0000£»
+//  ch[0] = Num/100 + 48;//ï¿½ï¿½ï¿½ï¿½Ê®ï¿½ï¿½ï¿½Æµï¿½48ï¿½ï¿½Îªï¿½Ë¸ï¿½Numï¿½ï¿½ï¿½ï¿½ASCLLï¿½ï¿½Ä¸ï¿½4Î»0011 0000ï¿½ï¿½
 //  ch[1] = Num%100/10 + 48;
 //  ch[2] = Num%10 + 48;
 //
-//  if(ch[0] == 48)     //ÓÃÓÚ°ÑÒÀ´ÎÃ¿Î»Îª"0"Ê±£¬±ä³É¿Õ¸ñ£¨¼´²»ÏÔÊ¾£©
+//  if(ch[0] == 48)     //ï¿½ï¿½ï¿½Ú°ï¿½ï¿½ï¿½ï¿½ï¿½Ã¿Î»Îª"0"Ê±ï¿½ï¿½ï¿½ï¿½É¿Õ¸ñ£¨¼ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½
 //  {
 //      ch[0] = 32;
 //				if(ch[1] == 48)

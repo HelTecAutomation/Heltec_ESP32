@@ -133,7 +133,7 @@ class OLEDDisplay : public Print {
     void wakeup();
 
     // Cycle through the initialization
-    void resetDisplay();
+    void resetDisplay(uint8_t rstPin);
 
     /* Drawing functions */
     // Sets the color of all pixel operations
