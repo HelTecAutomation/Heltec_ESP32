@@ -67,6 +67,11 @@ bool OLEDDisplay::init() {
   resetDisplay(16);
   sendInitCommands();
 
+  clear();
+  #ifdef OLEDDISPLAY_DOUBLE_BUFFER
+  memset(buffer_back, 1, displayBufferSize);
+  #endif
+  display();
   return true;
 }
 
@@ -95,12 +100,6 @@ void OLEDDisplay::resetDisplay(uint8_t rstPin) {
 	digitalWrite(rstPin,LOW);
 	delay(100);
 	digitalWrite(rstPin,HIGH);
-
-	clear();
-	#ifdef OLEDDISPLAY_DOUBLE_BUFFER
-	memset(buffer_back, 1, displayBufferSize);
-	#endif
-	display();
 }
 
 void OLEDDisplay::setColor(OLEDDISPLAY_COLOR color) {
@@ -495,11 +494,11 @@ void OLEDDisplay::drawString(int16_t xMove, int16_t yMove, String strUser) {
 //  unsigned char c = 0,i = 0,j = 0,ch[3];
 //  String strUser;
 //
-//  ch[0] = Num/100 + 48;//����ʮ���Ƶ�48��Ϊ�˸�Num����ASCLL��ĸ�4λ0011 0000��
+//  ch[0] = Num/100 + 48;//锟斤拷锟斤拷十锟斤拷锟狡碉拷48锟斤拷为锟剿革拷Num锟斤拷锟斤拷ASCLL锟斤拷母锟�4位0011 0000锟斤拷
 //  ch[1] = Num%100/10 + 48;
 //  ch[2] = Num%10 + 48;
 //
-//  if(ch[0] == 48)     //���ڰ�����ÿλΪ"0"ʱ����ɿո񣨼�����ʾ��
+//  if(ch[0] == 48)     //锟斤拷锟节帮拷锟斤拷锟斤拷每位为"0"时锟斤拷锟斤拷煽崭瘢锟斤拷锟斤拷锟绞撅拷锟�
 //  {
 //      ch[0] = 32;
 //				if(ch[1] == 48)
