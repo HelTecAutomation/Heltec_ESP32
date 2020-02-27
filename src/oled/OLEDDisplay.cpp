@@ -93,7 +93,7 @@ void OLEDDisplay::wakeup() {
 void OLEDDisplay::resetDisplay(uint8_t rstPin) {
 	pinMode(rstPin, OUTPUT);
 	digitalWrite(rstPin,LOW);
-	delay(500);
+	delay(100);
 	digitalWrite(rstPin,HIGH);
 
 	clear();
