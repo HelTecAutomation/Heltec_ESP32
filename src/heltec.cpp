@@ -21,7 +21,7 @@ Heltec_ESP32::~Heltec_ESP32(){
 
 void Heltec_ESP32::begin(bool DisplayEnable, bool LoRaEnable, bool SerialEnable, bool PABOOST, long BAND) {
 
-#if defined( WIFI_LoRa_32_V2 ) || defined( Wireless_Stick ) || defined( Wireless_Stick_Lite )
+#if defined( WIFI_LoRa_32_V2 ) || defined( Wireless_Stick ) || defined( Wireless_Stick_Lite ) || defined(WIFI_Kit_32)
 
 	VextON();
 #endif
