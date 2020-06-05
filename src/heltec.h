@@ -40,7 +40,7 @@ class Heltec_ESP32 {
 extern Heltec_ESP32 Heltec;
 
 #else
-#error ¡°This library only supports boards with ESP32 processor.¡±
+#error "This library only supports boards with ESP32 processor."
 #endif
 
 
