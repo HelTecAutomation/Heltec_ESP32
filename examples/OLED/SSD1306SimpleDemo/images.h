@@ -30,3 +30,6 @@ const unsigned char WiFi_Logo_bits[] PROGMEM = {
 //Added by Sloeber 
 #pragma once
 
+
+//Added by Sloeber 
+#pragma once
