@@ -2,39 +2,8 @@
 #include "heltec.h"
 #include "Arduino.h"
 
+//rotate only for GEOMETRY_128_64
  SSD1306Wire display(0x3c, SDA_OLED, SCL_OLED, RST_OLED);
-
-void printBuffer(void) {
-  // Initialize the log buffer
-  // allocate memory to store 8 lines of text and 30 chars per line.
-  display.setLogBuffer(5, 30);
-
-  // Some test data
-  const char* test[] = {
-      "Hello",
-      "World" ,
-      "----",
-      "Show off",
-      "how",
-      "the log buffer",
-      "is",
-      "working.",
-      "Even",
-      "scrolling is",
-      "working"
-  };
-
-  for (uint8_t i = 0; i < 11; i++) {
-    display.clear();
-    // Print to the screen
-    display.println(test[i]);
-    // Draw it to the internal screen buffer
-    display.drawLogBuffer(0, 0);
-    // Display it on the screen
-    display.display();
-    delay(500);
-  }
-}
 
 void VextON(void)
 {
@@ -58,10 +27,7 @@ void setup() {
   display.display();
   
   display.setContrast(255);
-
-  printBuffer();
-  delay(1000);
-
+  
   display.setTextAlignment(TEXT_ALIGN_CENTER);
   display.clear();
   display.display();
