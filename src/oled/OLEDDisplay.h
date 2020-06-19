@@ -89,6 +89,8 @@
 
 #ifndef _swap_int16_t
 #define _swap_int16_t(a, b) { int16_t t = a; a = b; b = t; }
+#define _swap_uint16_t(a, b) { uint16_t t = a; a = b; b = t; }
+
 #endif
 
 enum OLEDDISPLAY_COLOR {
@@ -107,16 +109,28 @@ enum OLEDDISPLAY_TEXT_ALIGNMENT {
 
 enum OLEDDISPLAY_GEOMETRY {
   GEOMETRY_128_64   = 0,
-  GEOMETRY_128_32   = 1,
-  GEOMETRY_64_32    = 2 //Wireless Stick
+  GEOMETRY_128_32,
+  GEOMETRY_64_32,
+  GEOMETRY_RAWMODE,
 };
 
-typedef byte (*FontTableLookupFunction)(const byte ch);
+
+enum OLEDDISPLAY_ANGLE {
+  ANGLE_0_DEGREE = 0,
+  ANGLE_90_DEGREE,
+  ANGLE_180_DEGREE,
+  ANGLE_270_DEGREE,
+};
+
+
+typedef char (*FontTableLookupFunction)(const uint8_t ch);
+char DefaultFontTableLookup(const uint8_t ch);
 
 
 class OLEDDisplay : public Print {
 
   public:
+	OLEDDisplay();
     virtual ~OLEDDisplay();
 
     uint16_t width(void) const { return displayWidth; };
@@ -144,6 +158,12 @@ class OLEDDisplay : public Print {
 
     // Draw a pixel at given position
     void setPixel(int16_t x, int16_t y);
+
+    // Draw a pixel at given position and color
+    void setPixelColor(int16_t x, int16_t y, OLEDDISPLAY_COLOR color);
+
+    // Clear a pixel at given position FIXME: INVERSE is untested with this function
+    void clearPixel(int16_t x, int16_t y);
 
     // Draw a line from position 0 to position 1
     void drawLine(int16_t x0, int16_t y0, int16_t x1, int16_t y1);
@@ -178,6 +198,9 @@ class OLEDDisplay : public Print {
 
     // Draw a XBM
     void drawXbm(int16_t x, int16_t y, int16_t width, int16_t height, const uint8_t *xbm);
+
+    // Draw icon 16x16 xbm format
+    void drawIco16x16(int16_t x, int16_t y, const char *ico, bool inverse = false);
 
     /* Text functions */
 
@@ -233,6 +256,8 @@ class OLEDDisplay : public Print {
     // Reset display rotation or mirroring
     void resetOrientation();
 
+    void screenRotate(OLEDDISPLAY_ANGLE angle);
+    void resetScreenRotate();
     // Turn the display upside down
     void flipScreenVertically();
 
@@ -262,9 +287,11 @@ class OLEDDisplay : public Print {
     // Implement needed function to be compatible with Print class
     size_t write(uint8_t c);
     size_t write(const char* s);
+	
+    // Implement needed function to be compatible with Stream clas
 
-    uint8_t            *buffer = NULL;
 
+    uint8_t            *buffer;
     #ifdef OLEDDISPLAY_DOUBLE_BUFFER
     uint8_t            *buffer_back = NULL;
     #endif
@@ -276,7 +303,7 @@ class OLEDDisplay : public Print {
     uint16_t  displayWidth                     = 128;
     uint16_t  displayHeight                    = 64;
     uint16_t  displayBufferSize                = 1024;
-
+	OLEDDISPLAY_ANGLE rotate_angle = ANGLE_0_DEGREE;
     // Set the correct height, width and buffer for the geometry
     void setGeometry(OLEDDISPLAY_GEOMETRY g);
 
@@ -292,6 +319,10 @@ class OLEDDisplay : public Print {
     uint16_t   logBufferMaxLines               = 0;
     char      *logBuffer                       = NULL;
 
+
+	// the header size of the buffer used, e.g. for the SPI command header
+	virtual int getBufferOffset(void) = 0;
+	
     // Send a command to the display (low level function)
     virtual void sendCommand(uint8_t com) {(void)com;};
 
@@ -307,29 +338,8 @@ class OLEDDisplay : public Print {
     void inline drawInternal(int16_t xMove, int16_t yMove, int16_t width, int16_t height, const uint8_t *data, uint16_t offset, uint16_t bytesInData) __attribute__((always_inline));
 
     void drawStringInternal(int16_t xMove, int16_t yMove, char* text, uint16_t textLength, uint16_t textWidth);
-
-    // UTF-8 to font table index converter
-    // Code form http://playground.arduino.cc/Main/Utf8ascii
-    FontTableLookupFunction fontTableLookupFunction = [](const byte ch) {
-      static uint8_t LASTCHAR;
-
-      if (ch < 128) { // Standard ASCII-set 0..0x7F handling
-        LASTCHAR = 0;
-        return ch;
-      }
-
-      uint8_t last = LASTCHAR;   // get last char
-      LASTCHAR = ch;
-
-      switch (last) {    // conversion depnding on first UTF8-character
-        case 0xC2: return (uint8_t) ch;
-        case 0xC3: return (uint8_t) (ch | 0xC0);
-        case 0x82: if (ch == 0xAC) return (uint8_t) 0x80;    // special case Euro-symbol
-      }
-
-      return (uint8_t) 0; // otherwise: return zero, if character has to be ignored
-    };
+    
+    FontTableLookupFunction fontTableLookupFunction;
 };
 
 #endif
-
