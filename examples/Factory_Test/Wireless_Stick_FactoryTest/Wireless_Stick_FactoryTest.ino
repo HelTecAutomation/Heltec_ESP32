@@ -1,6 +1,6 @@
 /*
- * HelTec Automation(TM) Wireless_Stick factory test code, witch include
- * follow functions:
+ * HelTec Automation(TM) Wireless_Stick factory test code which includes
+ * the follow functions:
  *
  * - Basic OLED function test;
  *
@@ -18,7 +18,7 @@
  * 成都惠利特自动化科技有限公司
  * www.heltec.cn
  *
- * this project also realess in GitHub:
+ * This project is also available on GitHub:
  * https://github.com/HelTecAutomation/Heltec_ESP32
 */
 #include "heltec.h"
@@ -209,7 +209,7 @@ void displaySendReceive()
 }
 
 
-void onReceive(int packetSize)//LoRa receiver interrupt service
+void onReceive(int packetSize) //LoRa receiver interrupt service
 {
   //if (packetSize == 0) return;
 
