@@ -302,6 +302,18 @@ LoRa.enableCrc();
 LoRa.disableCrc();
 ```
 
+### iqInverted
+
+Enable or disable iqInverted for TX/RX
+
+```arduino
+LoRa.disableInvertIQ();
+LoRa.enableInvertIQ();
+LoRa.enableTxInvertIQ();
+LoRa.enableRxInvertIQ();
+
+```
+
 ## Other functions
 
 ### Random
