@@ -47,6 +47,26 @@
 #define IRQ_PAYLOAD_CRC_ERROR_MASK 0x20
 #define IRQ_RX_DONE_MASK           0x40
 
+/*!
+ * RegInvertIQ
+ */
+#define RFLR_INVERTIQ_RX_MASK                       0xBF
+#define RFLR_INVERTIQ_RX_OFF                        0x00
+#define RFLR_INVERTIQ_RX_ON                         0x40
+#define RFLR_INVERTIQ_TX_MASK                       0xFE
+#define RFLR_INVERTIQ_TX_OFF                        0x01
+#define RFLR_INVERTIQ_TX_ON                         0x00
+
+#define REG_LR_INVERTIQ                             0x33
+
+/*!
+ * RegInvertIQ2
+ */
+#define RFLR_INVERTIQ2_ON                           0x19
+#define RFLR_INVERTIQ2_OFF                          0x1D
+
+#define REG_LR_INVERTIQ2                            0x3B
+
 
 #define MAX_PKT_LENGTH           255
 
@@ -462,6 +482,30 @@ void LoRaClass::enableCrc()
 void LoRaClass::disableCrc()
 {
   writeRegister(REG_MODEM_CONFIG_2, readRegister(REG_MODEM_CONFIG_2) & 0xfb);
+}
+
+void LoRaClass::enableTxInvertIQ()
+{
+  writeRegister( REG_LR_INVERTIQ, ( ( readRegister( REG_LR_INVERTIQ ) & RFLR_INVERTIQ_TX_MASK & RFLR_INVERTIQ_RX_MASK ) | RFLR_INVERTIQ_RX_OFF | RFLR_INVERTIQ_TX_ON ) );
+  writeRegister( REG_LR_INVERTIQ2, RFLR_INVERTIQ2_ON );
+}
+
+void LoRaClass::enableRxInvertIQ()
+{
+  writeRegister( REG_LR_INVERTIQ, ( ( readRegister( REG_LR_INVERTIQ ) & RFLR_INVERTIQ_TX_MASK & RFLR_INVERTIQ_RX_MASK ) | RFLR_INVERTIQ_RX_ON | RFLR_INVERTIQ_TX_OFF ) );
+  writeRegister( REG_LR_INVERTIQ2, RFLR_INVERTIQ2_ON );
+}
+
+void LoRaClass::disableInvertIQ()
+{
+  writeRegister( REG_LR_INVERTIQ, ( ( readRegister( REG_LR_INVERTIQ ) & RFLR_INVERTIQ_TX_MASK & RFLR_INVERTIQ_RX_MASK ) | RFLR_INVERTIQ_RX_OFF | RFLR_INVERTIQ_TX_OFF ) );
+  writeRegister( REG_LR_INVERTIQ2, RFLR_INVERTIQ2_OFF );
+}
+
+void LoRaClass::enableInvertIQ()
+{
+  writeRegister( REG_LR_INVERTIQ, ( ( readRegister( REG_LR_INVERTIQ ) & RFLR_INVERTIQ_TX_MASK & RFLR_INVERTIQ_RX_MASK ) | RFLR_INVERTIQ_RX_ON | RFLR_INVERTIQ_TX_ON ) );
+  writeRegister( REG_LR_INVERTIQ2, RFLR_INVERTIQ2_ON );
 }
 
 byte LoRaClass::random()
