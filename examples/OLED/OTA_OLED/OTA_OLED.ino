@@ -1,6 +1,6 @@
 /*
- * HelTec Automation(TM) WIFI_LoRa_32 factory test code, witch includ
- * follow functions:
+ * HelTec Automation(TM) WIFI_LoRa_32 factory test code which includes
+ *  the follow functions:
  *
  * - Basic OLED function test;
  *
@@ -18,7 +18,7 @@
  * 成都惠利特自动化科技有限公司
  * www.heltec.cn
  *
- * this project also realess in GitHub:
+ * This project is also available on GitHub:
  * https://github.com/HelTecAutomation/Heltec_ESP32
 */
 
