@@ -21,6 +21,14 @@
 #include "Arduino.h"
 #include "heltec.h"
 
+#if defined( Wireless_Stick_Lite )
+	#include <Wire.h>
+	#include "oled/SSD1306Wire.h"
+
+	static const uint8_t SCL_OLED = 15;
+	static const uint8_t SDA_OLED = 4;
+#endif
+
 void setup()
 {
 	Heltec.begin(true, false, true);
