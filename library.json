@@ -1,5 +1,5 @@
 {
-  "name": "Heltec_ESP32",
+  "name": "Heltec ESP32 Dev-Boards",
   "keywords": "heltec, esp32, lora, wifi kit, oled",
   "description": "A library for Heltec ESP32 (or ESP32+LoRa) based board",
   "repository":{
