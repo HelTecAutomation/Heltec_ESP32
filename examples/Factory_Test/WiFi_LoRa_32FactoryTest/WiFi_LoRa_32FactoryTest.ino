@@ -40,6 +40,7 @@ bool receiveflag = false; // software flag for LoRa receiver, received data make
 long lastSendTime = 0;        // last send time
 int interval = 1000;          // interval between sends
 uint64_t chipid;
+int16_t RssiDetection = 0;
 
 void logo(){
 	Heltec.display -> clear();
@@ -159,7 +160,7 @@ void setup()
 	Heltec.display -> clear();
 
 	WIFISetUp();
-	WiFi.disconnect(); //閲嶆柊鍒濆鍖朩IFI
+	WiFi.disconnect(); //重新初始化WIFI
 	WiFi.mode(WIFI_STA);
 	delay(100);
 
@@ -207,7 +208,7 @@ void loop()
  }
  if(receiveflag)
  {
-    digitalWrite(25,HIGH);
+    //digitalWrite(25,HIGH);
     displaySendReceive();
     delay(1000);
     receiveflag = false;  
@@ -238,7 +239,7 @@ void onReceive(int packetSize)//LoRa receiver interrupt service
 {
 	//if (packetSize == 0) return;
 
-	packet = "";
+	  packet = "";
     packSize = String(packetSize,DEC);
 
     while (LoRa.available())
@@ -247,6 +248,15 @@ void onReceive(int packetSize)//LoRa receiver interrupt service
     }
 
     Serial.println(packet);
-    rssi = "RSSI: " + String(LoRa.packetRssi(), DEC);    
+    rssi = "RSSI: " + String(LoRa.packetRssi(), DEC);
+    RssiDetection= abs(LoRa.packetRssi());
+    if(RssiDetection < 65)
+    {
+     digitalWrite(25, HIGH);  
+    }
+     else
+    {
+     digitalWrite(25, LOW);  
+    }        
     receiveflag = true;    
 }
