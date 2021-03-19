@@ -21,7 +21,7 @@ Heltec_ESP32::~Heltec_ESP32(){
 
 void Heltec_ESP32::begin(bool DisplayEnable, bool LoRaEnable, bool SerialEnable, bool PABOOST, long BAND) {
 
-#if defined( WIFI_LoRa_32_V2 ) || defined( Wireless_Stick ) || defined( Wireless_Stick_Lite ) || defined(WIFI_Kit_32)
+#if defined( WIFI_LoRa_32_V2 ) || defined( Wireless_Stick ) || defined( Wireless_Stick_Lite ) || defined(WIFI_Kit_32) || defined( Wireless_Bridge )
 
 	VextON();
 #endif
@@ -37,10 +37,10 @@ void Heltec_ESP32::begin(bool DisplayEnable, bool LoRaEnable, bool SerialEnable,
 	// OLED
 	if (DisplayEnable)
 	{
-#if defined( Wireless_Stick_Lite )
-		if(SerialEnable && Wireless_Stick_Lite)
+#if defined( Wireless_Stick_Lite ) || defined( Wireless_Bridge )
+		if(SerialEnable)
 		{
-			Serial.print("The Wireless Stick Lite not have an on board display, Display option must be FALSE!!!\r\n");
+			Serial.print("Wireless Stick Lite and Wireless Bridge don't have an on board display, Display option must be FALSE!!!\r\n");
 		}
 #endif
 
@@ -67,7 +67,7 @@ void Heltec_ESP32::begin(bool DisplayEnable, bool LoRaEnable, bool SerialEnable,
 #endif
 
 
-#if defined( WIFI_LoRa_32 ) || defined( WIFI_LoRa_32_V2 ) || defined( Wireless_Stick ) || defined( Wireless_Stick_Lite )
+#if defined( WIFI_LoRa_32 ) || defined( WIFI_LoRa_32_V2 ) || defined( Wireless_Stick ) || defined( Wireless_Stick_Lite ) || defined( Wireless_Bridge )
 		//LoRaClass LoRa;
 
 		SPI.begin(SCK,MISO,MOSI,SS);

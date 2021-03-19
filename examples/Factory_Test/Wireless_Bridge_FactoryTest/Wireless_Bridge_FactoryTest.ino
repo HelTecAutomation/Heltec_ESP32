@@ -137,8 +137,11 @@ void setup()
   pinMode(LoRa_LED,OUTPUT);
   pinMode(WIFI_LED,OUTPUT);
   pinMode(BLE_LED,OUTPUT);
+  digitalWrite(LoRa_LED,HIGH);
+  digitalWrite(WIFI_LED,HIGH);
+  digitalWrite(BLE_LED,HIGH);
   
-  Heltec.begin(true /*DisplayEnable Enable*/, true /*LoRa Disable*/, true /*Serial Enable*/, true /*PABOOST Enable*/, BAND /**/);
+  Heltec.begin(false /*DisplayEnable Enable*/, true /*LoRa Disable*/, true /*Serial Enable*/, true /*PABOOST Enable*/, BAND /**/);
   
   PSRAM_TEST();
   WIFISetUp();
