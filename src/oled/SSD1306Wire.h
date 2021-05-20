@@ -71,6 +71,7 @@ class SSD1306Wire : public OLEDDisplay {
 		initI2cIfNeccesary();
 		if(rotate_angle==ANGLE_0_DEGREE||rotate_angle==ANGLE_180_DEGREE)
 		{
+			const int x_offset = (128 - this->width()) / 2;
 		#ifdef OLEDDISPLAY_DOUBLE_BUFFER
 			uint8_t minBoundY = UINT8_MAX;
 			uint8_t maxBoundY = 0;
@@ -105,8 +106,8 @@ class SSD1306Wire : public OLEDDisplay {
 			if (minBoundY == UINT8_MAX) return;
 
 			sendCommand(COLUMNADDR);
-			sendCommand( minBoundX);
-			sendCommand( maxBoundX);
+			sendCommand(x_offset+minBoundX);
+			sendCommand(x_offset+ maxBoundX);
 
 			sendCommand(PAGEADDR);
 			sendCommand(minBoundY);
@@ -140,11 +141,12 @@ class SSD1306Wire : public OLEDDisplay {
 		#else
 
 			sendCommand(COLUMNADDR);
-			sendCommand(0);
-			sendCommand((this->width() - 1));
+			sendCommand(x_offset);
+			sendCommand(x_offset+(this->width() - 1));
 
 			sendCommand(PAGEADDR);
 			sendCommand(0x0);
+			sendCommand((this->height() / 8) - 1);
 
 			if (geometry == GEOMETRY_128_64)
 			{
@@ -189,7 +191,7 @@ class SSD1306Wire : public OLEDDisplay {
 			uint8_t minBoundX = UINT8_MAX;
 			uint8_t maxBoundX = 0;
 			uint8_t x, y;
-			 
+			const int x_offset = (128 - this->height()) / 2;
 			// Calculate the Y bounding box of changes
 			// and copy buffer[pos] to buffer_back[pos];
 			for (y = 0; y < (this->width() / 8); y++)
@@ -211,8 +213,8 @@ class SSD1306Wire : public OLEDDisplay {
 			if (minBoundY == UINT8_MAX) return;
 
 			sendCommand(COLUMNADDR);
-			sendCommand(minBoundX);
-			sendCommand(maxBoundX);
+			sendCommand(x_offset+minBoundX);
+			sendCommand(x_offset+maxBoundX);
 
 			sendCommand(PAGEADDR);
 			sendCommand(minBoundY);
@@ -245,12 +247,12 @@ class SSD1306Wire : public OLEDDisplay {
 			}
 		#else
 			sendCommand(COLUMNADDR);
-			sendCommand(0);
-			sendCommand((this->height() - 1));
+			sendCommand(x_offset);
+			sendCommand(x_offset+(this->height() - 1));
 
 			sendCommand(PAGEADDR);
 			sendCommand(0x0);
-
+			sendCommand((this->width() / 8) - 1);
 			if (geometry == GEOMETRY_128_64)
 			{
 				sendCommand(0x7);

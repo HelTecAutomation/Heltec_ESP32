@@ -90,7 +90,7 @@ bool OLEDDisplay::init() {
 	memset(buffer_back, 1, displayBufferSize);
 	#endif
 	display();
-
+  screenRotate(ANGLE_0_DEGREE);
   return true;
 }
 
@@ -981,7 +981,7 @@ void OLEDDisplay::sendInitCommands(void) {
   sendCommand(COMSCANDEC);
   sendCommand(SETCOMPINS);
 
-  if (geometry == GEOMETRY_128_64) {
+  if ((geometry == GEOMETRY_128_64) || (geometry == GEOMETRY_64_32)) {
     sendCommand(0x12);
   } else if (geometry == GEOMETRY_128_32) {
     sendCommand(0x02);
@@ -989,7 +989,7 @@ void OLEDDisplay::sendInitCommands(void) {
 
   sendCommand(SETCONTRAST);
 
-  if (geometry == GEOMETRY_128_64) {
+  if ((geometry == GEOMETRY_128_64) || (geometry == GEOMETRY_64_32)) {
     sendCommand(0xCF);
   } else if (geometry == GEOMETRY_128_32) {
     sendCommand(0x8F);
