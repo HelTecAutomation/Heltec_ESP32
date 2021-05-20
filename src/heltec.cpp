@@ -46,7 +46,7 @@ void Heltec_ESP32::begin(bool DisplayEnable, bool LoRaEnable, bool SerialEnable,
 
 #if defined( WIFI_Kit_32 ) || defined( WIFI_LoRa_32 ) || defined( WIFI_LoRa_32_V2 ) || defined( Wireless_Stick )
 		display->init();
-		display->flipScreenVertically();
+		//display->flipScreenVertically();
 		display->setFont(ArialMT_Plain_10);
 		display->drawString(0, 0, "OLED initial done!");
 		display->display();
