@@ -9,7 +9,7 @@ boolean BMP085::begin(uint8_t mode) {
     mode = BMP085_ULTRAHIGHRES;
   oversampling = mode;
 //begin(int sdaPin, int sclPin, uint32_t frequency)
-  Wire.begin(13, 12, 100000);
+  Wire.begin(13, 12, 100000U);
 
   if (read8(0xD0) != 0x55) return false;
 
