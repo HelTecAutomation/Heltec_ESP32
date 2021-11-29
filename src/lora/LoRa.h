@@ -62,6 +62,7 @@ public:
   virtual void flush();
 
   void onReceive(void(*callback)(int));
+   void onTxDone(void(*callback)());
 
   void receive(int size = 0);
   void idle();
@@ -98,6 +99,7 @@ private:
   void implicitHeaderMode();
 
   void handleDio0Rise();
+  bool isTransmitting();
 
   uint8_t readRegister(uint8_t address);
   void writeRegister(uint8_t address, uint8_t value);

@@ -76,7 +76,8 @@ LoRaClass::LoRaClass() :
   _frequency(0),
   _packetIndex(0),
   _implicitHeaderMode(0),
-  _onReceive(NULL)
+  _onReceive(NULL),
+  _onTxDone(NULL)
 {
   // overide Stream timeout value
   setTimeout(0);
@@ -139,6 +140,9 @@ void LoRaClass::end()
 
 int LoRaClass::beginPacket(int implicitHeader)
 {
+  if (isTransmitting()) {
+    return 0;
+  }
   // put in standby mode
   idle();
   if (implicitHeader) {
@@ -154,13 +158,13 @@ int LoRaClass::beginPacket(int implicitHeader)
 
 int LoRaClass::endPacket(bool async)
 {
+  if ((async) && (_onTxDone))
+      writeRegister(REG_DIO_MAPPING_1, 0x40); // DIO0 => TXDONE
+
   // put in TX mode
   writeRegister(REG_OP_MODE, MODE_LONG_RANGE_MODE | MODE_TX);
 
-  if (async) {
-    // grace time is required for the radio
-    delayMicroseconds(150);
-  } else {
+  if (!async) {
     // wait for TX done
     while ((readRegister(REG_IRQ_FLAGS) & IRQ_TX_DONE_MASK) == 0) {
       yield();
@@ -171,6 +175,21 @@ int LoRaClass::endPacket(bool async)
 
   return 1;
 }
+
+bool LoRaClass::isTransmitting()
+{
+  if ((readRegister(REG_OP_MODE) & MODE_TX) == MODE_TX) {
+    return true;
+  }
+
+  if (readRegister(REG_IRQ_FLAGS) & IRQ_TX_DONE_MASK) {
+    // clear IRQ's
+    writeRegister(REG_IRQ_FLAGS, IRQ_TX_DONE_MASK);
+  }
+
+  return false;
+}
+
 
 int LoRaClass::parsePacket(int size)
 {
@@ -308,6 +327,24 @@ void LoRaClass::onReceive(void(*callback)(int))
 //    attachInterrupt(digitalPinToInterrupt(_dio0), LoRaClass::onDio0Rise, RISING);
   } else {
     detachInterrupt(digitalPinToInterrupt(_dio0));
+  }
+}
+
+void LoRaClass::onTxDone(void(*callback)())
+{
+  _onTxDone = callback;
+
+  if (callback) {
+    pinMode(_dio0, INPUT);
+#ifdef SPI_HAS_NOTUSINGINTERRUPT
+    SPI.usingInterrupt(digitalPinToInterrupt(_dio0));
+#endif
+    attachInterrupt(digitalPinToInterrupt(_dio0), LoRaClass::onDio0Rise, RISING);
+  } else {
+    detachInterrupt(digitalPinToInterrupt(_dio0));
+#ifdef SPI_HAS_NOTUSINGINTERRUPT
+    SPI.notUsingInterrupt(digitalPinToInterrupt(_dio0));
+#endif
   }
 }
 
