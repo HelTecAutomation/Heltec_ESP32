@@ -116,6 +116,7 @@ private:
   int _packetIndex;
   int _implicitHeaderMode;
   void (*_onReceive)(int);
+  void (*_onTxDone)();
 };
 
 extern LoRaClass LoRa;
