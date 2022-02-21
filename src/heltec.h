@@ -13,7 +13,7 @@
 
 #if defined( WIFI_LoRa_32 ) || defined( WIFI_LoRa_32_V2 ) || defined( Wireless_Stick ) || defined( Wireless_Stick_Lite ) || defined( Wireless_Bridge )
 	#include <SPI.h>
-	#include "lora/LoRa.h"
+	#include "LoRa.h"
 #endif
 
 
