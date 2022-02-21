@@ -4,7 +4,7 @@
   "description": "A library for Heltec ESP32 (or ESP32+LoRa) based board",
   "repository":{
     "type": "git",
-    "url": "https://github.com/HelTecAutomation/Heltec_ESP32.git"
+    "url": "https://github.com/Baptou88/Heltec_ESP32.git"
   },
   "authors":{
         "name": "Heltec Automation(TM)",
@@ -12,5 +12,8 @@
    },
   "version": "1.1.0",
   "frameworks": "arduino",
-  "platforms": "espressif32"
+  "platforms": "espressif32",
+  "dependencies": {
+    "sandeepmistry/LoRa": "~0.8.0"
+  }
 }
