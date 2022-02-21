@@ -72,7 +72,7 @@ void Heltec_ESP32::begin(bool DisplayEnable, bool LoRaEnable, bool SerialEnable,
 
 		SPI.begin(SCK,MISO,MOSI,SS);
 		LoRa.setPins(SS,RST_LoRa,DIO0);
-		if (!LoRa.begin(BAND,PABOOST))
+		if (!LoRa.begin(BAND))
 		{
 			if (SerialEnable){
 				Serial.print("Starting LoRa failed!\r\n");
@@ -90,6 +90,8 @@ void Heltec_ESP32::begin(bool DisplayEnable, bool LoRaEnable, bool SerialEnable,
 		if (SerialEnable){
 			Serial.print("LoRa Initial success!\r\n");
 		}
+		LoRa.setTxPower(14);
+
 #if defined( WIFI_Kit_32 ) || defined( WIFI_LoRa_32 ) || defined( WIFI_LoRa_32_V2 ) || defined( Wireless_Stick )
 		if(DisplayEnable){
 			display->clear();
