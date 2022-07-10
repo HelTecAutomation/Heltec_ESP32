@@ -1,16 +1,12 @@
 /*
  * HelTec Automation(TM) ESP32 Series Dev boards OLED draw Simple Function test code
- *
  * - Some OLED draw Simple Function function test;
- *
  * by LXYZN from HelTec AutoMation, ChengDu, China
- * 
  * www.heltec.cn
  *
- * this project also realess in GitHub:
+ * this project also releases on GitHub:
  * https://github.com/HelTecAutomation/Heltec_ESP32
 */
-
 
 // This example just provide basic function test;
 // For more informations, please vist www.heltec.cn or mail to support@heltec.cn
@@ -18,8 +14,6 @@
 #include "Arduino.h"
 #include "heltec.h"
 #include "images.h"
-
-
 
 #define DEMO_DURATION 3000
 typedef void (*Demo)(void);
@@ -29,9 +23,6 @@ int counter = 1;
 
 void setup() {
   Heltec.begin(true /*DisplayEnable Enable*/, false /*LoRa Disable*/, true /*Serial Enable*/);
-
-
-
   Heltec.display->flipScreenVertically();
   Heltec.display->setFont(ArialMT_Plain_10);
 
@@ -74,21 +65,18 @@ void drawTextAlignmentDemo() {
 }
 
 void drawRectDemo() {
-      // Draw a pixel at given position
-    for (int i = 0; i < 10; i++) {
-      Heltec.display->setPixel(i, i);
-      Heltec.display->setPixel(10 - i, i);
-    }
-    Heltec.display->drawRect(12, 12, 20, 20);
-
-    // Fill the rectangle
-    Heltec.display->fillRect(14, 14, 17, 17);
-
-    // Draw a line horizontally
-    Heltec.display->drawHorizontalLine(0, 40, 20);
-
-    // Draw a line horizontally
-    Heltec.display->drawVerticalLine(40, 0, 20);
+  // Draw a pixel at given position
+  for (int i = 0; i < 10; i++) {
+    Heltec.display->setPixel(i, i);
+    Heltec.display->setPixel(10 - i, i);
+  }
+  Heltec.display->drawRect(12, 12, 20, 20);
+  // Fill the rectangle
+  Heltec.display->fillRect(14, 14, 17, 17);
+  // Draw a line horizontally
+  Heltec.display->drawHorizontalLine(0, 40, 20);
+  // Draw a line horizontally
+  Heltec.display->drawVerticalLine(40, 0, 20);
 }
 
 void drawCircleDemo() {
@@ -113,9 +101,9 @@ void drawProgressBarDemo() {
 }
 
 void drawImageDemo() {
-    // see http://blog.squix.org/2015/05/esp8266-nodemcu-how-to-create-xbm.html
-    // on how to create xbm files
-    Heltec.display->drawXbm(34, 14, WiFi_Logo_width, WiFi_Logo_height, WiFi_Logo_bits);
+  // see http://blog.squix.org/2015/05/esp8266-nodemcu-how-to-create-xbm.html
+  // on how to create xbm files
+  Heltec.display->drawXbm(34, 14, WiFi_Logo_width, WiFi_Logo_height, WiFi_Logo_bits);
 }
 
 Demo demos[] = {drawFontFaceDemo, drawTextFlowDemo, drawTextAlignmentDemo, drawRectDemo, drawCircleDemo, drawProgressBarDemo, drawImageDemo};
