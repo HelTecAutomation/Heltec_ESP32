@@ -1,24 +1,17 @@
 /*
  * HelTec Automation(TM) WIFI_LoRa_32 factory test code, witch includ
  * follow functions:
- * 
  * - Basic OLED function test;
- * 
  * - Basic serial port test(in baud rate 115200);
- * 
  * - LED blink test;
- * 
  * - WIFI connect and scan test;
- * 
  * - LoRa Ping-Pong test (DIO0 -- GPIO26 interrup check the new incoming messages);
- * 
  * - Timer test and some other Arduino basic functions.
- *
  * by Aaron.Lee from HelTec AutoMation, ChengDu, China
- * 成都惠利特自动化科技有限公司
+ * 鎴愰兘鎯犲埄鐗硅嚜鍔ㄥ寲绉戞妧鏈夐檺鍏徃
  * https://heltec.org
  *
- * this project also realess in GitHub:
+ * this project also releases on GitHub:
  * https://github.com/HelTecAutomation/Heltec_ESP32
 */
 
@@ -70,18 +63,18 @@ void WIFISetUp(void)
 	Heltec.display -> clear();
 	if(WiFi.status() == WL_CONNECTED)
 	{
-		Heltec.display -> drawString(0, 0, "Connecting...OK.");
+		Heltec.display -> drawString(0, 0, "Connected.");
 		Heltec.display -> display();
 //		delay(500);
 	}
 	else
 	{
 		Heltec.display -> clear();
-		Heltec.display -> drawString(0, 0, "Connecting...Failed");
+		Heltec.display -> drawString(0, 0, "Failed to connect.");
 		Heltec.display -> display();
 		//while(1);
 	}
-	Heltec.display -> drawString(0, 10, "WIFI Setup done");
+	Heltec.display -> drawString(0, 10, "WiFi setup done");
 	Heltec.display -> display();
 	delay(500);
 }
@@ -93,7 +86,7 @@ void WIFIScan(unsigned int value)
 
 	for(i=0;i<value;i++)
 	{
-		Heltec.display -> drawString(0, 20, "Scan start...");
+		Heltec.display -> drawString(0, 20, "Starting scan.");
 		Heltec.display -> display();
 
 		int n = WiFi.scanNetworks();
@@ -105,14 +98,14 @@ void WIFIScan(unsigned int value)
 		if (n == 0)
 		{
 			Heltec.display -> clear();
-			Heltec.display -> drawString(0, 0, "no network found");
+			Heltec.display -> drawString(0, 0, "No network found");
 			Heltec.display -> display();
 			//while(1);
 		}
 		else
 		{
 			Heltec.display -> drawString(0, 0, (String)n);
-			Heltec.display -> drawString(14, 0, "networks found:");
+			Heltec.display -> drawString(14, 0, "Networks found:");
 			Heltec.display -> display();
 			delay(500);
 
@@ -124,7 +117,7 @@ void WIFIScan(unsigned int value)
 				Heltec.display -> drawString(90,(i+1)*9, " (");
 				Heltec.display -> drawString(98,(i+1)*9, (String)(WiFi.RSSI(i)));
 				Heltec.display -> drawString(114,(i+1)*9, ")");
-				//            display.println((WiFi.encryptionType(i) == WIFI_AUTH_OPEN)?" ":"*");
+				//display.println((WiFi.encryptionType(i) == WIFI_AUTH_OPEN)?" ":"*");
 				delay(10);
 			}
 		}
@@ -160,7 +153,7 @@ void setup()
 	Heltec.display -> clear();
 
 	WIFISetUp();
-	WiFi.disconnect(); //���³�ʼ��WIFI
+	WiFi.disconnect(); //Reinitialize WiFi
 	WiFi.mode(WIFI_STA);
 	delay(100);
 
@@ -237,9 +230,8 @@ void displaySendReceive()
 }
 void onReceive(int packetSize)//LoRa receiver interrupt service
 {
-	//if (packetSize == 0) return;
-
-	  packet = "";
+    //if (packetSize == 0) return;
+    packet = "";
     packSize = String(packetSize,DEC);
 
     while (LoRa.available())
