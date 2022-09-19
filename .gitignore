@@ -18,6 +18,14 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+# Text editor backup files
+.*.swp
+.*.swo
+*~
+
+# CMake build folder
+/build
+
 # =========================
 # Operating System Files
 # =========================
