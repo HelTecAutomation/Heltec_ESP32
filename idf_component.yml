@@ -1,0 +1,13 @@
+description: "A library for Heltec ESP32 (or ESP32+LoRa) based board"
+url: "https://github.com/HelTecAutomation/Heltec_ESP32.git"
+targets:
+  - esp32
+tags:
+  - arduino
+files:
+  include:
+    - "src/**/*"
+    - "CMakeLists.txt"
+    - "Kconfig.projbuild"
+  exclude:
+    - "**/*"
