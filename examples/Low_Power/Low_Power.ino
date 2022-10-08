@@ -127,11 +127,11 @@ void setup(){
 
   pinMode(5,INPUT);
 
-   pinMode(14,INPUT);
-   pinMode(15,INPUT);
-   pinMode(16,INPUT);
-   pinMode(17,INPUT);
-pinMode(18,INPUT);
+  pinMode(14,INPUT);
+  pinMode(15,INPUT);
+  pinMode(16,INPUT);
+  pinMode(17,INPUT);
+  pinMode(18,INPUT);
   pinMode(19,INPUT);
 
   pinMode(26,INPUT);
