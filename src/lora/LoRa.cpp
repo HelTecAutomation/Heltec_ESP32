@@ -592,4 +592,14 @@ void LoRaClass::onDio0Rise()
   LoRa.handleDio0Rise();
 }
 
+void LoRaClass::enableLowDataRate()
+{
+  writeRegister(REG_MODEM_CONFIG_3, readRegister(REG_MODEM_CONFIG_3) | 0x08);
+}
+
+void LoRaClass::disableLowDataRate()
+{
+  writeRegister(REG_MODEM_CONFIG_3, readRegister(REG_MODEM_CONFIG_3) & ~0x08);
+}
+
 LoRaClass LoRa;
