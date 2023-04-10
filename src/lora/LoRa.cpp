@@ -113,6 +113,8 @@ int LoRaClass::begin(long frequency,bool PABOOST)
   writeRegister(REG_LNA, readRegister(REG_LNA) | 0x03);
   // set auto AGC
   writeRegister(REG_MODEM_CONFIG_3, 0x04);
+  // disable LDR by default
+  disableLowDataRate();
   // set output power to 14 dBm
   if(PABOOST == true)
 	  setTxPower(14, RF_PACONFIG_PASELECT_PABOOST);
