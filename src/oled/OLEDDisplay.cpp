@@ -79,9 +79,9 @@ bool OLEDDisplay::init() {
   }
   }
   #endif
-#if defined( WIFI_LoRa_32 ) || defined( WIFI_LoRa_32_V2 ) || defined( Wireless_Stick )
+  #ifdef Heltec_Screen
   resetDisplay(RST_OLED);
-#endif
+  #endif
 
   sendInitCommands();
 
