@@ -20,6 +20,11 @@
 #include "WiFi.h"
 #include "images.h"
 
+//Prototype of funcions 
+void send();
+void displaySendReceive();
+void onReceive(int packetSize);    // LoRa receiver interrupt service
+
 #define BAND    868E6  //you can set band here directly,e.g. 868E6,915E6
 
 String rssi = "RSSI --";
