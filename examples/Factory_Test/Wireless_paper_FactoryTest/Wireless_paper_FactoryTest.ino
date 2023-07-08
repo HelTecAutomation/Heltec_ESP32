@@ -31,7 +31,7 @@
 #include "images.h"
 
 // Initialize the display
-QYEG0213RWS800_BWR   factory_display(16, 4, 2,5, 18,23,-1, 6000000);//rst,dc,cs,busy,sck,mosi,miso,frequency
+QYEG0213RWS800_BWR   factory_display(6, 5, 4,7, 3,2,-1, 6000000);//rst,dc,cs,busy,sck,mosi,miso,frequency
 /********************************* lora  *********************************************/
 #define RF_FREQUENCY                                470000000 // Hz
 
