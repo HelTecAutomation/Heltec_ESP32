@@ -9,70 +9,119 @@
   OLED_SDA -- GPIO4
   OLED_SCL -- GPIO15
   OLED_RST -- GPIO16
-  
+
   by Aaron.Lee from HelTec AutoMation, ChengDu, China
   成都惠利特自动化科技有限公司
   www.heltec.cn
-  
+
   this project also realess in GitHub:
   https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series
 */
-#include "heltec.h" 
+#include "LoRaWan_APP.h"
+#include "Arduino.h"
+#include "HT_SSD1306Wire.h"
+extern SSD1306Wire display;
+uint32_t license[4] = {0x947025A9, 0x7E6C7FE4, 0x943C2CDA, 0xE04CD68B};
 
+#define RF_FREQUENCY 868000000 // Hz
 
-#define BAND    868E6  //you can set band here directly,e.g. 868E6,915E6
+#define TX_OUTPUT_POWER 14 // dBm
+
+#define LORA_BANDWIDTH 0        // [0: 125 kHz,
+                                //  1: 250 kHz,
+                                //  2: 500 kHz,
+                                //  3: Reserved]
+#define LORA_SPREADING_FACTOR 7 // [SF7..SF12]
+#define LORA_CODINGRATE 1       // [1: 4/5,
+                                //  2: 4/6,
+                                //  3: 4/7,
+                                //  4: 4/8]
+#define LORA_PREAMBLE_LENGTH 8  // Same for Tx and Rx
+#define LORA_SYMBOL_TIMEOUT 0   // Symbols
+#define LORA_FIX_LENGTH_PAYLOAD_ON false
+#define LORA_IQ_INVERSION_ON false
+
+#define RX_TIMEOUT_VALUE 1000
+#define BUFFER_SIZE 30 // Define the payload size here
+
+char txpacket[BUFFER_SIZE];
+char rxpacket[BUFFER_SIZE];
+
+static RadioEvents_t RadioEvents;
+bool lora_idle = true;
+
 String rssi = "RSSI --";
 String packSize = "--";
-String packet ;
-
-
-
-void LoRaData(){
-  Heltec.display->clear();
-  Heltec.display->setTextAlignment(TEXT_ALIGN_LEFT);
-  Heltec.display->setFont(ArialMT_Plain_10);
-  Heltec.display->drawString(0 , 15 , "Received "+ packSize + " bytes");
-  Heltec.display->drawStringMaxWidth(0 , 26 , 128, packet);
-  Heltec.display->drawString(0, 0, rssi);  
-  Heltec.display->display();
+String packet;
+int16_t rxSize; 
+void LoRaData()
+{
+ display.clear();
+ display.setTextAlignment(TEXT_ALIGN_LEFT);
+ display.setFont(ArialMT_Plain_10);
+ display.drawString(0, 15, "Received " + packSize + " bytes");
+ display.drawStringMaxWidth(0, 26, 128, packet);
+ display.drawString(0, 0, rssi);
+ display.display();
 }
 
-void cbk(int packetSize) {
-  packet ="";
-  packSize = String(packetSize,DEC);
-  for (int i = 0; i < packetSize; i++) { packet += (char) LoRa.read(); }
-  rssi = "RSSI " + String(LoRa.packetRssi(), DEC) ;
-  LoRaData();
-}
+void setup()
+{
+  // WIFI Kit series V1 not support Vext control
+  // Heltec.begin(true /*DisplayEnable Enable*/, true /*Heltec.Heltec.Heltec.LoRa Disable*/, true /*Serial Enable*/, true /*PABOOST Enable*/, BAND /*long BAND*/);
+  Serial.begin(115200);
+  Mcu.begin();
 
-void setup() { 
-   //WIFI Kit series V1 not support Vext control
-  Heltec.begin(true /*DisplayEnable Enable*/, true /*Heltec.Heltec.Heltec.LoRa Disable*/, true /*Serial Enable*/, true /*PABOOST Enable*/, BAND /*long BAND*/);
-  //
-  LoRa.setSpreadingFactor(8);
-    // put in standby mode
-  LoRa.setSignalBandwidth(125E3);
-  LoRa.setCodingRate4(4);
-  LoRa.setSyncWord(0x12);   //0x34
-  LoRa.setPreambleLength(8);
-  
-  Heltec.display->init();
-  Heltec.display->flipScreenVertically();  
-  Heltec.display->setFont(ArialMT_Plain_10);
+
+
+
+  RadioEvents.RxDone = OnRxDone;
+  Radio.Init(&RadioEvents);
+  Radio.SetChannel(RF_FREQUENCY);
+  Radio.SetRxConfig(MODEM_LORA, LORA_BANDWIDTH, LORA_SPREADING_FACTOR,
+                    LORA_CODINGRATE, 0, LORA_PREAMBLE_LENGTH,
+                    LORA_SYMBOL_TIMEOUT, LORA_FIX_LENGTH_PAYLOAD_ON,
+                    0, true, 0, 0, LORA_IQ_INVERSION_ON, true);
+  pinMode(LED, OUTPUT);
+  digitalWrite(LED, LOW);
+ display.init();
+ display.flipScreenVertically();
+ display.setFont(ArialMT_Plain_10);
 
   delay(1500);
-  Heltec.display->clear();
-  
-  Heltec.display->drawString(0, 0, "Heltec.LoRa Initial success!");
-  Heltec.display->drawString(0, 10, "Wait for incoming data...");
-  Heltec.display->display();
+ display.clear();
+
+ display.drawString(0, 0, "Heltec.LoRa Initial success!");
+ display.drawString(0, 10, "Wait for incoming data...");
+ display.display();
   delay(1000);
-  //LoRa.onReceive(cbk);
-  LoRa.receive();
+  // LoRa.onReceive(cbk);
 }
 
-void loop() {
-  int packetSize = LoRa.parsePacket();
-  if (packetSize) { cbk(packetSize);  }
+void loop()
+{
+
   delay(10);
+  if (lora_idle)
+  {
+    lora_idle = false;
+    Serial.println("into RX mode");
+    Radio.Rx(0);
+  }
+  Radio.IrqProcess();
+
+  //
+  //  memset(Readback,0,50);
+  // print RSSI of packet
+}
+void OnRxDone(uint8_t *payload, uint16_t size, int16_t rssi, int8_t snr)
+{
+  rssi = rssi;
+  rxSize = size;
+  memcpy(rxpacket, payload, size);
+  rxpacket[size] = '\0';
+  Radio.Sleep();
+  Serial.printf("\r\nreceived packet \"%s\" with rssi %d , length %d\r\n", rxpacket, rssi, rxSize);
+  lora_idle = true;
+  LoRaData();
 }

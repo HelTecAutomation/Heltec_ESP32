@@ -22,7 +22,8 @@
   this project also realess in GitHub:
   https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series
 */
-#include "heltec.h"
+#include "LoRaWan_APP.h"
+#include "Arduino.h"
 
 #define BAND    433E6  //you can set band here directly,e.g. 868E6,915E6
 
@@ -39,7 +40,7 @@ int interval = 2000;          // interval between sends
 void setup()
 {
    //WIFI Kit series V1 not support Vext control
-  Heltec.begin(true /*DisplayEnable Enable*/, true /*Heltec.LoRa Enable*/, true /*Serial Enable*/, true /*PABOOST Enable*/, BAND /*long BAND*/);
+  Mcu.begin();
 
   Serial.println("Heltec.LoRa Duplex");
 

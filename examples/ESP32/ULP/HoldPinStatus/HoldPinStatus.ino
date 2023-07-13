@@ -18,9 +18,9 @@
 RTC_DATA_ATTR int bootCount = 0;
 
 void setup(){
-  rtc_gpio_hold_dis(GPIO_NUM_25);
-  pinMode(25,OUTPUT);
-  digitalWrite(25,LOW);//The on board LED will be OFF in wake up period
+  rtc_gpio_hold_dis(GPIO_NUM_35);
+  pinMode(35,OUTPUT);
+  digitalWrite(35,LOW);//The on board LED will be OFF in wake up period
   
   Serial.begin(115200);
   delay(1000); //Take some time to open up the Serial Monitor
@@ -38,10 +38,10 @@ void setup(){
   Serial.println("Going to sleep now");
   delay(2);
 
-  rtc_gpio_init(GPIO_NUM_25);
-  pinMode(25,OUTPUT);
-  digitalWrite(25,HIGH);//The on board LED will be ON in deep sleep period
-  rtc_gpio_hold_en(GPIO_NUM_25);
+  rtc_gpio_init(GPIO_NUM_35);
+  pinMode(35,OUTPUT);
+  digitalWrite(35,HIGH);//The on board LED will be ON in deep sleep period
+  rtc_gpio_hold_en(GPIO_NUM_35);
   
   esp_deep_sleep_start();
   Serial.println("This will never be printed");

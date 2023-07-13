@@ -43,8 +43,8 @@ void setup()
 	Heltec.display->clear();
 
    //analogSetClockDiv(255); // 1338mS
-   analogSetCycles(8);                   // Set number of cycles per sample, default is 8 and provides an optimal result, range is 1 - 255
-   analogSetSamples(1);                  // Set number of samples in the range, default is 1, it has an effect on sensitivity has been multiplied
+//   analogSetCycles(8);                   // Set number of cycles per sample, default is 8 and provides an optimal result, range is 1 - 255
+//   analogSetSamples(1);                  // Set number of samples in the range, default is 1, it has an effect on sensitivity has been multiplied
    analogSetClockDiv(1);                 // Set the divider for the ADC clock, default is 1, range is 1 - 255
    analogSetAttenuation(ADC_11db);       // Sets the input attenuation for ALL ADC inputs, default is ADC_11db, range is ADC_0db, ADC_2_5db, ADC_6db, ADC_11db
    analogSetPinAttenuation(36,ADC_11db); // Sets the input attenuation, default is ADC_11db, range is ADC_0db, ADC_2_5db, ADC_6db, ADC_11db
@@ -71,21 +71,21 @@ void loop()
    //Wireless Stick      -- hardare versrion ≥ 2.3
    //Wireless Stick Lite -- hardare versrion ≥ 2.3
    //Battery voltage read pin changed from GPIO13 to GPI37
-   adcStart(37);
-   while(adcBusy(37));
+//   adcStart(37);
+//   while(adcBusy(37));
    Serial.printf("Battery power in GPIO 37: ");
    Serial.println(analogRead(37));
    uint16_t c1  =  analogRead(37)*XS*MUL;
-   adcEnd(37);
+//   adcEnd(37);
 
    delay(100);
 
-   adcStart(36);
-   while(adcBusy(36));
+//   adcStart(36);
+//   while(adcBusy(36));
    Serial.printf("voltage input on GPIO 36: ");
    Serial.println(analogRead(36));
    uint16_t c2  =  analogRead(36)*0.769 + 150;
-   adcEnd(36);
+//   adcEnd(36);
    Serial.println("-------------");
    // uint16_t c  =  analogRead(13)*XS*MUL;
    // Serial.println(analogRead(13));
