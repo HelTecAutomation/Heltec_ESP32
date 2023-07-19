@@ -8,7 +8,8 @@
  * https://github.com/HelTecAutomation/ESP32_LoRaWAN
  * */
 
-#include <ESP32_LoRaWAN.h>
+
+#include "LoRaWan_APP.h"
 #include "Arduino.h"
 
 uint32_t  license[4] = {0x947025A9, 0x7E6C7FE4, 0x943C2CDA, 0xE04CD68B};
@@ -50,7 +51,7 @@ void setup() {
     while (!Serial);
     
     SPI.begin(SCK,MISO,MOSI,SS);
-    Mcu.init(SS,RST_LoRa,DIO0,DIO1,license);
+    Mcu.begin();
     txNumber=0;
     rssi=0;
 

@@ -25,8 +25,9 @@
  *https://github.com/HelTecAutomation/ESP32_LoRaWAN
 */
 
-#include <ESP32_LoRaWAN.h>
+#include "LoRaWan_APP.h"
 #include "Arduino.h"
+#include "HT_SSD1306Wire.h"
 
 #define RF_FREQUENCY                                868000000 // Hz
 
@@ -76,7 +77,7 @@ bool sleepMode = false;
 int16_t Rssi,rxSize;
 
 uint32_t  license[4] = {0xD5397DF0, 0x8573F814, 0x7A38C73D, 0x48E68607};
-
+extern SSD1306Wire display;
 // Add your initialization code here
 void setup()
 {
@@ -85,7 +86,7 @@ void setup()
   Serial.begin(115200);
   while (!Serial);
   SPI.begin(SCK,MISO,MOSI,SS);
-  Mcu.init(SS,RST_LoRa,DIO0,DIO1,license);
+   Mcu.begin();
 
 
     txNumber=0;
@@ -134,7 +135,7 @@ void loop()
         state=STATUS_LOWPOWER;
         break;
     case STATUS_LOWPOWER:
-        LoRaWAN.sleep(CLASS_C,0);
+            LoRaWAN.sleep( CLASS_A);
         break;
     default:
         break;
@@ -185,29 +186,29 @@ void OnRxTimeout( void )
 
 void displayMcuInit()
 {
-  Display.wakeup();
-  Display.init();
+  display.wakeup();
+  display.init();
   delay(100);
-  Display.flipScreenVertically();
-  Display.setFont(ArialMT_Plain_10);
-  Display.setTextAlignment(TEXT_ALIGN_LEFT);
-  Display.clear();
-  Display.drawString(18, 11, "ESP32_PINGPONG");
-  Display.drawString(40, 31, "STARTING");
+  display.flipScreenVertically();
+  display.setFont(ArialMT_Plain_10);
+  display.setTextAlignment(TEXT_ALIGN_LEFT);
+  display.clear();
+  display.drawString(18, 11, "ESP32_PINGPONG");
+  display.drawString(40, 31, "STARTING");
 
-  Display.display();
+  display.display();
   delay(100);
-  Display.clear();
+  display.clear();
 }
 
 void displaySendReceive()
 {
-    Display.drawString(0,0,"sending packet:");
-    Display.drawString(0,11,(String)txpacket);
-    Display.drawString(0,25,(String)Repacket);
-    Display.drawString(0,40,"received packet:" );
-    Display.drawString(0,51,(String)rxpacket);
-    Display.display();
+    display.drawString(0,0,"sending packet:");
+    display.drawString(0,11,(String)txpacket);
+    display.drawString(0,25,(String)Repacket);
+    display.drawString(0,40,"received packet:" );
+    display.drawString(0,51,(String)rxpacket);
+    display.display();
     delay(100);
-    Display.clear();
+    display.clear();
 }

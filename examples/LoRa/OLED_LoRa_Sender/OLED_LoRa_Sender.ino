@@ -18,52 +18,103 @@
   https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series
 */
 
-#include "heltec.h"
+#include "LoRaWan_APP.h"
+#include "Arduino.h"
+
+#include "HT_SSD1306Wire.h"
 #include "images.h"
+#define RF_FREQUENCY                                868000000 // Hz
 
-#define BAND    868E6  //you can set band here directly,e.g. 868E6,915E6
+#define TX_OUTPUT_POWER                             15        // dBm
 
+#define LORA_BANDWIDTH                              0         // [0: 125 kHz,
+                                                              //  1: 250 kHz,
+                                                              //  2: 500 kHz,
+                                                              //  3: Reserved]
+#define LORA_SPREADING_FACTOR                       7         // [SF7..SF12]
+#define LORA_CODINGRATE                             1         // [1: 4/5,
+                                                              //  2: 4/6,
+                                                              //  3: 4/7,
+                                                              //  4: 4/8]
+#define LORA_PREAMBLE_LENGTH                        8         // Same for Tx and Rx
+#define LORA_SYMBOL_TIMEOUT                         0         // Symbols
+#define LORA_FIX_LENGTH_PAYLOAD_ON                  false
+#define LORA_IQ_INVERSION_ON                        false
+
+
+#define RX_TIMEOUT_VALUE                            1000
+#define BUFFER_SIZE                                 30 // Define the payload size here
+
+char txpacket[BUFFER_SIZE];
+char rxpacket[BUFFER_SIZE];
+char Repacket[BUFFER_SIZE];
+
+static RadioEvents_t RadioEvents;
+void OnTxDone( void );
+void OnTxTimeout( void );
+void OnRxDone( uint8_t *payload, uint16_t size, int16_t rssi, int8_t snr );
+void OnRxTimeout(void);
+void displayMcuInit();
+void displaySendReceive();
+
+typedef enum
+{
+    STATUS_LOWPOWER,
+    STATUS_RX,
+    STATUS_TX
+}States_t;
+
+
+int16_t txNumber;
+States_t state;
+bool sleepMode = false;
+
+uint32_t  license[4] = {0xD5397DF0, 0x8573F814, 0x7A38C73D, 0x48E68607};
+
+
+extern SSD1306Wire display;
+// Add your initialization code here
 unsigned int counter = 0;
 String rssi = "RSSI --";
 String packSize = "--";
 String packet ;
-
+bool lora_idle=true;
 void logo()
 {
-  Heltec.display->clear();
-  Heltec.display->drawXbm(0,5,logo_width,logo_height,logo_bits);
-  Heltec.display->display();
+ display.clear();
+ display.drawXbm(0,5,logo_width,logo_height,logo_bits);
+ display.display();
 }
 
 void setup()
 {
    //WIFI Kit series V1 not support Vext control
-  Heltec.begin(true /*DisplayEnable Enable*/, true /*Heltec.Heltec.Heltec.LoRa Disable*/, true /*Serial Enable*/, true /*PABOOST Enable*/, BAND /*long BAND*/);
+  Mcu.begin();
  
-  Heltec.display->init();
-  Heltec.display->flipScreenVertically();  
-  Heltec.display->setFont(ArialMT_Plain_10);
+ display.init();
+ display.flipScreenVertically();  
+ display.setFont(ArialMT_Plain_10);
   logo();
   delay(1500);
-  Heltec.display->clear();
+ display.clear();
   
-  Heltec.display->drawString(0, 0, "Heltec.LoRa Initial success!");
-  Heltec.display->display();
+ display.drawString(0, 0, "Heltec.LoRa Initial success!");
+ display.display();
   delay(1000);
 }
 
 void loop()
 {
-  Heltec.display->clear();
-  Heltec.display->setTextAlignment(TEXT_ALIGN_LEFT);
-  Heltec.display->setFont(ArialMT_Plain_10);
+ display.clear();
+ display.setTextAlignment(TEXT_ALIGN_LEFT);
+ display.setFont(ArialMT_Plain_10);
   
-  Heltec.display->drawString(0, 0, "Sending packet: ");
-  Heltec.display->drawString(90, 0, String(counter));
-  Heltec.display->display();
+ display.drawString(0, 0, "Sending packet: ");
+ display.drawString(90, 0, String(counter));
+ display.display();
 
   // send packet
-  LoRa.beginPacket();
+  // LoRa.beginPacket();
   
 /*
  * LoRa.setTxPower(txPower,RFOUT_pin);
@@ -72,11 +123,21 @@ void loop()
  *   - RF_PACONFIG_PASELECT_PABOOST -- LoRa single output via PABOOST, maximum output 20dBm
  *   - RF_PACONFIG_PASELECT_RFO     -- LoRa single output via RFO_HF / RFO_LF, maximum output 14dBm
 */
-  LoRa.setTxPower(14,RF_PACONFIG_PASELECT_PABOOST);
-  LoRa.print("hello ");
-  LoRa.print(counter);
-  LoRa.endPacket();
+  // LoRa.setTxPower(14,RF_PACONFIG_PASELECT_PABOOST);
+  // LoRa.print("hello ");
+  // LoRa.print(counter);
+  // LoRa.endPacket();
+if(lora_idle == true)
+  {
+    delay(1000);
+    txNumber += 0.01;
+    sprintf(txpacket,"Hello  %d",counter);  //start a package
+   
+    Serial.printf("\r\nsending packet \"%s\" , length %d\r\n",txpacket, strlen(txpacket));
 
+    Radio.Send( (uint8_t *)txpacket, strlen(txpacket) ); //send the package out 
+    lora_idle = false;
+  }
   counter++;
   digitalWrite(LED, HIGH);   // turn the LED on (HIGH is the voltage level)
   delay(1000);                       // wait for a second
