@@ -4,7 +4,7 @@ English | [简体中文](#简体中文)
 
 **This library must work with [Heltec ESP32 develop framework](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series)! A detail document about how to install Heltec ESP32 development framework and this library available here:**
 
-**[https://heltec-automation-docs.readthedocs.io/en/latest/esp32/quick_start.html](https://heltec-automation-docs.readthedocs.io/en/latest/esp32/quick_start.html)**
+**[https://docs.heltec.org/zh_CN/node/esp32/wifi_lora_32/quick_start.html](https://docs.heltec.org/zh_CN/node/esp32/wifi_lora_32/quick_start.html)**
 
 ## CONTENT
 
