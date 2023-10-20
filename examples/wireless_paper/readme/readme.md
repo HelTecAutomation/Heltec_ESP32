@@ -1,4 +1,4 @@
-1. Modify the program to connect to wifi.Compile, flash the program
+1. Modify the program to connect to wifi.Compile, flash the program  
 ![image](https://github.com/HelTecAutomation/Heltec_ESP32/blob/dev/examples/wireless_paper/readme/img/image-1.png)
 
 2. After the initialization is completed, access the wireless_paper IP address, the IP can be viewed in the serial port assistant! [image](https://github.com/HelTecAutomation/Heltec_ESP32/blob/dev/examples/wireless_paper/readme/img/image.png)
