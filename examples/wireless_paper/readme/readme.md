@@ -2,7 +2,7 @@
 ![image](https://github.com/HelTecAutomation/Heltec_ESP32/blob/dev/examples/wireless_paper/readme/img/image-1.png)
 
 2. After the initialization is completed, access the wireless_paper IP address, the IP can be viewed in the serial port assistant
-3.![image](https://github.com/HelTecAutomation/Heltec_ESP32/blob/dev/examples/wireless_paper/readme/img/image.png)
+ ![image](https://github.com/HelTecAutomation/Heltec_ESP32/blob/dev/examples/wireless_paper/readme/img/image.png)
 4. The following page appears! [image] (https://github.com/HelTecAutomation/Heltec_ESP32/blob/dev/examples/wireless_paper/readme/img/image-2.png)
 Click  ![image](https://github.com/HelTecAutomation/Heltec_ESP32/blob/dev/examples/wireless_paper/readme/img/image-3.png) Select the picture, in order to ensure the refresh effect, it is best to choose a black and white BMP format picture, the picture size should be set to 250×122.
 button will display the file address, as shown in the picture  ![image] (https://github.com/HelTecAutomation/Heltec_ESP32/blob/dev/examples/wireless_paper/readme/img/image-4.png)
