@@ -1,11 +1,11 @@
-1.修改程序中
-![Alt text](image-1.png)
-来连接wifi。
-编译，烧录程序
-2.待初始化完成后,访问wireless_paper IP地址，IP可以在串口助手查看![Alt text](image.png)
-3.出现如下页面![\img](image-2.png)
-点击![Alt text](image-3.png)选择图片，为保证刷新效果最好选择黑白的bmp格式图片，图片大小应设置为250×122。
-按钮会显示文件地址，如图![Alt text](image-4.png)
-5.点击Get image data按钮，获取图片数据，图片会显示在画布上。效果如下：![
-](image-5.png)
-6.点击refresh按钮，在墨水屏上刷新图片。
+1. Modify the program
+![Alt text] (image/image-1.png)
+to connect to wifi.
+Compile, flash the program
+2. After the initialization is completed, access the wireless_paper IP address, the IP can be viewed in the serial port assistant! [Alt text] (image/image.png)
+3. The following page appears! [img] (image/image-2.png)
+Click! [Alt text] (image/image-3.png) Select the picture, in order to ensure the refresh effect, it is best to choose a black and white BMP format picture, the picture size should be set to 250×122.
+button will display the file address, as shown in the picture! [Alt text] (image/image-4.png)
+5. Click the Get image data button to get the image data, and the image will be displayed on the canvas. The effect is as follows:! [
+](image/image-5.png)
+6. Click the refresh button to refresh the picture on the ink screen.
