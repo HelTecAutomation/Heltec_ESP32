@@ -93,6 +93,9 @@ public:
 
   void dumpRegisters(Stream& out);
 
+  void enableLowDataRate();
+  void disableLowDataRate();
+
 private:
   void explicitHeaderMode();
   void implicitHeaderMode();

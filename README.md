@@ -4,8 +4,6 @@ English | [简体中文](#简体中文)
 
 **This library requires installation of the [Heltec ESP32 development framework](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series)! A detailed document about how to install the Heltec ESP32 development framework and this library available here:**
 
-**[https://docs.heltec.org/en/node/esp32/esp32_general_docs/quick_start.html](https://docs.heltec.org/en/node/esp32/esp32_general_docs/quick_start.html)**
-
 ## CONTENT
 
 1. [How to install this library](#how-to-install-this-library)
@@ -54,7 +52,7 @@ You will see such a new folder in your library path, install done.
 
 A detailed step by step instructions to execute some examples available here:
 
-[https://heltec-automation-docs.readthedocs.io/en/latest/esp32/quick_start.html#example](https://heltec-automation-docs.readthedocs.io/en/latest/esp32/quick_start.html#example)
+[https://docs.heltec.org/zh_CN/node/esp32/wifi_lora_32/quick_start.html#example](https://docs.heltec.org/zh_CN/node/esp32/wifi_lora_32/quick_start.html#example)
 
 ## API Reference
 [OLED API](src/oled/API.md)
@@ -86,7 +84,7 @@ Please make sure use a high-quality Micro USB cable, it will reduce many problem
 
 **这个Arduino库必须配合[Heltec ESP32编译环境](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series)一起使用！完整的“编译环境 + 库”的的教程可以参考这里：**
 
-**[https://heltec-automation-docs.readthedocs.io/en/latest/esp32/quick_start.html](https://heltec-automation-docs.readthedocs.io/en/latest/esp32/quick_start.html)**
+**[https://docs.heltec.org/zh_CN/node/esp32/wifi_lora_32/quick_start.html](https://docs.heltec.org/zh_CN/node/esp32/wifi_lora_32/quick_start.html)**
 
 ***
 
