@@ -113,6 +113,8 @@ int LoRaClass::begin(long frequency,bool PABOOST)
   writeRegister(REG_LNA, readRegister(REG_LNA) | 0x03);
   // set auto AGC
   writeRegister(REG_MODEM_CONFIG_3, 0x04);
+  // disable LDR by default
+  disableLowDataRate();
   // set output power to 14 dBm
   if(PABOOST == true)
 	  setTxPower(14, RF_PACONFIG_PASELECT_PABOOST);
@@ -590,6 +592,16 @@ uint8_t LoRaClass::singleTransfer(uint8_t address, uint8_t value)
 void LoRaClass::onDio0Rise()
 {
   LoRa.handleDio0Rise();
+}
+
+void LoRaClass::enableLowDataRate()
+{
+  writeRegister(REG_MODEM_CONFIG_3, readRegister(REG_MODEM_CONFIG_3) | 0x08);
+}
+
+void LoRaClass::disableLowDataRate()
+{
+  writeRegister(REG_MODEM_CONFIG_3, readRegister(REG_MODEM_CONFIG_3) & ~0x08);
 }
 
 LoRaClass LoRa;

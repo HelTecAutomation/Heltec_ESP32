@@ -52,6 +52,8 @@ random	KEYWORD2
 setpins	KEYWORD2
 setSPIFrequency	KEYWORD2
 dumpRegisters	KEYWORD2
+enableLowDataRate   KEYWORD2
+disableLowDataRate  KEYWORD2
 
 drawString	KEYWORD2
 display	KEYWORD2
