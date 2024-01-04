@@ -1,13 +1,13 @@
 /* Heltec Automation  BMP180 Sensors test example
  *
  * Function:
- * Temperature and Pressure measurement
+ * Air pressure sensor
  * 
  * HelTec AutoMation, Chengdu, China
  * www.heltec.org
  *
  * this project also realess in GitHub:
- * https://github.com/HelTecAutomation/ASR650x-Arduino
+ * https://github.com/HelTecAutomation/Heltec_ESP32
  * 
 */
 #include "Arduino.h"
@@ -21,10 +21,7 @@ BMP085 bmp;
 uint8_t T[20] = {"Temperature"};
 
 void setup() {
-  pinMode(Vext,OUTPUT);
-  digitalWrite(Vext,LOW);
   Serial.begin(115200);
- 
 }
 void drawFontFaceDemo(double T,double P,double A,double R) {
     Heltec.begin(true /*DisplayEnable Enable*/, false /*LoRa Disable*/, true /*Serial Enable*/);
