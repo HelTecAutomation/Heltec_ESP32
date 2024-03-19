@@ -8,7 +8,7 @@ Heltec_ESP32::Heltec_ESP32(){
 
 #if defined( Class_Wifi_Kit ) || defined( Class_Wifi_LoRa )
 	display = new SSD1306Wire(0x3c, SDA_OLED, SCL_OLED, RST_OLED, GEOMETRY_128_64);
-#elif defined( Wireless_Stick )
+#elif defined( WIRELESS_STICK )
 	display = new SSD1306Wire(0x3c, SDA_OLED, SCL_OLED, RST_OLED, GEOMETRY_64_32);
 #endif
 }
@@ -100,7 +100,9 @@ void Heltec_ESP32::begin(bool DisplayEnable, bool LoRaEnable, bool SerialEnable,
 
 #endif
 	}
+#ifdef LED
 	pinMode(LED,OUTPUT);
+#endif
 }
 
 #ifdef Heltec_Vext

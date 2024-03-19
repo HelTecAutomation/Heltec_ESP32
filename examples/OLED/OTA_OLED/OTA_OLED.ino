@@ -29,7 +29,7 @@
 #include "heltec.h"
 
 
-/**********************************************  WIFI Client 注意编译时要设置此值 *********************************
+/**********************************************  WIFI Client 注意编译时要设置此�?*********************************
  * wifi client
  */
 const char* ssid = "xxxxxx"; //replace "xxxxxx" with your WIFI's ssid
@@ -39,7 +39,7 @@ const char* password = "xxxxxx"; //replace "xxxxxx" with your WIFI's password
 //#define HOSTNAME "HelTec_OTA_OLED"
 #define PASSWORD "HT.123456" //the password for OTA upgrade, can set it in any char you want
 
-/************************************************  注意编译时要设置此值 *********************************
+/************************************************  注意编译时要设置此�?*********************************
  * 是否使用静态IP
  */
 #define USE_STATIC_IP false
@@ -56,7 +56,7 @@ const char* password = "xxxxxx"; //replace "xxxxxx" with your WIFI's password
  */
 //#define RST_OLED 16                     //OLED Reset引脚，需要手动Reset，否则不显示
 #define OLED_UPDATE_INTERVAL 500        //OLED屏幕刷新间隔ms
-//SSD1306 display(0x3C, 4, 15);           //引脚4，15是绑定在Kit 32的主板上的，不能做其它用
+//SSD1306 display(0x3C, 4, 15);           //引脚4�?5是绑定在Kit 32的主板上的，不能做其它用
 
 
 /********************************************************************
@@ -104,7 +104,7 @@ void setupOTA()
     //int pro = progress / (total / 100);
 
     Heltec.display->clear();
-#if defined (Wireless_Stick)
+#if defined (WIRELESS_STICK)
     Heltec.display->drawProgressBar(0, 11, 64, 8, progressbar);    // draw the progress bar
     Heltec.display->setTextAlignment(TEXT_ALIGN_CENTER);          // draw the percentage as String
     Heltec.display->drawString(10, 20, pro);
@@ -168,22 +168,22 @@ void setupWIFI()
   Heltec.display->drawString(0, 10, String(ssid));
   Heltec.display->display();
 
-  //连接WiFi，删除旧的配置，关闭WIFI，准备重新配置
+  //连接WiFi，删除旧的配置，关闭WIFI，准备重新配�?
   WiFi.disconnect(true);
   delay(1000);
 
   WiFi.mode(WIFI_STA);
   //WiFi.onEvent(WiFiEvent);
   WiFi.setAutoConnect(true);
-  WiFi.setAutoReconnect(true);    //断开WiFi后自动重新连接,ESP32不可用
+  WiFi.setAutoReconnect(true);    //断开WiFi后自动重新连�?ESP32不可�?
   //WiFi.setHostname(HOSTNAME);
   WiFi.begin(ssid, password);
 #if USE_STATIC_IP
   WiFi.config(staticIP, gateway, subnet);
 #endif
 
-  //等待5000ms，如果没有连接上，就继续往下
-  //不然基本功能不可用
+  //等待5000ms，如果没有连接上，就继续往�?
+  //不然基本功能不可�?
   byte count = 0;
   while(WiFi.status() != WL_CONNECTED && count < 10)
   {

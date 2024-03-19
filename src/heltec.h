@@ -12,37 +12,37 @@
 #define Class_Wifi_Kit
 #endif
 
-#if defined( WIFI_LoRa_32 ) || defined( WIFI_LoRa_32_V2 ) || defined( WIFI_LoRa_32_V3 )
-#define Class_Wifi_LoRa
+#if defined( WIFI_LORA_32 ) || defined( WIFI_LORA_32_V2 ) || defined( WIFI_LORA_32_V3 )
+#define Class_WIFI_LORA
 #endif
 
-#if defined( Wireless_Stick ) || defined( Wireless_Stick_Lite ) || defined( Wireless_Stick_V3 ) || defined( Wireless_Stick_Lite_V3 )
-#define Class_Wireless_Stick
+#if defined( WIRELESS_STICK ) || defined( WIRELESS_STICK_LITE ) || defined( WIRELESS_STICK_V3 ) || defined( WIRELESS_STICK_LITE_V3 )
+#define Class_WIRELESS_STICK
 #endif
 
 
 /* Define board capabilities */
-#if defined( Class_Wifi_Kit ) || defined( Class_Wifi_LoRa ) || defined( Class_Wireless_Stick ) || defined( Wireless_Bridge )
+#if defined( Class_Wifi_Kit ) || defined( Class_WIFI_LORA ) || defined( Class_WIRELESS_STICK ) || defined( WIRELESS_BRIDGE )
 #define Heltec_Wifi
 #endif
 
-#if defined( Class_Wifi_LoRa ) || defined( Class_Wireless_Stick ) || defined( Wireless_Bridge )
+#if defined( Class_WIFI_LORA ) || defined( Class_WIRELESS_STICK ) || defined( WIRELESS_BRIDGE )
 #define Heltec_LoRa
 #endif
 
-#if defined( Class_Wifi_Kit ) || defined( Class_Wifi_LoRa ) || defined( Wireless_Stick )
+#if defined( Class_Wifi_Kit ) || defined( Class_WIFI_LORA ) || defined( WIRELESS_STICK )
 #define Heltec_Screen
 #endif
 
 /* wifi kit 32 and WiFi LoRa 32(V1) do not have vext */
-#if defined( WIFI_Kit_32_V3 ) || defined( WIFI_LoRa_32_V2 ) || defined( WIFI_LoRa_32_V3 ) || defined( Class_Wireless_Stick ) || defined( Wireless_Bridge )
+#if defined( WIFI_Kit_32_V3 ) || defined( WIFI_LORA_32_V2 ) || defined( WIFI_LORA_32_V3 ) || defined( Class_WIRELESS_STICK ) || defined( WIRELESS_BRIDGE )
 #define Heltec_Vext
 #endif
 
 
 #ifdef Heltec_Screen
 #include <Wire.h>
-#include "oled/SSD1306Wire.h"
+#include "HT_SSD1306Wire.h"
 #endif
 
 #ifdef Heltec_LoRa

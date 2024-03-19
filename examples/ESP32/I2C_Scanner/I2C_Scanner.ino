@@ -21,7 +21,7 @@
 #include "Arduino.h"
 #include "heltec.h"
 
-#if defined( Wireless_Stick_Lite )
+#if defined( WIRELESS_STICK_LITE )
 	#include <Wire.h>
 	#include "oled/SSD1306Wire.h"
 
