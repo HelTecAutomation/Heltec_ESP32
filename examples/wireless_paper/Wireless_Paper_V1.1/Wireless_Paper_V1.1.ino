@@ -1,3 +1,17 @@
+/* Heltec Automation  Wireless_Paper_V1.0 Sensors test example
+ *
+ * Function:
+ * Refresh e-paper through BLE, WIFI, and LORAWAN (currently unavailable)
+ * 
+ * HelTec AutoMation, Chengdu, China
+ * www.heltec.org
+ * Operation instance:
+ *
+ * this project also realess in GitHub:
+ * https://github.com/HelTecAutomation/Heltec_ESP32
+ */
+
+
 
 #include "../../../src/webser/ESPAsyncWebSrv.h"
 #include "HT_lCMEN2R13EFC1.h"
@@ -9,14 +23,16 @@ HT_ICMEN2R13EFC1   display(6, 5, 4, 7, 3, 2, -1, 6000000); //rst,dc,cs,busy,sck,
 int width, height;
 String HTTP_Payload ;
 
-AsyncWebServer server(80);        // 创建WebServer对象, 端口号80
-// 使用端口号80可以直接输入IP访问，使用其它端口需要输入IP:端口号访问
-// 一个储存网页的数组
+AsyncWebServer server(80);        // Create WebServer object with port number 80
+
+//By using port number 80, you can directly enter the IP address for access, while using other ports requires entering the IP: port number for access
+
+//An array for storing web pages
 const char *ssid = "Heltec-RD";
 const char *password = "hunter_3120";
 
 
-// 下发处理回调函数
+// Distribute processing callback function
 void Config_Callback(AsyncWebServerRequest *request)
 {
 
