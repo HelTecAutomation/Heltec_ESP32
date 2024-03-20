@@ -10,9 +10,6 @@
  * this project also realess in GitHub:
  * https://github.com/HelTecAutomation/Heltec_ESP32
  */
-
-
-
 #include "../../../src/webser/ESPAsyncWebSrv.h"
 #include "HT_lCMEN2R13EFC1.h"
 #include "images.h"
