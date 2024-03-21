@@ -1,20 +1,4 @@
-
-#include "ESPAsyncWebSrv.h"
-#include "HT_QYEG0213RWS800_BWR.h"
-#include "images.h"
-
-QYEG0213RWS800_BWR   display(6, 5, 4, 7, 3, 2, -1, 6000000); //rst,dc,cs,busy,sck,mosi,miso,frequency
-
-
-int width, height;
-String HTTP_Payload ;
-//using namespace base64;
-//epaper_class epaper;
-AsyncWebServer server(80);        // 创建WebServer对象, 端口号80
-// 使用端口号80可以直接输入IP访问，使用其它端口需要输入IP:端口号访问
-// 一个储存网页的数组
-const char *ssid = "Heltec-RD";
-const char *password = "hunter_3120";
+//An array for storing web pages 
 const char index_html[] PROGMEM = R"rawliteral(
 <!DOCTYPE HTML>
 <html>
@@ -43,20 +27,20 @@ const char index_html[] PROGMEM = R"rawliteral(
 //        document.getElementById("inputFileAgent").value = document.getElementById("avatar").value;
        var filePath = file.value;
     if (filePath) {
-        var filePic = file.files[0];            //选择的文件内容--图片
-        var fileType = filePath.slice(filePath.indexOf("."));   //选择文件的格式
-        var fileSize = file.files[0].size;            //选择文件的大
+        var filePic = file.files[0];            //Selected file content - images
+        var fileType = filePath.slice(filePath.indexOf("."));   //Choose the format of the file
+        var fileSize = file.files[0].size;            //选Choose the size of the file
         var reader = new FileReader();
         reader.readAsDataURL(filePic);
         reader.onload = function (e) {
             var data = e.target.result;
-            //加载图片获取图片真实宽度和高度
+            //Load image to obtain the true width and height of the image
             var image = new Image();
             image.onload = function () {
                 var width = image.width;
                 var height = image.height;
-                if (width == 255 || height == 122) {  //判断文件像素
-                    //上传图片
+                if (width == 255 || height == 122) {  //Determine file pixels
+                    //upload pictures
                     document.getElementById("inputFileAgent").value = document.getElementById("avatar").value;
                     bmpToXbm(255);
                 } else {
@@ -160,107 +144,9 @@ const char index_html[] PROGMEM = R"rawliteral(
         document.getElementById("dht").innerHTML = this.responseText;
       }
     };
-    // 使用GET的方式请求 /dht
+    // Request using GET /dht
     xhttp.open("GET", "/dht", true);
     xhttp.send();
   }, 1000)
 </script>)rawliteral";
 
-
-// 下发处理回调函数
-void Config_Callback(AsyncWebServerRequest *request)
-{
-  if (request->hasParam("value")) // If there is a value, it will be delivered
-  {
-    String Payload;
-    const char*   buff;
-
-    Payload = request->getParam("value")->value();    // Obtain the data delivered
-    buff = Payload.c_str();
-
-    delay(100);
-    int i = 0;
-    char *token;
-    token = strtok((char*)buff, ",");
-    /* 继续获取其他的子字符串 */
-//     token = strtok(NULL, ";");
-//WiFi_Logo_width=atoi(token );
-// token = strtok(NULL, "=");
-//     token = strtok(NULL, ";");
-//     WiFi_Logo_height=atoi(token );
-    while (token != NULL ) {
-
-      int num = atoi(token );
-      WiFi_Logo_bits[i] = num;
-      token = strtok(NULL, ",");
-      //      Serial.println(num);
-      i++;
-    }
-
-    drawImageDemo();
-
-  }
-  request->send(200, "text/plain", "OK"); 
-}
-void setup()
-{
- 
-  Serial.begin(115200);
-  Serial.println();
-  //disableCore0WDT();
-  VextON();
-  delay(100);
-  display.init();
-
-  WiFi.mode(WIFI_STA);
-  WiFi.setSleep(false);
-  WiFi.begin(ssid, password);
-  while (WiFi.status() != WL_CONNECTED)
-  {
-    delay(500);
-    Serial.print(".");
-  }
-  Serial.println("Connected");
-  Serial.print("IP Address:");
-  Serial.println(WiFi.localIP());
-  server.on("/", HTTP_GET, [](AsyncWebServerRequest * request)
-  {
-    request->send_P(200, "text/html", index_html);
-  });
-
-  server.on("/set", HTTP_GET, Config_Callback);  // Bind the handler that is configured to deliver the function
-  server.begin();  
-
-
-//  drawImageDemo();
-
-}
-void drawImageDemo() {
-  // see http://blog.squix.org/2015/05/esp8266-nodemcu-how-to-create-xbm.html
-  // on how to create xbm files
-  display.clear();
-  display.update(BLACK_BUFFER);
-
-  display.clear();
-  int x = width / 2 - WiFi_Logo_width / 2;
-  int y = height / 2 - WiFi_Logo_height / 2;
-  display.drawXbm(0 , 0  , WiFi_Logo_width, WiFi_Logo_height, WiFi_Logo_bits);
-  display.update(BLACK_BUFFER);
-  display.display();
-}
-void VextON(void)
-{
-  pinMode(45, OUTPUT);
-  digitalWrite(45, LOW);
-}
-
-void VextOFF(void) //Vext default OFF
-{
-  pinMode(45, OUTPUT);
-  digitalWrite(45, HIGH);
-}
-void loop() {
-  //  server.handleClient(); //Handle requests from clients
-  vTaskDelay(10000);
-
-}
