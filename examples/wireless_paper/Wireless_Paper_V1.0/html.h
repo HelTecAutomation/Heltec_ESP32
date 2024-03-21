@@ -1,7 +1,4 @@
 //An array for storing web pages 
-
-
-
 const char index_html[] PROGMEM = R"rawliteral(
 <!DOCTYPE HTML>
 <html>
@@ -30,20 +27,20 @@ const char index_html[] PROGMEM = R"rawliteral(
 //        document.getElementById("inputFileAgent").value = document.getElementById("avatar").value;
        var filePath = file.value;
     if (filePath) {
-        var filePic = file.files[0];            //选择的文件内容--图片
-        var fileType = filePath.slice(filePath.indexOf("."));   //选择文件的格式
-        var fileSize = file.files[0].size;            //选择文件的大
+        var filePic = file.files[0];            //Selected file content - images
+        var fileType = filePath.slice(filePath.indexOf("."));   //Choose the format of the file
+        var fileSize = file.files[0].size;            //选Choose the size of the file
         var reader = new FileReader();
         reader.readAsDataURL(filePic);
         reader.onload = function (e) {
             var data = e.target.result;
-            //加载图片获取图片真实宽度和高度
+            //Load image to obtain the true width and height of the image
             var image = new Image();
             image.onload = function () {
                 var width = image.width;
                 var height = image.height;
-                if (width == 255 || height == 122) {  //判断文件像素
-                    //上传图片
+                if (width == 255 || height == 122) {  //Determine file pixels
+                    //upload pictures
                     document.getElementById("inputFileAgent").value = document.getElementById("avatar").value;
                     bmpToXbm(255);
                 } else {
@@ -147,7 +144,7 @@ const char index_html[] PROGMEM = R"rawliteral(
         document.getElementById("dht").innerHTML = this.responseText;
       }
     };
-    // 使用GET的方式请求 /dht
+    // Request using GET /dht
     xhttp.open("GET", "/dht", true);
     xhttp.send();
   }, 1000)
