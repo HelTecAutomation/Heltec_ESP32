@@ -10,7 +10,7 @@
         "name": "Heltec Automation(TM)",
         "email": "support@heltec.cn"
    },
-  "version": "1.1.2",
+  "version": "2.0.1",
   "frameworks": "arduino",
   "platforms": "espressif32"
 }
