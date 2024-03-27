@@ -36,6 +36,7 @@
  *            Implementation according to LoRaWAN Specification v1.0.2.
  * \{
  */
+
 #ifndef __REGION_KR920_H__
 #define __REGION_KR920_H__
 

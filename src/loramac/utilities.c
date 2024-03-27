@@ -16,6 +16,7 @@ License: Revised BSD License, see LICENSE.TXT file include in the project
 
 Maintainer: Miguel Luis and Gregory Cristian
 */
+#if !defined(HT_DE01)||defined(WIFI_Kit_32)||defined(WIFI_Kit_32_V3)
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>
@@ -148,3 +149,4 @@ uint32_t Crc32Finalize( uint32_t crc )
     return ~crc;
 }
 
+#endif

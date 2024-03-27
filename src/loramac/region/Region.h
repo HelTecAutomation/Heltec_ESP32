@@ -54,6 +54,8 @@
  *
  * \{
  */
+#if defined(HT_DE01)||defined(WIFI_Kit_32)||defined(WIFI_Kit_32_V3)
+#else
 #ifndef __REGION_H__
 #define __REGION_H__
 
@@ -1662,3 +1664,4 @@ void RegionRxBeaconSetup( LoRaMacRegion_t region, RxBeaconSetup_t* rxBeaconSetup
 /*! \} defgroup REGION */
 
 #endif // __REGION_H__
+#endif

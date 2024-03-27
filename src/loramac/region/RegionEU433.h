@@ -36,6 +36,9 @@
  *            Implementation according to LoRaWAN Specification v1.0.2.
  * \{
  */
+#if defined(HT_DE01)||defined(WIFI_Kit_32)||defined(WIFI_Kit_32_V3)
+#else
+
 #ifndef __REGION_EU433_H__
 #define __REGION_EU433_H__
 
@@ -516,3 +519,4 @@ uint8_t RegionEU433ApplyDrOffset( uint8_t downlinkDwellTime, int8_t dr, int8_t d
 /*! \} defgroup REGIONEU433 */
 
 #endif // __REGION_EU433_H__
+#endif

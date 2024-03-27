@@ -39,8 +39,10 @@
 /* Includes ------------------------------------------------------------------*/
 
 #include <stdbool.h>     
-#include "../loramac/utilities.h"
+#if defined(WIFI_LORA_32_V3)||defined(WIRELESS_TRACKER)||defined(WIRELESS_STICK_V3)||defined(WIRELESS_STICK_LITE_V3)||defined(WIRELESS_PAPER)||defined(CAPSULE_SENSOR_V3)||defined(WIRELESS_SHELL_V3)
 
+#include "../loramac/utilities.h"
+#endif
 /* Exported types ------------------------------------------------------------*/
 
 /*!
