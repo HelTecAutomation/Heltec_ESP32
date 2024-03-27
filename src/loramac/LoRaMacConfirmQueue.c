@@ -17,6 +17,7 @@ License: Revised BSD License, see LICENSE.TXT file include in the project
 
 Maintainer: Miguel Luis ( Semtech ), Gregory Cristian ( Semtech ) and Daniel Jaeckle ( STACKFORCE )
 */
+
 #include <stdint.h>
 #include <stdbool.h>
 #include <stddef.h>

@@ -1,3 +1,7 @@
+
+#if defined(HT_DE01)||defined(WIFI_Kit_32)||defined(WIFI_Kit_32_V3)
+#else
+
 #ifndef McuSet_H
 #define McuSet_H
 
@@ -80,4 +84,5 @@ extern DioIrqHandler *DioIrq[];
 #endif
 
 extern McuClass Mcu;
+#endif
 #endif

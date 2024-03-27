@@ -1,6 +1,7 @@
 1.Modifying the program
 
 ​		<img src="img/image-1.png"/>
+
 Connect to WiFi.
 
 Compile and burn programs

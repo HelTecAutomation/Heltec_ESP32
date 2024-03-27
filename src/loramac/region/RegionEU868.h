@@ -36,6 +36,7 @@
  *            Implementation according to LoRaWAN Specification v1.0.2.
  * \{
  */
+
 #ifndef __REGION_EU868_H__
 #define __REGION_EU868_H__
 

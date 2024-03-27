@@ -47,6 +47,7 @@
  * \example   classC/LoRaMote/main.c
  *            LoRaWAN class C application example for the LoRaMote.
  */
+
 #ifndef __LORAMAC_H__
 #define __LORAMAC_H__
 

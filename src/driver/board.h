@@ -20,6 +20,8 @@
  *
  * \author    Gregory Cristian ( Semtech )
  */
+
+#if !defined(HT_DE01)||defined(WIFI_Kit_32)||defined(WIFI_Kit_32_V3)
 #ifndef __BOARD_H__
 #define __BOARD_H__
 
@@ -148,3 +150,4 @@ BoardVersion_t BoardGetVersion( void );
 #endif
 
 #endif // __BOARD_H__
+#endif
