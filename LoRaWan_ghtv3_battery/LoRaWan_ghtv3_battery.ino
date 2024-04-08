@@ -12,6 +12,7 @@
  *
  * this project also realess in GitHub:
  * https://github.com/HelTecAutomation/Heltec_ESP32
+ 
  * the development environment of this project in Arduion:
  * https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series
  * */
