@@ -54,14 +54,14 @@ const char* password = "xxxxxx"; //replace "xxxxxx" with your WIFI's password
 /*******************************************************************
  * OLED Arguments
  */
-//#define RST_OLED 16                     //OLED Reset引脚，需要手动Reset，否则不显示
-#define OLED_UPDATE_INTERVAL 500        //OLED屏幕刷新间隔ms
-//SSD1306 display(0x3C, 4, 15);           //引脚4��?5是绑定在Kit 32的主板上的，不能做其它用
+//#define RST_OLED 16                     //OLED Reset pin, requires manual reset, otherwise it will not be displayed
+#define OLED_UPDATE_INTERVAL 500        //OLED screen refresh interval ms
+//SSD1306 display(0x3C, 4, 15);           //Pins 4 and 5 are bound to the motherboard of Kit 32 and cannot be used for other purposes
 static SSD1306Wire  display(0x3c, 500000, SDA_OLED, SCL_OLED, GEOMETRY_128_64, RST_OLED); // addr , freq , i2c group , resolution , rst
 
 
 /********************************************************************
- * OTA升级配置
+ * OTA upgrade configuration
  */
 void setupOTA()
 {
@@ -81,8 +81,8 @@ void setupOTA()
   ArduinoOTA.onStart([]()
   {
     display.clear();
-    display.setFont(ArialMT_Plain_10);        //设置字体大小
-    display.setTextAlignment(TEXT_ALIGN_LEFT);//设置字体对齐方式
+    display.setFont(ArialMT_Plain_10);        //Set font size
+    display.setTextAlignment(TEXT_ALIGN_LEFT);//Set font alignment
     display.drawString(0, 0, "Start Updating....");
 
     Serial.printf("Start Updating....Type:%s\n", (ArduinoOTA.getCommand() == U_FLASH) ? "sketch" : "filesystem");
@@ -169,22 +169,22 @@ void setupWIFI()
   display.drawString(0, 10, String(ssid));
   display.display();
 
-  //连接WiFi，删除旧的配置，关闭WIFI，准备重新配��?
+  //Connect to WiFi, delete old configuration, turn off WiFi, prepare to reconfigure
   WiFi.disconnect(true);
   delay(1000);
 
   WiFi.mode(WIFI_STA);
   //WiFi.onEvent(WiFiEvent);
   WiFi.setAutoConnect(true);
-  WiFi.setAutoReconnect(true);    //断开WiFi后自动重新连��?ESP32不可��?
+  WiFi.setAutoReconnect(true);    //Automatically reconnect after disconnecting WiFi ESP32 is not available
   //WiFi.setHostname(HOSTNAME);
   WiFi.begin(ssid, password);
 #if USE_STATIC_IP
   WiFi.config(staticIP, gateway, subnet);
 #endif
 
-  //等待5000ms，如果没有连接上，就继续往��?
-  //不然基本功能不可��?
+  //Wait for 5000ms, if not connected, continue
+
   byte count = 0;
   while(WiFi.status() != WL_CONNECTED && count < 10)
   {
@@ -239,7 +239,7 @@ void loop()
 }
 
 /****************************************************
- * [通用函数]ESP32 WiFi Kit 32事件处理
+ * [Universal Function] ESP32 WiFi Kit 32 Event Handling
  */
 void WiFiEvent(WiFiEvent_t event)
 {
