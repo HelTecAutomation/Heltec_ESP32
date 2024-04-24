@@ -29,18 +29,18 @@
 #include "HT_SSD1306Wire.h"
 
 
-/**********************************************  WIFI Client 注意编译时要设置此��?*********************************
+/**********************************************  WIFI Client *********************************
  * wifi client
  */
 const char* ssid = "xxxxxx"; //replace "xxxxxx" with your WIFI's ssid
 const char* password = "xxxxxx"; //replace "xxxxxx" with your WIFI's password
 
-//WiFi&OTA 参数
+//WiFi&OTA 
 //#define HOSTNAME "HelTec_OTA_OLED"
 #define PASSWORD "HT.123456" //the password for OTA upgrade, can set it in any char you want
 
-/************************************************  注意编译时要设置此��?*********************************
- * 是否使用静态IP
+/************************************************  *********************************
+ * Whether to use static IP
  */
 #define USE_STATIC_IP false
 #if USE_STATIC_IP
