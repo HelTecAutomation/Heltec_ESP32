@@ -15,7 +15,7 @@
  * - Timer test and some other Arduino basic functions.
  *
  * by lxyzn from HelTec AutoMation, ChengDu, China
- * 成都惠利特自动化科技有限公司
+ * 成都惠利特自动化科技有限公司¸
  * www.heltec.cn
  *
  * This project is also available on GitHub:
@@ -29,11 +29,14 @@
 #include "HT_SSD1306Wire.h"
 
 
+
 /**********************************************  WIFI Client *********************************
+
  * wifi client
  */
 const char* ssid = "xxxxxx"; //replace "xxxxxx" with your WIFI's ssid
 const char* password = "xxxxxx"; //replace "xxxxxx" with your WIFI's password
+
 
 //WiFi&OTA 
 //#define HOSTNAME "HelTec_OTA_OLED"
@@ -42,6 +45,7 @@ const char* password = "xxxxxx"; //replace "xxxxxx" with your WIFI's password
 /************************************************  *********************************
  * Whether to use static IP
  */
+
 #define USE_STATIC_IP false
 #if USE_STATIC_IP
   IPAddress staticIP(192,168,1,22);
@@ -54,6 +58,7 @@ const char* password = "xxxxxx"; //replace "xxxxxx" with your WIFI's password
 /*******************************************************************
  * OLED Arguments
  */
+
 //#define RST_OLED 16                     //OLED Reset pin, requires manual reset, otherwise it will not be displayed
 #define OLED_UPDATE_INTERVAL 500        //OLED screen refresh interval ms
 //SSD1306 display(0x3C, 4, 15);           //Pins 4 and 5 are bound to the motherboard of Kit 32 and cannot be used for other purposes
@@ -62,6 +67,7 @@ static SSD1306Wire  display(0x3c, 500000, SDA_OLED, SCL_OLED, GEOMETRY_128_64, R
 
 /********************************************************************
  * OTA upgrade configuration
+
  */
 void setupOTA()
 {
@@ -80,10 +86,13 @@ void setupOTA()
 
   ArduinoOTA.onStart([]()
   {
+
     display.clear();
     display.setFont(ArialMT_Plain_10);        //Set font size
     display.setTextAlignment(TEXT_ALIGN_LEFT);//Set font alignment
     display.drawString(0, 0, "Start Updating....");
+
+
 
     Serial.printf("Start Updating....Type:%s\n", (ArduinoOTA.getCommand() == U_FLASH) ? "sketch" : "filesystem");
   });
@@ -169,21 +178,27 @@ void setupWIFI()
   display.drawString(0, 10, String(ssid));
   display.display();
 
+
   //Connect to WiFi, delete old configuration, turn off WiFi, prepare to reconfigure
+
   WiFi.disconnect(true);
   delay(1000);
 
   WiFi.mode(WIFI_STA);
   //WiFi.onEvent(WiFiEvent);
   WiFi.setAutoConnect(true);
+
   WiFi.setAutoReconnect(true);    //Automatically reconnect after disconnecting WiFi ESP32 is not available
+
   //WiFi.setHostname(HOSTNAME);
   WiFi.begin(ssid, password);
 #if USE_STATIC_IP
   WiFi.config(staticIP, gateway, subnet);
 #endif
 
+
   //Wait for 5000ms, if not connected, continue
+
 
   byte count = 0;
   while(WiFi.status() != WL_CONNECTED && count < 10)
@@ -234,12 +249,14 @@ void loop()
   unsigned long ms = millis();
   if(ms % 1000 == 0)
   {
-    Serial.println("hello，OTA now");
+    Serial.println("helloï¼ŒOTA now");
   }
 }
 
 /****************************************************
+
  * [Universal Function] ESP32 WiFi Kit 32 Event Handling
+
  */
 void WiFiEvent(WiFiEvent_t event)
 {
