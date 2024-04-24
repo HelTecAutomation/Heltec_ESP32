@@ -15,7 +15,7 @@
  * - Timer test and some other Arduino basic functions.
  *
  * by lxyzn from HelTec AutoMation, ChengDu, China
- * 成都惠利特自动化科技有限公司
+ * 成都惠利特自动化科技有限公司¸
  * www.heltec.cn
  *
  * This project is also available on GitHub:
@@ -29,19 +29,17 @@
 #include "heltec.h"
 
 
-/**********************************************  WIFI Client 注意编译时要设置此�?*********************************
+/**********************************************  WIFI Client æ³¨æ„ç¼–è¯‘æ—¶è¦è®¾ç½®æ­¤å€?*********************************
  * wifi client
  */
 const char* ssid = "xxxxxx"; //replace "xxxxxx" with your WIFI's ssid
 const char* password = "xxxxxx"; //replace "xxxxxx" with your WIFI's password
 
-//WiFi&OTA 参数
+//WiFi&OTA å‚æ•°
 //#define HOSTNAME "HelTec_OTA_OLED"
 #define PASSWORD "HT.123456" //the password for OTA upgrade, can set it in any char you want
 
-/************************************************  注意编译时要设置此�?*********************************
- * 是否使用静态IP
- */
+
 #define USE_STATIC_IP false
 #if USE_STATIC_IP
   IPAddress staticIP(192,168,1,22);
@@ -54,13 +52,13 @@ const char* password = "xxxxxx"; //replace "xxxxxx" with your WIFI's password
 /*******************************************************************
  * OLED Arguments
  */
-//#define RST_OLED 16                     //OLED Reset引脚，需要手动Reset，否则不显示
-#define OLED_UPDATE_INTERVAL 500        //OLED屏幕刷新间隔ms
-//SSD1306 display(0x3C, 4, 15);           //引脚4�?5是绑定在Kit 32的主板上的，不能做其它用
+//#define RST_OLED 16                     //OLED Resetå¼•è„šï¼Œéœ€è¦æ‰‹åŠ¨Resetï¼Œå¦åˆ™ä¸æ˜¾ç¤º
+#define OLED_UPDATE_INTERVAL 500        //OLEDå±å¹•åˆ·æ–°é—´éš”ms
+//SSD1306 display(0x3C, 4, 15);           //å¼•è„š4ï¼?5æ˜¯ç»‘å®šåœ¨Kit 32çš„ä¸»æ¿ä¸Šçš„ï¼Œä¸èƒ½åšå…¶å®ƒç”¨
 
 
 /********************************************************************
- * OTA升级配置
+ * OTAå‡çº§é…ç½®
  */
 void setupOTA()
 {
@@ -80,8 +78,8 @@ void setupOTA()
   ArduinoOTA.onStart([]()
   {
     Heltec.display->clear();
-    Heltec.display->setFont(ArialMT_Plain_10);        //设置字体大小
-    Heltec.display->setTextAlignment(TEXT_ALIGN_LEFT);//设置字体对齐方式
+    Heltec.display->setFont(ArialMT_Plain_10);        //è®¾ç½®å­—ä½“å¤§å°
+    Heltec.display->setTextAlignment(TEXT_ALIGN_LEFT);//è®¾ç½®å­—ä½“å¯¹é½æ–¹å¼
     Heltec.display->drawString(0, 0, "Start Updating....");
 
     Serial.printf("Start Updating....Type:%s\n", (ArduinoOTA.getCommand() == U_FLASH) ? "sketch" : "filesystem");
@@ -168,22 +166,22 @@ void setupWIFI()
   Heltec.display->drawString(0, 10, String(ssid));
   Heltec.display->display();
 
-  //连接WiFi，删除旧的配置，关闭WIFI，准备重新配�?
+  //è¿žæŽ¥WiFiï¼Œåˆ é™¤æ—§çš„é…ç½®ï¼Œå…³é—­WIFIï¼Œå‡†å¤‡é‡æ–°é…ç½?
   WiFi.disconnect(true);
   delay(1000);
 
   WiFi.mode(WIFI_STA);
   //WiFi.onEvent(WiFiEvent);
   WiFi.setAutoConnect(true);
-  WiFi.setAutoReconnect(true);    //断开WiFi后自动重新连�?ESP32不可�?
+  WiFi.setAutoReconnect(true);    //æ–­å¼€WiFiåŽè‡ªåŠ¨é‡æ–°è¿žæŽ?ESP32ä¸å¯ç”?
   //WiFi.setHostname(HOSTNAME);
   WiFi.begin(ssid, password);
 #if USE_STATIC_IP
   WiFi.config(staticIP, gateway, subnet);
 #endif
 
-  //等待5000ms，如果没有连接上，就继续往�?
-  //不然基本功能不可�?
+  //ç­‰å¾…5000msï¼Œå¦‚æžœæ²¡æœ‰è¿žæŽ¥ä¸Šï¼Œå°±ç»§ç»­å¾€ä¸?
+  //ä¸ç„¶åŸºæœ¬åŠŸèƒ½ä¸å¯ç”?
   byte count = 0;
   while(WiFi.status() != WL_CONNECTED && count < 10)
   {
@@ -228,12 +226,12 @@ void loop()
   unsigned long ms = millis();
   if(ms % 1000 == 0)
   {
-    Serial.println("hello，OTA now");
+    Serial.println("helloï¼ŒOTA now");
   }
 }
 
 /****************************************************
- * [通用函数]ESP32 WiFi Kit 32事件处理
+ * [é€šç”¨å‡½æ•°]ESP32 WiFi Kit 32äº‹ä»¶å¤„ç†
  */
 void WiFiEvent(WiFiEvent_t event)
 {
