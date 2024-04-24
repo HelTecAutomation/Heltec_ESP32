@@ -26,10 +26,10 @@
 #include <ArduinoOTA.h>
 #include <WiFi.h>
 #include <Wire.h>
-#include "heltec.h"
+#include "HT_SSD1306Wire.h"
 
 
-/**********************************************  WIFI Client 注意编译时要设置此�?*********************************
+/**********************************************  WIFI Client 注意编译时要设置此��?*********************************
  * wifi client
  */
 const char* ssid = "xxxxxx"; //replace "xxxxxx" with your WIFI's ssid
@@ -39,7 +39,7 @@ const char* password = "xxxxxx"; //replace "xxxxxx" with your WIFI's password
 //#define HOSTNAME "HelTec_OTA_OLED"
 #define PASSWORD "HT.123456" //the password for OTA upgrade, can set it in any char you want
 
-/************************************************  注意编译时要设置此�?*********************************
+/************************************************  注意编译时要设置此��?*********************************
  * 是否使用静态IP
  */
 #define USE_STATIC_IP false
@@ -56,7 +56,8 @@ const char* password = "xxxxxx"; //replace "xxxxxx" with your WIFI's password
  */
 //#define RST_OLED 16                     //OLED Reset引脚，需要手动Reset，否则不显示
 #define OLED_UPDATE_INTERVAL 500        //OLED屏幕刷新间隔ms
-//SSD1306 display(0x3C, 4, 15);           //引脚4�?5是绑定在Kit 32的主板上的，不能做其它用
+//SSD1306 display(0x3C, 4, 15);           //引脚4��?5是绑定在Kit 32的主板上的，不能做其它用
+static SSD1306Wire  display(0x3c, 500000, SDA_OLED, SCL_OLED, GEOMETRY_128_64, RST_OLED); // addr , freq , i2c group , resolution , rst
 
 
 /********************************************************************
@@ -79,18 +80,18 @@ void setupOTA()
 
   ArduinoOTA.onStart([]()
   {
-    Heltec.display->clear();
-    Heltec.display->setFont(ArialMT_Plain_10);        //设置字体大小
-    Heltec.display->setTextAlignment(TEXT_ALIGN_LEFT);//设置字体对齐方式
-    Heltec.display->drawString(0, 0, "Start Updating....");
+    display.clear();
+    display.setFont(ArialMT_Plain_10);        //设置字体大小
+    display.setTextAlignment(TEXT_ALIGN_LEFT);//设置字体对齐方式
+    display.drawString(0, 0, "Start Updating....");
 
     Serial.printf("Start Updating....Type:%s\n", (ArduinoOTA.getCommand() == U_FLASH) ? "sketch" : "filesystem");
   });
 
   ArduinoOTA.onEnd([]()
   {
-    Heltec.display->clear();
-    Heltec.display->drawString(0, 0, "Update Complete!");
+    display.clear();
+    display.drawString(0, 0, "Update Complete!");
     Serial.println("Update Complete!");
 
     ESP.restart();
@@ -103,17 +104,17 @@ void setupOTA()
     //int progressbar = (progress / 5) % 100;
     //int pro = progress / (total / 100);
 
-    Heltec.display->clear();
+    display.clear();
 #if defined (WIRELESS_STICK)
-    Heltec.display->drawProgressBar(0, 11, 64, 8, progressbar);    // draw the progress bar
-    Heltec.display->setTextAlignment(TEXT_ALIGN_CENTER);          // draw the percentage as String
-    Heltec.display->drawString(10, 20, pro);
+    display.drawProgressBar(0, 11, 64, 8, progressbar);    // draw the progress bar
+    display.setTextAlignment(TEXT_ALIGN_CENTER);          // draw the percentage as String
+    display.drawString(10, 20, pro);
 #else
-    Heltec.display->drawProgressBar(0, 32, 120, 10, progressbar);    // draw the progress bar
-    Heltec.display->setTextAlignment(TEXT_ALIGN_CENTER);          // draw the percentage as String
-    Heltec.display->drawString(64, 15, pro);
+    display.drawProgressBar(0, 32, 120, 10, progressbar);    // draw the progress bar
+    display.setTextAlignment(TEXT_ALIGN_CENTER);          // draw the percentage as String
+    display.drawString(64, 15, pro);
 #endif
-    Heltec.display->display();
+    display.display();
 
     Serial.printf("Progress: %u%%\r", (progress / (total / 100)));
   });
@@ -150,8 +151,8 @@ void setupOTA()
         break;
     }
 
-    Heltec.display->clear();
-    Heltec.display->drawString(0, 0, info);
+    display.clear();
+    display.drawString(0, 0, info);
     ESP.restart();
   });
 
@@ -163,27 +164,27 @@ void setupOTA()
  */
 void setupWIFI()
 {
-  Heltec.display->clear();
-  Heltec.display->drawString(0, 0, "Connecting...");
-  Heltec.display->drawString(0, 10, String(ssid));
-  Heltec.display->display();
+  display.clear();
+  display.drawString(0, 0, "Connecting...");
+  display.drawString(0, 10, String(ssid));
+  display.display();
 
-  //连接WiFi，删除旧的配置，关闭WIFI，准备重新配�?
+  //连接WiFi，删除旧的配置，关闭WIFI，准备重新配��?
   WiFi.disconnect(true);
   delay(1000);
 
   WiFi.mode(WIFI_STA);
   //WiFi.onEvent(WiFiEvent);
   WiFi.setAutoConnect(true);
-  WiFi.setAutoReconnect(true);    //断开WiFi后自动重新连�?ESP32不可�?
+  WiFi.setAutoReconnect(true);    //断开WiFi后自动重新连��?ESP32不可��?
   //WiFi.setHostname(HOSTNAME);
   WiFi.begin(ssid, password);
 #if USE_STATIC_IP
   WiFi.config(staticIP, gateway, subnet);
 #endif
 
-  //等待5000ms，如果没有连接上，就继续往�?
-  //不然基本功能不可�?
+  //等待5000ms，如果没有连接上，就继续往��?
+  //不然基本功能不可��?
   byte count = 0;
   while(WiFi.status() != WL_CONNECTED && count < 10)
   {
@@ -192,12 +193,12 @@ void setupWIFI()
     Serial.print(".");
   }
 
-  Heltec.display->clear();
+  display.clear();
   if(WiFi.status() == WL_CONNECTED)
-    Heltec.display->drawString(0, 0, "Connected");
+    display.drawString(0, 0, "Connected");
   else
-    Heltec.display->drawString(0, 0, "Connect False");
-  Heltec.display->display();
+    display.drawString(0, 0, "Connect False");
+  display.display();
 }
 
 /******************************************************
@@ -205,9 +206,14 @@ void setupWIFI()
  */
 void setup()
 {
-  Heltec.begin(true /*DisplayEnable Enable*/, false /*LoRa Disable*/, true /*Serial Enable*/);
-  pinMode(25, OUTPUT);
-  digitalWrite(25,HIGH);
+display.init();
+  display.clear();
+  display.display();
+  
+  display.setContrast(255);
+   Serial.begin(115200);
+  // pinMode(36, OUTPUT);
+  // digitalWrite(36,HIGH);
 
   while (!Serial) {
     ; // wait for serial port to connect. Needed for native USB port only
@@ -238,52 +244,88 @@ void loop()
 void WiFiEvent(WiFiEvent_t event)
 {
     Serial.printf("[WiFi-event] event: %d\n", event);
-    switch(event)
-    {
-        case SYSTEM_EVENT_WIFI_READY:               /**< ESP32 WiFi ready */
+switch (event) {
+        case ARDUINO_EVENT_WIFI_READY: 
+            Serial.println("WiFi interface ready");
             break;
-        case SYSTEM_EVENT_SCAN_DONE:                /**< ESP32 finish scanning AP */
+        case ARDUINO_EVENT_WIFI_SCAN_DONE:
+            Serial.println("Completed scan for access points");
             break;
-
-        case SYSTEM_EVENT_STA_START:                /**< ESP32 station start */
+        case ARDUINO_EVENT_WIFI_STA_START:
+            Serial.println("WiFi client started");
             break;
-        case SYSTEM_EVENT_STA_STOP:                 /**< ESP32 station stop */
+        case ARDUINO_EVENT_WIFI_STA_STOP:
+            Serial.println("WiFi clients stopped");
             break;
-
-        case SYSTEM_EVENT_STA_CONNECTED:            /**< ESP32 station connected to AP */
+        case ARDUINO_EVENT_WIFI_STA_CONNECTED:
+            Serial.println("Connected to access point");
             break;
-
-        case SYSTEM_EVENT_STA_DISCONNECTED:         /**< ESP32 station disconnected from AP */
+        case ARDUINO_EVENT_WIFI_STA_DISCONNECTED:
+            Serial.println("Disconnected from WiFi access point");
             break;
-
-        case SYSTEM_EVENT_STA_AUTHMODE_CHANGE:      /**< the auth mode of AP connected by ESP32 station changed */
+        case ARDUINO_EVENT_WIFI_STA_AUTHMODE_CHANGE:
+            Serial.println("Authentication mode of access point has changed");
             break;
-
-        case SYSTEM_EVENT_STA_GOT_IP:               /**< ESP32 station got IP from connected AP */
-        case SYSTEM_EVENT_STA_LOST_IP:              /**< ESP32 station lost IP and the IP is reset to 0 */
+        case ARDUINO_EVENT_WIFI_STA_GOT_IP:
+            Serial.print("Obtained IP address: ");
+            Serial.println(WiFi.localIP());
             break;
-
-        case SYSTEM_EVENT_STA_WPS_ER_SUCCESS:       /**< ESP32 station wps succeeds in enrollee mode */
-        case SYSTEM_EVENT_STA_WPS_ER_FAILED:        /**< ESP32 station wps fails in enrollee mode */
-        case SYSTEM_EVENT_STA_WPS_ER_TIMEOUT:       /**< ESP32 station wps timeout in enrollee mode */
-        case SYSTEM_EVENT_STA_WPS_ER_PIN:           /**< ESP32 station wps pin code in enrollee mode */
+        case ARDUINO_EVENT_WIFI_STA_LOST_IP:
+            Serial.println("Lost IP address and IP address is reset to 0");
             break;
-
-        case SYSTEM_EVENT_AP_START:                 /**< ESP32 soft-AP start */
-        case SYSTEM_EVENT_AP_STOP:                  /**< ESP32 soft-AP stop */
-        case SYSTEM_EVENT_AP_STACONNECTED:          /**< a station connected to ESP32 soft-AP */
-        case SYSTEM_EVENT_AP_STADISCONNECTED:       /**< a station disconnected from ESP32 soft-AP */
-        case SYSTEM_EVENT_AP_PROBEREQRECVED:        /**< Receive probe request packet in soft-AP interface */
-        case SYSTEM_EVENT_AP_STA_GOT_IP6:           /**< ESP32 station or ap interface v6IP addr is preferred */
-        case SYSTEM_EVENT_AP_STAIPASSIGNED:
+        case ARDUINO_EVENT_WPS_ER_SUCCESS:
+            Serial.println("WiFi Protected Setup (WPS): succeeded in enrollee mode");
             break;
-
-        case SYSTEM_EVENT_ETH_START:                /**< ESP32 ethernet start */
-        case SYSTEM_EVENT_ETH_STOP:                 /**< ESP32 ethernet stop */
-        case SYSTEM_EVENT_ETH_CONNECTED:            /**< ESP32 ethernet phy link up */
-        case SYSTEM_EVENT_ETH_DISCONNECTED:         /**< ESP32 ethernet phy link down */
-        case SYSTEM_EVENT_ETH_GOT_IP:               /**< ESP32 ethernet got IP from connected AP */
-        case SYSTEM_EVENT_MAX:
+        case ARDUINO_EVENT_WPS_ER_FAILED:
+            Serial.println("WiFi Protected Setup (WPS): failed in enrollee mode");
             break;
-    }
-}
+        case ARDUINO_EVENT_WPS_ER_TIMEOUT:
+            Serial.println("WiFi Protected Setup (WPS): timeout in enrollee mode");
+            break;
+        case ARDUINO_EVENT_WPS_ER_PIN:
+            Serial.println("WiFi Protected Setup (WPS): pin code in enrollee mode");
+            break;
+        case ARDUINO_EVENT_WIFI_AP_START:
+            Serial.println("WiFi access point started");
+            break;
+        case ARDUINO_EVENT_WIFI_AP_STOP:
+            Serial.println("WiFi access point  stopped");
+            break;
+        case ARDUINO_EVENT_WIFI_AP_STACONNECTED:
+            Serial.println("Client connected");
+            break;
+        case ARDUINO_EVENT_WIFI_AP_STADISCONNECTED:
+            Serial.println("Client disconnected");
+            break;
+        case ARDUINO_EVENT_WIFI_AP_STAIPASSIGNED:
+            Serial.println("Assigned IP address to client");
+            break;
+        case ARDUINO_EVENT_WIFI_AP_PROBEREQRECVED:
+            Serial.println("Received probe request");
+            break;
+        case ARDUINO_EVENT_WIFI_AP_GOT_IP6:
+            Serial.println("AP IPv6 is preferred");
+            break;
+        case ARDUINO_EVENT_WIFI_STA_GOT_IP6:
+            Serial.println("STA IPv6 is preferred");
+            break;
+        case ARDUINO_EVENT_ETH_GOT_IP6:
+            Serial.println("Ethernet IPv6 is preferred");
+            break;
+        case ARDUINO_EVENT_ETH_START:
+            Serial.println("Ethernet started");
+            break;
+        case ARDUINO_EVENT_ETH_STOP:
+            Serial.println("Ethernet stopped");
+            break;
+        case ARDUINO_EVENT_ETH_CONNECTED:
+            Serial.println("Ethernet connected");
+            break;
+        case ARDUINO_EVENT_ETH_DISCONNECTED:
+            Serial.println("Ethernet disconnected");
+            break;
+        case ARDUINO_EVENT_ETH_GOT_IP:
+            Serial.println("Obtained IP address");
+            break;
+        default: break;
+    }}
