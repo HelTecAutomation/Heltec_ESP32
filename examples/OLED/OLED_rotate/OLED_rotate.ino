@@ -1,9 +1,9 @@
 
-#include "heltec.h"
+#include "HT_SSD1306Wire.h"
 #include "Arduino.h"
 
 //rotate only for GEOMETRY_128_64
- SSD1306Wire display(0x3c, SDA_OLED, SCL_OLED, RST_OLED);
+static SSD1306Wire  display(0x3c, 500000, SDA_OLED, SCL_OLED, GEOMETRY_128_64, RST_OLED); // addr , freq , i2c group , resolution , rst
 
 void VextON(void)
 {
