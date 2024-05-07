@@ -65,7 +65,7 @@ uint32_t BLEdonwlinkTime;
 class MyCallbacks: public BLECharacteristicCallbacks {
     void onWrite(BLECharacteristic *pCharacteristic) {
     BLE_data = "";
-    std::string rxValue = pCharacteristic->getValue();
+    String rxValue = pCharacteristic->getValue();
       if (rxValue.length() > 0) {
         Serial.println("Received Value: ");
         for (int i = 0; i < rxValue.length(); i++)
