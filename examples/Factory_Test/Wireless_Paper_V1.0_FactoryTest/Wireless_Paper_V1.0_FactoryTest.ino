@@ -349,28 +349,17 @@ void loop()
     VextOFF();
     Radio.Sleep();
     SPI.end();
-    Serial.printf("1");
      pinMode(RADIO_DIO_1, ANALOG);
       digitalWrite(RADIO_NSS, HIGH);
-     gpio_hold_en((gpio_num_t)RADIO_NSS);
-//  pinMode(RADIO_NSS, ANALOG);
-//    digitalWrite(RADIO_NSS, HIGH);
+    //  gpio_hold_en((gpio_num_t)RADIO_NSS);
+ pinMode(RADIO_NSS, ANALOG);
+   digitalWrite(RADIO_NSS, HIGH);
 
   pinMode(RADIO_RESET, ANALOG); 
   pinMode(RADIO_BUSY, ANALOG);
   pinMode(LORA_CLK, ANALOG);
   pinMode(LORA_MISO, ANALOG);
   pinMode(LORA_MOSI, ANALOG);
-//    pinMode(2, ANALOG);
-//    pinMode(3, ANALOG);
-//    pinMode(4, ANALOG);
-//    pinMode(5, ANALOG);
-//    pinMode(6, ANALOG);
-//    pinMode(7, ANALOG);
-//    pinMode(43, ANALOG);
-//    pinMode(44, ANALOG);
-//    pinMode(47, ANALOG);
-//    pinMode(48, ANALOG);
 
     esp_sleep_enable_timer_wakeup(600 * 1000 * (uint64_t)1000);
   esp_sleep_pd_config(ESP_PD_DOMAIN_RTC_PERIPH, ESP_PD_OPTION_OFF);

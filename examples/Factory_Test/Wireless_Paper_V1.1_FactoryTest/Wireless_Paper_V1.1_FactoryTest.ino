@@ -166,29 +166,8 @@ int i=0;
           pix ^= 0x0F;
 
           i++;
-          /* Convert rgb color to gray scale
-          memcpy(rgb_color, src, 3);
-          src += 3;
-            gs_clr = (GS_FACT_R * rgb_color[0]) + (GS_FACT_G * rgb_color[1]) + (GS_FACT_B * rgb_color[2]);
-            if (gs_clr > 255) gs_clr = 255;
-            // Use only 4 bits & invert
-            //pix = ((uint8_t)gs_clr >> 4) ^ 0x0F;
-            pix = (uint8_t)gs_clr;
-
-            // Using gray scale lookup table
-            last_lvl = 0;
-            i = 0;
-            for (i=0; i<16; i++) {
-              if ((pix > last_lvl) && (pix <= lvl_buf_jpg[i])) {
-                pix = 15 - i;
-                  last_lvl = lvl_buf[i];
-                  break;
-                }
-                last_lvl = lvl_buf[i];
-            }
-          */
+   
             get_buff[i] = pix;
-//            gs_used_shades |= (1 << pix);
         }
         else src += 3; // skip
       }
@@ -406,28 +385,18 @@ void loop()
     VextOFF();
     Radio.Sleep();
     SPI.end();
-    Serial.printf("1");
     pinMode(RADIO_DIO_1, ANALOG);
     digitalWrite(RADIO_NSS, HIGH);
-    gpio_hold_en((gpio_num_t)RADIO_NSS);
-    //  pinMode(RADIO_NSS, ANALOG);
-    //    digitalWrite(RADIO_NSS, HIGH);
+    // gpio_hold_en((gpio_num_t)RADIO_NSS);
+     pinMode(RADIO_NSS, ANALOG);
+       digitalWrite(RADIO_NSS, HIGH);
 
     pinMode(RADIO_RESET, ANALOG);
     pinMode(RADIO_BUSY, ANALOG);
     pinMode(LORA_CLK, ANALOG);
     pinMode(LORA_MISO, ANALOG);
     pinMode(LORA_MOSI, ANALOG);
-    //    pinMode(2, ANALOG);
-    //    pinMode(3, ANALOG);
-    //    pinMode(4, ANALOG);
-    //    pinMode(5, ANALOG);
-    //    pinMode(6, ANALOG);
-    //    pinMode(7, ANALOG);
-    //    pinMode(43, ANALOG);
-    //    pinMode(44, ANALOG);
-    //    pinMode(47, ANALOG);
-    //    pinMode(48, ANALOG);
+   
 
     esp_sleep_enable_timer_wakeup(600 * 1000 * (uint64_t)1000);
     esp_sleep_pd_config(ESP_PD_DOMAIN_RTC_PERIPH, ESP_PD_OPTION_OFF);

@@ -31,10 +31,6 @@
  * \author    Johannes Bruder ( STACKFORCE )
  */
 
-#if defined(WIFI_LORA_32_V3)||defined(WIFI_LORA_32_V2)||defined(WIFI_LORA_32)\
-||defined(WIRELESS_TRACKER)||defined(WIRELESS_STICK_V3)||defined(WIRELESS_STICK_LITE_V3)\
-||defined(WIRELESS_PAPER)||defined(CAPSULE_SENSOR_V3)||defined(WIRELESS_SHELL_V3)||defined(WIRELESS_BRIDGE)\
-||defined(WIRELESS_MINI_SHELL)||defined(Wireless_Stick)
 
 #ifndef __BOARD_CONFIG_H__
 #define __BOARD_CONFIG_H__
@@ -101,4 +97,3 @@
 
 
 #endif // __BOARD_CONFIG_H__
-#endif
