@@ -65,6 +65,10 @@
 extern "C" {
 #endif
 
+#ifndef LORAWAN_PREAMBLE_LENGTH
+#define LORAWAN_PREAMBLE_LENGTH 8
+#endif
+
 
 //#define CLASS_A_WOTA
 

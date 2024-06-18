@@ -24,7 +24,6 @@
  *
  * \author    Gregory Cristian ( Semtech )
  */
-#if defined(WIFI_LORA_32_V3)||defined(WIFI_LORA_32_V2)||defined(WIRELESS_TRACKER)||defined(WIRELESS_STICK_V3)||defined(WIRELESS_STICK_LITE_V3)||defined(WIRELESS_PAPER)||defined(CAPSULE_SENSOR_V3)||defined(WIRELESS_SHELL_V3)
 
 #include "../driver/gpio-board.h"
 
@@ -57,4 +56,3 @@ uint32_t GpioRead( Gpio_t *obj )
 {
     return GpioMcuRead( obj );
 }
-#endif

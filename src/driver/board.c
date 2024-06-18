@@ -15,7 +15,6 @@ Maintainer: Miguel Luis and Gregory Cristian
 
 
 
-#if defined(WIFI_LORA_32_V3)||defined(WIFI_LORA_32_V2)||defined(WIRELESS_TRACKER)||defined(WIRELESS_STICK_V3)||defined(WIRELESS_STICK_LITE_V3)||defined(WIRELESS_PAPER)||defined(CAPSULE_SENSOR_V3)||defined(WIRELESS_SHELL_V3)
 
 #include "../driver/board.h"
 #include "Arduino.h"
@@ -235,12 +234,12 @@ uint32_t HexToString(/*IN*/  const char    * pHex,
     if(((pHex[i]&0xf0)>>4)>=0 && ((pHex[i]&0xf0)>>4)<=9)  
       pByteString[2*i]=((pHex[i]&0xf0)>>4)+0x30;  
     else if(((pHex[i]&0xf0)>>4)>=10 && ((pHex[i]&0xf0)>>4)<=16)  
-      pByteString[2*i]=((pHex[i]&0xf0)>>4)+0x37;   //  小写：0x37 改为 0x57   
+      pByteString[2*i]=((pHex[i]&0xf0)>>4)+0x37;   //  小写�?x37 改为 0x57   
     
     if((pHex[i]&0x0f)>=0 && (pHex[i]&0x0f)<=9)  
       pByteString[2*i+1]=(pHex[i]&0x0f)+0x30;  
     else if((pHex[i]&0x0f)>=10 && (pHex[i]&0x0f)<=16)  
-      pByteString[2*i+1]=(pHex[i]&0x0f)+0x37;      //  小写：0x37 改为 0x57   
+      pByteString[2*i+1]=(pHex[i]&0x0f)+0x37;      //  小写�?x37 改为 0x57   
   }  
   return 0;  
 } 
@@ -265,5 +264,4 @@ void assert_failed( uint8_t* file, uint32_t line )
   {
   }
 }
-#endif
 #endif
