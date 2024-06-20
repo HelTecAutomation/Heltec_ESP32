@@ -22,6 +22,7 @@
 * WIRELESS_TRACKER         34
 * WIFI_KIT_32_V3           35
 *
+* If value come to 49, next one should be 61
 * CAPSULE_SENSOR_V3 50
 * WIRELESS_PAPER    60
 *
