@@ -21,6 +21,9 @@
 * WIRELESS_SHELL_V3        33
 * WIRELESS_TRACKER         34
 * WIFI_KIT_32_V3           35
+* Vision_Master_E_213      36
+* Vision_Master_E290       37
+* Vision_Master_T190       38
 *
 * CAPSULE_SENSOR_V3 50
 * WIRELESS_PAPER    60
