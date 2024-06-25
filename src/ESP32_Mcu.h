@@ -25,6 +25,7 @@
 * Vision_Master_E290       37
 * Vision_Master_T190       38
 *
+* If value come to 49, next one should be 61
 * CAPSULE_SENSOR_V3 50
 * WIRELESS_PAPER    60
 *
