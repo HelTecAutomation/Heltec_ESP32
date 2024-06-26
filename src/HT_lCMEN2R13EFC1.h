@@ -3,6 +3,10 @@
 
 #include <HT_Display.h>
 #include <SPI.h>
+#include <HT_lCMEN2R13EFC1_LUT.h>
+#include "HT_st7735_fonts.h"
+// #include "picture_part.h"
+SPIClass fSPI(HSPI);
 
 enum DISPLAY_BUFFER
 {
@@ -52,7 +56,7 @@ public:
 		digitalWrite(_cs, HIGH);
 		pinMode(_busy, INPUT);
 		this->buffer = _buf;
-		SPI.begin(this->_clk, this->_miso, this->_mosi);
+		fSPI.begin(this->_clk, this->_miso, this->_mosi);
 		_spiSettings._clock = this->_freq;
 		// Pulse Reset low for 10ms
 		digitalWrite(_rst, HIGH);
@@ -76,7 +80,7 @@ public:
 
 	void display()
 	{
-		// sendCommand(0x12);
+		sendCommand(0x12);
 		sendCommand(0x04); // Power ON
 		WaitUntilIdle();
 		delay(10);
@@ -104,22 +108,22 @@ public:
 			digitalWrite(_cs, LOW);
 			if (rotate_angle == ANGLE_0_DEGREE)
 			{
-				SPI.beginTransaction(SPISettings(6000000, LSBFIRST, SPI_MODE0));
+				fSPI.beginTransaction(SPISettings(6000000, LSBFIRST, SPI_MODE0));
 				for (int x = 0; x < 250; x++)
 				{
 					for (int y = 0; y < ymax; y++)
 					{
 						// if(addr==0x24)
 						if (addr == 0x13)
-							SPI.transfer(~buffer[x + y * xmax]);
+							fSPI.transfer(~buffer[x + y * xmax]);
 						else
-							SPI.transfer(buffer[x + y * xmax]);
+							fSPI.transfer(buffer[x + y * xmax]);
 					}
 				}
 			}
 			else
 			{
-				SPI.beginTransaction(SPISettings(6000000, MSBFIRST, SPI_MODE0));
+				fSPI.beginTransaction(SPISettings(6000000, MSBFIRST, SPI_MODE0));
 				for (int x = 250 - 1; x >= 0; x--)
 				{
 					for (int y = (ymax - 1); y >= 0; y--)
@@ -129,22 +133,22 @@ public:
 
 						{
 							if (y == 0)
-								SPI.transfer(~(buffer[x + y * xmax] << 6));
+								fSPI.transfer(~(buffer[x + y * xmax] << 6));
 							else
-								SPI.transfer(~((buffer[x + y * xmax] << 6) | (buffer[x + (y - 1) * xmax] >> 2)));
+								fSPI.transfer(~((buffer[x + y * xmax] << 6) | (buffer[x + (y - 1) * xmax] >> 2)));
 						}
 						else
 						{
 							if (y == 0)
-								SPI.transfer(buffer[x + y * xmax] << 6);
+								fSPI.transfer(buffer[x + y * xmax] << 6);
 							else
-								SPI.transfer((buffer[x + y * xmax] << 6) | (buffer[x + (y - 1) * xmax] >> 2));
+								fSPI.transfer((buffer[x + y * xmax] << 6) | (buffer[x + (y - 1) * xmax] >> 2));
 						}
 					}
 				}
 			}
 			digitalWrite(_cs, HIGH);
-			SPI.endTransaction();
+			fSPI.endTransaction();
 		}
 		else
 		{
@@ -165,7 +169,7 @@ public:
 			int ymax = this->width() >> 3;
 			if (rotate_angle == ANGLE_90_DEGREE)
 			{
-				SPI.beginTransaction(SPISettings(6000000, MSBFIRST, SPI_MODE0));
+				fSPI.beginTransaction(SPISettings(6000000, MSBFIRST, SPI_MODE0));
 				for (int x = 0; x < 250; x++)
 				{
 					for (int y = (ymax - 1); y >= 0; y--)
@@ -174,43 +178,306 @@ public:
 						if (addr == 0x10)
 						{
 							if (y == 0)
-								SPI.transfer(~(buffer_rotate[x + y * xmax] << 6));
+								fSPI.transfer(~(buffer_rotate[x + y * xmax] << 6));
 							else
-								SPI.transfer(~((buffer_rotate[x + y * xmax] << 6) | (buffer_rotate[x + (y - 1) * xmax] >> 2)));
+								fSPI.transfer(~((buffer_rotate[x + y * xmax] << 6) | (buffer_rotate[x + (y - 1) * xmax] >> 2)));
 						}
 						else
 						{
 							if (y == 0)
-								SPI.transfer(buffer_rotate[x + y * xmax] << 6);
+								fSPI.transfer(buffer_rotate[x + y * xmax] << 6);
 							else
-								SPI.transfer((buffer_rotate[x + y * xmax] << 6) | (buffer_rotate[x + (y - 1) * xmax] >> 2));
+								fSPI.transfer((buffer_rotate[x + y * xmax] << 6) | (buffer_rotate[x + (y - 1) * xmax] >> 2));
 						}
 					}
 				}
 			}
 			else
 			{
-				SPI.beginTransaction(SPISettings(6000000, LSBFIRST, SPI_MODE0));
+				fSPI.beginTransaction(SPISettings(6000000, LSBFIRST, SPI_MODE0));
 				for (int x = 250 - 1; x >= 0; x--)
 				{
 					for (int y = 0; y < ymax; y++)
 					{
 						// if(addr==0x24)
 						if (addr == 0x13)
-							SPI.transfer(~buffer_rotate[x + y * xmax]);
+							fSPI.transfer(~buffer_rotate[x + y * xmax]);
 						else
-							SPI.transfer(buffer_rotate[x + y * xmax]);
+							fSPI.transfer(buffer_rotate[x + y * xmax]);
 					}
 				}
 			}
-			SPI.endTransaction();
+			fSPI.endTransaction();
 			digitalWrite(_cs, HIGH);
 		}
 	}
 
 	void stop()
 	{
+
 		end();
+	}
+
+	void WRITE_LUT_RED()
+	{
+		unsigned int count;
+
+		WaitUntilIdle();
+		sendCommand(0x20);
+		for (count = 0; count < 42; count++)
+		{
+			sendData(LUT_VCOM[count]);
+		}
+
+		WaitUntilIdle();
+		sendCommand(0x21); // W
+		for (count = 0; count < 42; count++)
+		{
+			sendData(LUT_WW[count]);
+		}
+
+		WaitUntilIdle();
+		sendCommand(0x22); // W
+		for (count = 0; count < 42; count++)
+		{
+			sendData(LUT_BW[count]);
+		}
+
+		WaitUntilIdle();
+		sendCommand(0x23); // W
+		for (count = 0; count < 42; count++)
+		{
+			sendData(LUT_WB[count]);
+		}
+
+		sendCommand(0x24); // B
+		for (count = 0; count < 42; count++)
+		{
+			sendData(LUT_BB[count]);
+		}
+	}
+	void dis_image()
+	{
+		unsigned int row, col;
+		unsigned int pcnt;
+		unsigned char Byte1, Byte2, Byte3;
+
+		/***************************************************Partial_Refresh image****************************************************/
+
+		sendCommand(0x91); // DTM1 Write
+		WaitUntilIdle();
+
+		sendCommand(0x90);
+		WaitUntilIdle();
+		sendData(0);   //
+		sendData(128); // H End 48/8=6
+		sendData(0);
+		sendData(250); // V End 32
+
+		sendData(0x01);
+
+		sendCommand(0x13); // DTM1 Write
+		WaitUntilIdle();
+		pcnt = 0;
+		for (col = 0; col < 250; col++)
+		{
+			for (row = 0; row < 16; row++)
+			{
+				sendData(0xff);
+
+				pcnt++;
+			}
+		}
+
+		sendCommand(0x92); // partial out
+
+		WRITE_LUT_RED(); // 波形
+		sendCommand(0x50);
+		sendData(0x07); //  border  CleaeScreep_LUT()
+
+		sendCommand(0xE0);
+		sendData(0X02);
+		sendCommand(0xE5);
+		sendData(0x75);
+
+		sendCommand(0x04);
+		WaitUntilIdle();
+		sendCommand(0x12);
+		WaitUntilIdle();
+		sendCommand(0x02);
+	}
+
+	void INIT_JD79656_mcu()
+	{ // FITI cmd.
+		sendCommand(0x4D);
+		sendData(0x55);
+		// sendCommand(0xA9);
+		// sendData(0x25);
+		sendCommand(0xF3);
+		sendData(0x0A);
+
+		// datasheet user cmd.
+
+		// User cmd.
+		sendCommand(0x00); // PSR
+		sendData(0xF7);	   // 黑白
+		sendData(0x08);	   //
+
+		sendCommand(0x01); // PWR
+		sendData(0x03);	   // 内部升压
+		sendData(0x01);	   // VGH/VGL voltage: 00=+/-20V ; 01=+/-19V ; 02=+/-18V; 03=+/-17V; 04=+/-16V
+		sendData(0x3F);	   // VSH voltage: 2B=11V ; 30=12V ; 35=13V  3A=14V  3F=15
+		sendData(0x3F);	   // VSL voltage: 2B=11V ; 30=12V ; 35=13V  3A=14V  3F=15
+		sendData(0x13);	   // VSHR voltage: 0B=4.6v 0C=4.8V; 0D=5V ; 0E=5.2V; 0F=5.4V ; 10=5.6v ; 11=5.8V 12=6V; 13=6.2V; 14=6.4V ; 15=9.6V
+
+		sendCommand(0x06); // Booster  47uH 2.2om
+		sendData(0xC7);	   //
+		sendData(0x27);	   //
+		sendData(0x3E);	   //
+
+		sendCommand(0x50);
+		// sendData(0x57); //  border  B17    W  57//RED
+		sendData(0x97); //  border  B17    W  97/黑白
+
+		sendCommand(0x60); // TCON定时/计数器
+		sendData(0x22);	   //
+
+		sendCommand(0x61); // 128*250 TRES分辨率
+		sendData(0x80);	   // 0x80=128
+		sendData(0xFA);	   // 0xFA=250
+
+		sendCommand(0x82); // vcom voltage: 10=-1.7  11=-1.8; 13=-2.0V ; 15=-2.2; 17=-2.4;
+		// sendData(0x10);
+		sendData(CMD_USER[3]);
+
+		sendCommand(0x30); // PLL 扫描频率
+		// sendData(0x1A);   //frame rate:09=50; 0B=60; 0D=70; 13=100 1A=150
+		sendData(CMD_USER[4]);
+
+		sendCommand(0xE3); // PWS
+		sendData(0x88);
+
+		sendCommand(0xF8);
+		sendData(0x80);
+
+		sendCommand(0xB3);
+		sendData(0x42);
+
+		sendCommand(0xB4);
+		sendData(0x28);
+
+		sendCommand(0xAA);
+		sendData(0xB7);
+
+		sendCommand(0xA8);
+		sendData(0x3D);
+	}
+	void setwin(uint8_t x, uint8_t y, uint8_t w, uint8_t h)
+	{
+		sendData(y);		 //
+		sendData(y + h - 1); // H End 48/8=6
+		sendData(x);
+		sendData(x + w-1); // V End 32
+	}
+	void dis_img_Partial_Refresh(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const unsigned char *img)
+	{
+		unsigned int row, col;
+		unsigned int pcnt;
+		unsigned char Byte1, Byte2, Byte3;
+		Byte1 = h*8;
+		Byte2 = y;
+		/***************************************************Partial_Refresh image****************************************************/
+
+		sendCommand(0x91); // DTM1 Write
+		WaitUntilIdle();
+		sendCommand(0x90);
+		WaitUntilIdle();
+		setwin(x, Byte2, w, Byte1);
+		sendData(0x00);
+		sendCommand(0x13); // DTM1 Write
+		WaitUntilIdle();
+		// uint8_t len =sizeof(img)/sizeof(img[0])
+		pcnt = 0;
+		for (col = 0; col < w; col++)
+		{
+			for (row = 0; row < h; row++)
+			{
+				sendData(img[pcnt]);
+				pcnt++;
+			}
+		}
+
+		sendCommand(0x92); // partial out
+		WRITE_LUT_RED(); // 
+		// sendCommand(0x50);
+		// sendData(0x07); //  border  CleaeScreep_LUT()
+		sendCommand(0xE0);
+		sendData(0X02);
+		sendCommand(0xE5);
+		sendData(0x75);
+
+		sendCommand(0x04);
+		WaitUntilIdle();
+		sendCommand(0x12);
+		WaitUntilIdle();
+		sendCommand(0x02);
+	}
+	void dis_str_Partial_Refresh(int16_t x, int16_t y, uint8_t ch,FontDef font)
+	{
+		unsigned int row, col;
+		unsigned int pcnt;
+		unsigned char Byte1, Byte2, Byte3;
+		// uint8_t textHeight = pgm_read_byte(fontData + HEIGHT_POS);
+		// uint16_t textWidth = pgm_read_byte(fontData + FIRST_CHAR_POS);
+		Byte1 = font.height ;
+		Byte2 = (y / 8) * 8 + 1;
+
+		/***************************************************Partial_Refresh image****************************************************/
+
+		sendCommand(0x91); // DTM1 Write
+		WaitUntilIdle();
+
+		sendCommand(0x90);
+		WaitUntilIdle();
+		// setwin(x, Byte2, w, Byte1);
+		setwin(x, y, font.width , Byte1);
+		sendData(0x01);
+		sendCommand(0x13); // DTM1 Write
+		WaitUntilIdle();
+
+		uint32_t i, b, j;
+
+		for (i = 0; i < font.height; i++)
+		{
+	        b = font.data[(ch - 32) * font.height + i];
+			for (j = 0; j < font.width; j++)
+			{
+				if ((b << j) & 0x8000)
+				{
+					sendData(0x00);
+				}
+				else
+				{
+					sendData(0xff);
+				}
+			}
+		}
+		sendCommand(0x92); // partial out
+
+		WRITE_LUT_RED(); 
+		// sendCommand(0x50);
+		// sendData(0x07); //  border  CleaeScreep_LUT()
+
+		sendCommand(0xE0);
+		sendData(0X02);
+		sendCommand(0xE5);
+		sendData(0x75);
+
+		sendCommand(0x04);
+		WaitUntilIdle();
+		sendCommand(0x12);
+		WaitUntilIdle();
+		sendCommand(0x02);
 	}
 
 private:
@@ -223,7 +490,8 @@ private:
 	{
 		while (!digitalRead(_busy))
 		{ // LOW: idle, HIGH: busy
-
+		  // return;
+		  // Serial.println("busy");
 		}
 		delay(100);
 	}
@@ -231,22 +499,21 @@ private:
 	{
 		digitalWrite(_dc, LOW);
 		digitalWrite(_cs, LOW);
-		SPI.beginTransaction(_spiSettings);
-		SPI.transfer(com);
-		SPI.endTransaction();
+		fSPI.beginTransaction(_spiSettings);
+		fSPI.transfer(com);
+		fSPI.endTransaction();
 		digitalWrite(_cs, HIGH);
 		digitalWrite(_dc, HIGH);
 	}
 	void sendData(unsigned char data)
 	{
 		digitalWrite(this->_cs, LOW);
-		SPI.transfer(data);
+		fSPI.transfer(data);
 		digitalWrite(this->_cs, HIGH);
 	}
 
 	void sendInitCommands(void)
 	{
-		printf("555\n");
 
 		WaitUntilIdle();
 		sendCommand(0x12); // soft reset
@@ -285,7 +552,7 @@ private:
 
 		sendCommand(0x44); // set Ram-X address start/end position
 		sendData(0x01);
-		sendData(0x10); // 0x0F-->(15+1)*8=128
+		sendData(0x0f); // 0x0F-->(15+1)*8=128
 
 		sendCommand(0x45); // set Ram-Y address start/end position
 		sendData(0xF9);	   // 0xF9-->(249+1)=250
@@ -306,7 +573,10 @@ private:
 		sendData(0x00);
 		WaitUntilIdle();
 	}
-	void sendScreenRotateCommand() {}
+	void sendScreenRotateCommand()
+	{
+	}
+	// xx Write_data function xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 };
 
 #endif
