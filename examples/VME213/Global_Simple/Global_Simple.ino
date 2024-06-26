@@ -17,7 +17,7 @@
 #include "images.h"
 
 // Initialize the display
-HT_ICMEN2Rbattery_wEFC1 display(3, 2, 5, 1, 4, 6, -1, 6000000); // rst,dc,cs,busy,sck,mosi,miso,frequency
+HT_lCMEN2R13EFC1 display(3, 2, 5, 1, 4, 6, -1, 6000000); // rst,dc,cs,busy,sck,mosi,miso,frequency
 
 typedef void (*Demo)(void);
 
