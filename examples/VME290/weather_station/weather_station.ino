@@ -110,25 +110,43 @@ void Navigation_bar() {
   battery();
 }
 void battery() {
-  analogReadResolution(12);
-  int battery_levl = analogRead(7);
-  Serial.printf("ADC analog value = %d\n", battery_levl);
-  if (battery_levl < 585) {
-    display.drawString(280, 0, "N/A");
-    display.drawXbm(270, 0, 13, 13, battery0);
-  } else if (battery_levl < 1170 && battery_levl > 585) {
-    display.drawXbm(230, 0, 13, 13, battery1);
-  } else if (battery_levl < 1755 && battery_levl > 1170) {
-    display.drawXbm(230, 0, 13, 13, battery2);
-  } else if (battery_levl < 2340 && battery_levl > 1755) {
-    display.drawXbm(230, 0, 13, 13, battery3);
-  } else if (battery_levl < 2925 && battery_levl > 2340) {
-    display.drawXbm(230, 0, 13, 13, battery4);
-  } else if (battery_levl < 3510 && battery_levl > 2925) {
-    display.drawXbm(230, 0, 13, 13, battery5);
-  } else if (battery_levl < 4096 && battery_levl > 3510) {
-    display.drawXbm(230, 0, 13, 13, battery6);
-  }
+analogReadResolution(12);
+    int battery_levl = analogRead(7)* Resolution * battary_in * coefficient;//battary/4096*3.3* coefficient
+    float battery_one = 0.4125;
+    Serial.printf("ADC analog value = %.2f\n", battery_levl );
+    if (battery_levl < battery_one)
+    {
+        display.drawString(230, 0, "N/A");
+        display.drawXbm(255, 0, battery_w, battery_h, battery0);
+    }
+    else if (battery_levl < 2 * battery_one && battery_levl > battery_one)
+    {
+        display.drawXbm(270, 0, battery_w, battery_h, battery1);
+    }
+    else if (battery_levl < 3 * battery_one && battery_levl > 2 * battery_one)
+    {
+        display.drawXbm(270, 0, battery_w, battery_h, battery2);
+    }
+    else if (battery_levl < 4 * battery_one && battery_levl > 3 * battery_one)
+    {
+        display.drawXbm(270, 0, battery_w, battery_h, battery3);
+    }
+    else if (battery_levl < 5 * battery_one && battery_levl > 4 * battery_one)
+    {
+        display.drawXbm(270, 0, battery_w, battery_h, battery4);
+    }
+    else if (battery_levl < 6 * battery_one && battery_levl > 5 * battery_one)
+    {
+        display.drawXbm(270, 0, battery_w, battery_h, battery5);
+    }
+    else if (battery_levl < 7 * battery_one && battery_levl > 6 * battery_one)
+    {
+        display.drawXbm(270, 0, battery_w, battery_h, battery6);
+    }
+    else if (battery_levl < 7 * battery_one && battery_levl > 6 * battery_one)
+    {
+        display.drawXbm(270, 0, battery_w, battery_h, batteryfull);
+    }
 }
 void drawImageDemo() {
   // display.drawXbm(5, 10, 64, 64, rain6464xbm);
