@@ -14,10 +14,10 @@
  * https://www.heltec.org
  *
  * */
-#include "HT_lCMEN2Rbattery_wEFC1.h"
+#include "HT_lCMEN2R13EFC1.h"
 #include "images.h"
 
-HT_ICMEN2Rbattery_wEFC1 display(3, 2, 5, 1, 4, 6, -1, 6000000); // rst,dc,cs,busy,sck,mosi,miso,frequency
+HT_lCMEN2R13EFC1 display(3, 2, 5, 1, 4, 6, -1, 6000000); // rst,dc,cs,busy,sck,mosi,miso,frequency
  
 /* screen rotation
  * ANGLE_0_DEGREE
