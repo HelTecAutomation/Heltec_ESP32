@@ -86,7 +86,7 @@ A detailed step by step instructions to execute some examples available here:
 
 - [Wireless Tracker](https://resource.heltec.cn/download/Wireless_Tracker)
 
-- [Ct62](https://resource.heltec.cn/download/Ct62)
+- [HT-CT62](https://resource.heltec.cn/download/HT-CT62)
 
 - [Wireless Shell(v3)](https://resource.heltec.cn/download/Wireless_Shell_V3)
 
