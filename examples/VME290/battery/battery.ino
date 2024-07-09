@@ -28,7 +28,7 @@ DEPG0290BxS800FxX_BW   display(5, 4, 3,6, 2,1,-1, 6000000);//rst,dc,cs,busy,sck,
 #define DIRECTION ANGLE_0_DEGREE
 #define Resolution 0.000244140625 
 #define battary_in 3.3  
-#define coefficient 2.27 
+#define coefficient 4.8 
 void setup()
 {
     Serial.begin(115200);
