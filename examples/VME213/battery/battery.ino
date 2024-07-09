@@ -17,7 +17,7 @@
 #include "HT_lCMEN2R13EFC1.h"
 #include "images.h"
 
-HT_lCMEN2R13EFC1 display(3, 2, 5, 1, 4, 6, -1, 6000000); // rst,dc,cs,busy,sck,mosi,miso,frequency
+HT_ICMEN2R13EFC1 display(3, 2, 5, 1, 4, 6, -1, 6000000); // rst,dc,cs,busy,sck,mosi,miso,frequency
  
 /* screen rotation
  * ANGLE_0_DEGREE
