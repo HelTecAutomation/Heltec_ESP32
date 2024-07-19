@@ -39,6 +39,10 @@ QYEG0213RWS800_BWR   factory_display(6, 5, 4,7, 3,2,-1, 6000000);//rst,dc,cs,bus
 //  1: 250 kHz,
 //  2: 500 kHz,
 //  3: Reserved]
+#define LORA_BANDWIDTH                              0         // [0: 125 kHz,
+//  1: 250 kHz,
+//  2: 500 kHz,
+//  3: Reserved]
 #define LORA_SPREADING_FACTOR                       7         // [SF7..SF12]
 #define LORA_CODINGRATE                             1         // [1: 4/5,
 //  2: 4/6,
@@ -160,7 +164,7 @@ void WIFISetUp(void)
   WiFi.disconnect(true);
   delay(100);
   WiFi.mode(WIFI_STA);
-  WiFi.setAutoConnect(true);
+  WiFi.setAutoReconnect(true);
   WiFi.begin("Heltec-RD","hunter_3120");//fill in "Your WiFi SSID","Your Password"
   delay(100);
 

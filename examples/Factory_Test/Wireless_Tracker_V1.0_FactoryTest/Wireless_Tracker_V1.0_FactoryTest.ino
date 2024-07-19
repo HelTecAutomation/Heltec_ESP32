@@ -189,7 +189,7 @@ void wifi_connect_init(void)
 	WiFi.disconnect(true);
 	custom_delay(100);
 	WiFi.mode(WIFI_STA);
-	WiFi.setAutoConnect(true);
+	WiFi.setAutoReconnect(true);
 	WiFi.begin("Your WiFi SSID","Your Password");//fill in "Your WiFi SSID","Your Password"
 	st7735.st7735_write_str(0, 20, "WIFI Setup done");
 }

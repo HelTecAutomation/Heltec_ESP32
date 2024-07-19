@@ -6,6 +6,8 @@
  * Description:
  * 1.Using an external Lut waveform file to achieve partial refresh
  * 
+ * Note:
+ * This example is compatible with Wireless Paper and requires you to change the pin Settings in your code and change the order in which the VextCtrl pin HIGH and LOW.
  * Library url: https://github.com/HelTecAutomation/Heltec_ESP32
  * Support: support@heltec.cn
  *

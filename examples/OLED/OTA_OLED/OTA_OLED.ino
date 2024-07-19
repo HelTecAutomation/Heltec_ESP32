@@ -186,7 +186,7 @@ void setupWIFI()
 
   WiFi.mode(WIFI_STA);
   //WiFi.onEvent(WiFiEvent);
-  WiFi.setAutoConnect(true);
+  WiFi.setAutoReconnect(true);
 
   WiFi.setAutoReconnect(true);    //Automatically reconnect after disconnecting WiFi ESP32 is not available
 

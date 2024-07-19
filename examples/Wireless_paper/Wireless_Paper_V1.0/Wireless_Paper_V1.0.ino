@@ -18,6 +18,8 @@
 #include "HT_QYEG0213RWS800_BWR.h"
 #include "images.h"
 #include "html.h"
+#include <WiFi.h>
+
 QYEG0213RWS800_BWR display(6, 5, 4, 7, 3, 2, -1, 6000000); // rst,dc,cs,busy,sck,mosi,miso,frequency
 
 uint8_t width, height;

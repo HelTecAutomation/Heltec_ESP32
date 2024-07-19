@@ -4,13 +4,13 @@
 
 TinyGPSPlus GPS;
 
-#define VGNSS_CTRL 37
+#define VGNSS_CTRL 3
 
 
 void GPS_test(void)
 {
 	pinMode(VGNSS_CTRL,OUTPUT);
-	digitalWrite(VGNSS_CTRL,LOW);
+	digitalWrite(VGNSS_CTRL,HIGH);
 	Serial1.begin(115200,SERIAL_8N1,33,34);    
 	Serial.println("GPS_test");
 
@@ -46,7 +46,9 @@ void GPS_test(void)
 }
 
 void setup(){
-  delay(100);
+  Serial.begin(115200);    
+  Serial.println("GPS_test");
+  delay(1000);
   GPS_test();
 }
 

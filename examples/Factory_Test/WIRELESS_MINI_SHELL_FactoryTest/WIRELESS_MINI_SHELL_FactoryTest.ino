@@ -253,7 +253,7 @@ void WIFISetUp(void)
 	WiFi.disconnect(true);
 	delay(100);
 	WiFi.mode(WIFI_STA);
-	WiFi.setAutoConnect(true);
+	WiFi.setAutoReconnect(true);
 	WiFi.begin(TEST_WIFI_SSID,TEST_WIFI_PWD);//fill in "Your WiFi SSID","Your Password"
 	delay(100);
 

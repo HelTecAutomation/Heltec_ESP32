@@ -164,7 +164,7 @@ void WIFISetUp(void)
 	WiFi.disconnect(true);
 	delay(100);
 	WiFi.mode(WIFI_STA);
-	WiFi.setAutoConnect(true);
+	WiFi.setAutoReconnect(true);
 	WiFi.begin("TP-LINK_B8BC","heltec_test");//fill in "Your WiFi SSID","Your Password"
 	delay(100);
 

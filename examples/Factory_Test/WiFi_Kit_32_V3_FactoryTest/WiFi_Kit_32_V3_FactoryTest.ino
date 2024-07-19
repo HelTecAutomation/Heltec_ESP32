@@ -42,7 +42,7 @@ void WIFISetUp(void)
 	WiFi.disconnect(true);
 	delay(100);
 	WiFi.mode(WIFI_STA);
-	WiFi.setAutoConnect(true);
+	WiFi.setAutoReconnect(true);
 	WiFi.begin("Your WiFi SSID","Your Password");//fill in "Your WiFi SSID","Your Password"
 	delay(100);
 

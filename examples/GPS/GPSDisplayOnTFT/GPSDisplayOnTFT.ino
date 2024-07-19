@@ -12,7 +12,7 @@ HT_st7735 st7735;
 void GPS_test(void)
 {
 	pinMode(VGNSS_CTRL,OUTPUT);
-	digitalWrite(VGNSS_CTRL,LOW);
+	digitalWrite(VGNSS_CTRL,HIGH);
 	Serial1.begin(115200,SERIAL_8N1,33,34);    
 	Serial.println("GPS_test");
 	st7735.st7735_fill_screen(ST7735_BLACK);

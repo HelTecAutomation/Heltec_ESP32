@@ -52,7 +52,7 @@ void setup()
 void battery()
 {
     analogReadResolution(12);
-    int battery_levl = analogRead(7)* Resolution * battary_in * coefficient//battary/4096*3.3* coefficient
+    int battery_levl = analogRead(7)* Resolution * battary_in * coefficient;//battary/4096*3.3* coefficient
     float battery_one = 0.4125;
     Serial.printf("ADC analog value = %.2f\n", battery_levl );
     if (battery_levl < battery_one)

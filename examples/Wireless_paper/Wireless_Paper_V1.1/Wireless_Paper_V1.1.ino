@@ -18,6 +18,8 @@
 #include "HT_lCMEN2R13EFC1.h"
 #include "images.h"
 #include "html.h"
+#include <WiFi.h>
+
 HT_ICMEN2R13EFC1 display(6, 5, 4, 7, 3, 2, -1, 6000000); // rst,dc,cs,busy,sck,mosi,miso,frequency
 
 int width, height;
@@ -99,14 +101,14 @@ void drawImageDemo()
 }
 void VextON(void)
 {
-  pinMode(45, OUTPUT);
-  digitalWrite(45, LOW);
+  pinMode(45, OUTPUT);                      //For HT-VME213,choose "18, OUTPUT"
+  digitalWrite(45, LOW);                    //For HT-VME213,choose "18, HIGH"
 }
 
 void VextOFF(void) // Vext default OFF
 {
-  pinMode(45, OUTPUT);
-  digitalWrite(45, HIGH);
+  pinMode(45, OUTPUT);                     //For HT-VME213,choose "18, OUTPUT"
+  digitalWrite(45, HIGH);                  //For HT-VME213,choose "18, LOW"
 }
 void loop()
 {

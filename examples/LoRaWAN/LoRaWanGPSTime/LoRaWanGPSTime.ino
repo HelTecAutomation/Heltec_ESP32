@@ -177,7 +177,6 @@ void setup()
 
   pinMode(Vext, OUTPUT);
   digitalWrite(Vext, HIGH);
-  Mcu.setlicense(license);
   st7735.st7735_init();
   st7735.st7735_fill_screen(ST7735_BLACK);
 

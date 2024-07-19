@@ -3,7 +3,7 @@
 #include "HT_SSD1306Wire.h"
 #include "images.h"
 
-SSD1306Wire  display(0x3c, 500000, SDA_OLED, SCL_OLED, GEOMETRY_128_64, RST_OLED); // addr , freq , i2c group , resolution , rst
+static SSD1306Wire  display(0x3c, 500000, SDA_OLED, SCL_OLED, GEOMETRY_128_64, RST_OLED); // addr , freq , i2c group , resolution , rst
 
 #define DEMO_DURATION 3000
 typedef void (*Demo)(void);
