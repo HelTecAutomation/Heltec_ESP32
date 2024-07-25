@@ -377,14 +377,14 @@ public:
 		sendData(y);		 //
 		sendData(y + h - 1); // H End 48/8=6
 		sendData(x);
-		sendData(x + w-1); // V End 32
+		sendData(x + w - 1); // V End 32
 	}
 	void dis_img_Partial_Refresh(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const unsigned char *img)
 	{
 		unsigned int row, col;
 		unsigned int pcnt;
 		unsigned char Byte1, Byte2, Byte3;
-		Byte1 = h*8;
+		Byte1 = h * 8;
 		Byte2 = y;
 		/***************************************************Partial_Refresh image****************************************************/
 
@@ -408,7 +408,7 @@ public:
 		}
 
 		sendCommand(0x92); // partial out
-		WRITE_LUT_RED(); // 
+		WRITE_LUT_RED();   //
 		// sendCommand(0x50);
 		// sendData(0x07); //  border  CleaeScreep_LUT()
 		sendCommand(0xE0);
@@ -422,14 +422,14 @@ public:
 		WaitUntilIdle();
 		sendCommand(0x02);
 	}
-	void dis_str_Partial_Refresh(int16_t x, int16_t y, uint8_t ch,FontDef font)
+	void dis_str_Partial_Refresh(int16_t x, int16_t y, uint8_t ch, FontDef font)
 	{
 		unsigned int row, col;
 		unsigned int pcnt;
 		unsigned char Byte1, Byte2, Byte3;
 		// uint8_t textHeight = pgm_read_byte(fontData + HEIGHT_POS);
 		// uint16_t textWidth = pgm_read_byte(fontData + FIRST_CHAR_POS);
-		Byte1 = font.height ;
+		Byte1 = font.height;
 		Byte2 = (y / 8) * 8 + 1;
 
 		/***************************************************Partial_Refresh image****************************************************/
@@ -440,7 +440,7 @@ public:
 		sendCommand(0x90);
 		WaitUntilIdle();
 		// setwin(x, Byte2, w, Byte1);
-		setwin(x, y, font.width , Byte1);
+		setwin(x, y, font.width, Byte1);
 		sendData(0x01);
 		sendCommand(0x13); // DTM1 Write
 		WaitUntilIdle();
@@ -449,7 +449,7 @@ public:
 
 		for (i = 0; i < font.height; i++)
 		{
-	        b = font.data[(ch - 32) * font.height + i];
+			b = font.data[(ch - 32) * font.height + i];
 			for (j = 0; j < font.width; j++)
 			{
 				if ((b << j) & 0x8000)
@@ -464,7 +464,7 @@ public:
 		}
 		sendCommand(0x92); // partial out
 
-		WRITE_LUT_RED(); 
+		WRITE_LUT_RED();
 		// sendCommand(0x50);
 		// sendData(0x07); //  border  CleaeScreep_LUT()
 
@@ -492,6 +492,8 @@ private:
 		{ // LOW: idle, HIGH: busy
 		  // return;
 		  // Serial.println("busy");
+			esp_sleep_enable_timer_wakeup(10 * 1000);
+			esp_light_sleep_start();
 		}
 		delay(100);
 	}
