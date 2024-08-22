@@ -4,6 +4,7 @@
 #include <HT_Display.h>
 #include <SPI.h>
 
+SPIClass fSPI(HSPI);
 
 class DEPG0290BxS800FxX_BW : public ScreenDisplay {
   private:
@@ -41,7 +42,7 @@ GEOMETRY_296_128) {
       digitalWrite(_cs, HIGH);
       pinMode(_busy, INPUT);
       this->buffer = _bbf;
-      SPI.begin (this->_clk,this->_miso,this->_mosi);
+      fSPI.begin (this->_clk,this->_miso,this->_mosi);
       _spiSettings._clock=this->_freq;
       // Pulse Reset low for 10ms
       digitalWrite(_rst, HIGH);
@@ -62,27 +63,27 @@ GEOMETRY_296_128) {
 			int ymax=this->height()>>3;
 			if(rotate_angle==ANGLE_0_DEGREE)
 			{
-				SPI.beginTransaction(SPISettings(6000000, LSBFIRST, SPI_MODE0));
+				fSPI.beginTransaction(SPISettings(6000000, LSBFIRST, SPI_MODE0));
 				for(int x=0;x<xmax;x++)
 				{
 					for(int y=0;y<ymax;y++)
 					{
-						SPI.transfer(~buffer[x + y * xmax]);
+						fSPI.transfer(~buffer[x + y * xmax]);
 					}
 				}
 			}
 			else
 			{
-				SPI.beginTransaction(SPISettings(6000000, MSBFIRST, SPI_MODE0));
+				fSPI.beginTransaction(SPISettings(6000000, MSBFIRST, SPI_MODE0));
 				for(int x=xmax-1;x>=0;x--)
 				{
 					for(int y=(ymax-1);y>=0;y--)
 					{
-						SPI.transfer(~buffer[x + y * xmax]);
+						fSPI.transfer(~buffer[x + y * xmax]);
 					}
 				}
 			}
-			SPI.endTransaction();
+			fSPI.endTransaction();
 			digitalWrite(_cs,HIGH);
 			sendCommand(0x20);
 			WaitUntilIdle();
@@ -106,27 +107,27 @@ GEOMETRY_296_128) {
 			int ymax=this->width()>>3;
 			if(rotate_angle==ANGLE_90_DEGREE)
 			{
-				SPI.beginTransaction(SPISettings(6000000, MSBFIRST, SPI_MODE0));
+				fSPI.beginTransaction(SPISettings(6000000, MSBFIRST, SPI_MODE0));
 				for(int x=0;x<xmax;x++)
 				{
 					for(int y=ymax-1;y>=0;y--)
 					{
-						SPI.transfer(~buffer_rotate[x + y * xmax]);
+						fSPI.transfer(~buffer_rotate[x + y * xmax]);
 					}
 				}
 			}
 			else
 			{
-				SPI.beginTransaction(SPISettings(6000000, LSBFIRST, SPI_MODE0));
+				fSPI.beginTransaction(SPISettings(6000000, LSBFIRST, SPI_MODE0));
 				for(int x=xmax-1;x>=0;x--)
 				{
 					for(int y=0;y<ymax;y++)
 					{
-						SPI.transfer(~buffer_rotate[x + y * xmax]);
+						fSPI.transfer(~buffer_rotate[x + y * xmax]);
 					}
 				}
 			}
-			SPI.endTransaction();
+			fSPI.endTransaction();
 			digitalWrite(_cs,HIGH);
 			sendCommand(0x20);
 			WaitUntilIdle();
@@ -152,15 +153,15 @@ GEOMETRY_296_128) {
     inline void sendCommand(uint8_t com) __attribute__((always_inline)){
       digitalWrite(_dc, LOW);
       digitalWrite(_cs,LOW);
-      SPI.beginTransaction(_spiSettings);
-      SPI.transfer(com);
-      SPI.endTransaction();
+      fSPI.beginTransaction(_spiSettings);
+      fSPI.transfer(com);
+      fSPI.endTransaction();
       digitalWrite(_cs,HIGH);
       digitalWrite(_dc, HIGH);
     }
 	void sendData(unsigned char data) {
 	  digitalWrite(this->_cs, LOW);
-	  SPI.transfer(data);
+	  fSPI.transfer(data);
 	  digitalWrite(this->_cs, HIGH);
 	}
 
