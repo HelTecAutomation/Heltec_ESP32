@@ -3,8 +3,8 @@
 
 #include <HT_Display.h>
 #include <SPI.h>
+SPIClass fSPI(FSPI);
 
-SPIClass fSPI(HSPI);
 
 class DEPG0290BxS800FxX_BW : public ScreenDisplay {
   private:

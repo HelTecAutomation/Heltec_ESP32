@@ -6,6 +6,8 @@
  * 3. Calibrate the time from the network and then use an internal crystal oscillator to determine the time
  * 4. Read sensor data and upload it to the server. Receive server messages and display them on the screen.
  * 
+ * If you do not fill in the correct WIFI SSID and password, the E-Ink will not display.
+ * 
  * Description:
  * 1. Communicate using LoRaWAN protocol.
  * 

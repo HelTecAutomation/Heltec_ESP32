@@ -33,18 +33,20 @@ typedef void (*Demo)(void);
  * ANGLE_270_DEGREE
  */
 #define DIRECTION ANGLE_0_DEGREE
-
+#define Resolution 0.000244140625 
+#define battary_in 3.3
+#define coefficient 1.03
 int width, height;
 int demoMode = 0;
 
-// 获取http
+// get http
 const char *ntpServer = "ntp.aliyun.com";
 
 const long gmtOffset_sec = 28800;  // Time offset
 
 const int daylightOffset_sec = 0;
-const char *ssid = "Your Wi-Fi SSID";
-const char *password = "Your Wi-Fi password";
+const char *ssid = "Heltec-RD";
+const char *password = "hunter_3120";
 const char *host = "api.seniverse.com"; //Weather API provider
 
 // Users should apply for their own private key
