@@ -27,7 +27,7 @@
 #include "../driver/gpio-board.h"
 #include "../driver/gpio-board.h"
 #include "board-config.h"
-
+#if !defined(HT_DE01)&&!defined(WIFI_Kit_32)&&!defined(WIFI_Kit_32_V3)
 static GpioIrqHandler *GpioIrq[16];
 
 void GpioMcuInit( Gpio_t *obj, uint8_t pin, uint8_t mode, PinConfigs config, PinTypes type, uint32_t value )
@@ -71,3 +71,4 @@ uint32_t GpioMcuRead( Gpio_t *obj )
 	return digitalRead(obj->pin);
 }
 
+#endif

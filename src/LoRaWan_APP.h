@@ -3,14 +3,14 @@
 
 #ifndef LoRaWan_APP_H
 #define LoRaWan_APP_H
-
+#include "Arduino.h"
+#if !defined(HT_DE01)&&!defined(WIFI_Kit_32)&&!defined(WIFI_Kit_32_V3)
 #include "ESP32_Mcu.h"
 #include <stdio.h>
 #include "loramac/LoRaMac.h"
 #include "loramac/utilities.h"
 #include "ESP32_LoRaWan_102.h"
 #include "HardwareSerial.h"
-#include "Arduino.h"
 #include "driver/board.h"
 #include "driver/debug.h"
 
@@ -108,4 +108,5 @@ extern "C" void lora_printf(const char *format, ...);
 
 extern LoRaWanClass LoRaWAN;
 
+#endif
 #endif

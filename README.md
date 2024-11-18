@@ -2,15 +2,17 @@
 
 English | [简体中文](#简体中文)
 
-**This library requires installation of the [Heltec ESP32 development framework](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series)! A detailed document about how to install the Heltec ESP32 development framework and this library available here:**
+[Heltec ESP32 Library](library)  contains extended examples: **LoRa/LoRaWAN related examples**, **factory test code**, **display related example code**, **Sensor example code**, **GPS example code**, etc.
 
-[Heltec ESP32+LoRa Series Quick Start — esp32 latest documentation](https://docs.heltec.org/en/node/esp32/quick_start.html)
+The framework the library depends on, you can choose any of them:
+
+- [Heltec ESP32 Frame Work 3.0.2](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series) 
+- [espressif/arduino-esp32 at 3.0.2](https://github.com/espressif/arduino-esp32)
 
 ## CONTENT
 
 1. [How to install this library](#how-to-install-this-library)
 	- [Use Arduino Library Manager](#use-arduino-library-manager)
-	
 	- [Use Git](#use-git)
 	
 2. [How to use this library](#how-to-use-this-library)
@@ -27,11 +29,11 @@ English | [简体中文](#简体中文)
 
 ### Use Arduino Library Manager
 
-Open Arduino IDE, then Select `Sketch`->`Include Library`->`Manage Libraries...`
-Search `Heltec ESP32` and install it.
+Open Arduino IDE, then Select `LIBRARY MANAGER`.
+
 ![image](img/01.png)
 
-&nbsp;
+Search `Heltec ESP32` and install it.
 
 ![image](img/02.png)
 
@@ -50,11 +52,9 @@ You will see such a new folder in your library path, install done.
 
 ## How to use this library
 
-**This library requires the [Heltec ESP32 develop framework](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series)!**
-
 A detailed step by step instructions to execute some examples available here:
 
-[Heltec ESP32+LoRa Series Quick Start — esp32 latest documentation](https://docs.heltec.org/en/node/esp32/esp32_general_docs/quick_start.html)
+[Heltec ESP32+LoRa Series Quick Start — esp32 latest documentation](https://docs.heltec.org/en/node/esp32/esp32_general_docs/quick_start.html#programming).
 
 ## API Reference
 
@@ -110,9 +110,7 @@ Please make sure use a high-quality Micro USB cable, it will reduce many problem
 
 ## 简体中文
 
-**这个Arduino库必须配合[Heltec ESP32编译环境](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series)一起使用！完整的“编译环境 + 库”的的教程可以参考这里：**
-
-[Heltec ESP32+LoRa Series Quick Start — esp32 latest documentation](https://docs.heltec.org/en/node/esp32/quick_start.html)
+**这个Arduino库必须配合[Heltec ESP32编译环境](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series)或[espressif/arduino-esp32 at 3.0.2](https://github.com/espressif/arduino-esp32)一起使用！完整的“编译环境 + 库”的的教程可以参考这里：**
 
 ***
 
@@ -166,7 +164,7 @@ Please make sure use a high-quality Micro USB cable, it will reduce many problem
 
 如何运行一个例程？详细的使用指南：:
 
-[Heltec ESP32+LoRa Series Quick Start — esp32 latest documentation](https://docs.heltec.org/en/node/esp32/esp32_general_docs/quick_start.html)
+[Heltec ESP32+LoRa Series Quick Start — esp32 latest documentation](https://docs.heltec.org/en/node/esp32/esp32_general_docs/quick_start.html#programming)
 
 ## API参考
 [OLED API](src/oled/API.md)
