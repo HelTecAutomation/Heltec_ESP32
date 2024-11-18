@@ -2,7 +2,7 @@
 
 English | [简体中文](#简体中文)
 
-[Heltec ESP32 Library](library)  contains extended examples: **LoRa/LoRaWAN related examples**, **factory test code**, **display related example code**, **Sensor example code**, **GPS example code**, etc.
+**Heltec ESP32 Library** contains extended examples: **LoRa/LoRaWAN related examples**, **factory test code**, **display related example code**, **Sensor example code**, **GPS example code**, etc.
 
 The framework the library depends on, you can choose any of them:
 
@@ -110,7 +110,7 @@ Please make sure use a high-quality Micro USB cable, it will reduce many problem
 
 ## 简体中文
 
-**这个Arduino库必须配合[Heltec ESP32编译环境](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series)或[espressif/arduino-esp32 at 3.0.2](https://github.com/espressif/arduino-esp32)一起使用！完整的“编译环境 + 库”的的教程可以参考这里：**
+**这个Arduino库必须配合[Heltec ESP32编译环境](https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series)或[espressif/arduino-esp32 at 3.0.2](https://github.com/espressif/arduino-esp32)一起使用！完整的“编译环境 + 库”的的教程可以参考这里：**[Heltec ESP32 Series Quick Start — esp32 latest documentation](https://docs.heltec.org/en/node/esp32/esp32_general_docs/quick_start.html#)
 
 ***
 
