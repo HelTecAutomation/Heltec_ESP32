@@ -151,7 +151,7 @@ uint8_t SX126xGetPaOpt( void );
 
 void SX126xSetPaOpt( uint8_t opt );
 
-bool BoardDisableIrq( void );
+void BoardDisableIrq( void );
 
 void BoardEnableIrq(void);
 
