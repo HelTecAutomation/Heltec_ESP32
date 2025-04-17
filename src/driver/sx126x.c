@@ -6,6 +6,9 @@
 #include "../driver/sx126x-board.h"
 #include "esp_attr.h" 
 #include "esp_sleep.h"
+#include “Arduino.h”
+#include <string.h>
+
 /*!
  * \brief Radio registers definition
  */
