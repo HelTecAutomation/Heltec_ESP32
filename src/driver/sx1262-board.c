@@ -30,6 +30,8 @@
 
 RTC_DATA_ATTR uint8_t gPaOptSetting = 0;
 
+extern void lora_printf(const char *format, …);
+
 extern uint8_t SpiInOut(Spi_t *obj, uint8_t outData );
 RTC_DATA_ATTR SX126x_t SX126x;
 uint32_t SX126xGetBoardTcxoWakeupTime( void )
