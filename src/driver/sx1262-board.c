@@ -27,6 +27,7 @@
 #include "../driver/sx126x.h"
 #include "Arduino.h"
 #include "../driver/board-config.h"
+#include "debug.h"
 
 RTC_DATA_ATTR uint8_t gPaOptSetting = 0;
 
