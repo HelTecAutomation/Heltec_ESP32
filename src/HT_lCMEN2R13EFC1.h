@@ -8,12 +8,7 @@
 // #include "picture_part.h"
 SPIClass fSPI(HSPI);
 
-enum DISPLAY_BUFFER
-{
-	BLACK_BUFFER = 0,
-	COLOR_BUFFER = 1,
 
-};
 
 class HT_ICMEN2R13EFC1 : public ScreenDisplay
 {
@@ -67,7 +62,7 @@ public:
 		return true;
 	}
 
-	void update(DISPLAY_BUFFER buffer)
+	void update(DISPLAY_BUFFER buffer) override
 	{
 		if (buffer == BLACK_BUFFER)
 			// updateData(0x24);
@@ -491,9 +486,11 @@ private:
 		while (!digitalRead(_busy))
 		{ // LOW: idle, HIGH: busy
 		  // return;
-		  // Serial.println("busy");
-			esp_sleep_enable_timer_wakeup(10 * 1000);
-			esp_light_sleep_start();
+		//   Serial.println("busy");
+			// esp_sleep_enable_timer_wakeup(10 * 1000);
+			// esp_light_sleep_start();
+			delay(100);
+
 		}
 		delay(100);
 	}

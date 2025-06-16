@@ -26,13 +26,14 @@
 #include "driver/periph_ctrl.h"
 #include "bootloader_clock.h"
 #include "soc/syscon_reg.h"
+#include "driver/debug.h"
 
 #define SYSTEM_WIFI_CLK_I2C_CLK_EN  BIT(5)
-#define ESP_EARLY_LOGW(tag, format, ...)  log_printf(format, ##__VA_ARGS__)
-#define ESP_EARLY_LOGD(tag, format, ...)  log_printf(format, ##__VA_ARGS__)
+#define ESP_EARLY_LOGW(tag, format, ...)  lora_printf(format, ##__VA_ARGS__)
+#define ESP_EARLY_LOGD(tag, format, ...)  lora_printf(format, ##__VA_ARGS__)
 
 static const char *TAG = "clk";
-
+extern void esp_clk_slowclk_cal_set(uint32_t value);
 /* Number of cycles to wait from the 32k XTAL oscillator to consider it running.
  * Larger values increase startup delay. Smaller values may cause false positive
  * detection (i.e. oscillator runs for a few cycles and then stops).
@@ -197,7 +198,7 @@ static void select_rtc_slow_clk(slow_clk_sel_t slow_clk)
     esp_clk_slowclk_cal_set(cal_val);
 }
  
-void rtc_clk_select_rtc_slow_clk(void)
+static void rtc_clk_select_rtc_slow_clk(void)
 {
     select_rtc_slow_clk(RTC_SLOW_FREQ_32K_XTAL);
 }
