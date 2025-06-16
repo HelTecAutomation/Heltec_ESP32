@@ -7,6 +7,10 @@
  * 1.Pin states can be set to achieve stable deep sleep.
  * 2.If equipped with Lora module, please use this low-power instance
  * 
+ * To reset the deepsleep on a Heltec Vision Master, you can press and 
+ *  hold the Boot key, press RST once, and then release the Boot key. 
+ * Now you can upload next program. 
+ *
  * Library url: https://github.com/HelTecAutomation/Heltec_ESP32
  * Support: support@heltec.cn
  *
