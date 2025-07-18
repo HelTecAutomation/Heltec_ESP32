@@ -51,6 +51,7 @@
  *              - #define REGION_IN865
  *              - #define REGION_US915
  *              - #define REGION_US915_HYBRID
+ *              - #define REGION_RU864
  *
  * \{
  */
@@ -90,6 +91,7 @@
  * KR920        | SF12 - BW125
  * US915        | SF10 - BW125
  * US915_HYBRID | SF10 - BW125
+ * RU864        | SF12 - BW125
  */
 #define DR_0                                        0
 
@@ -107,6 +109,7 @@
  * KR920        | SF11 - BW125
  * US915        | SF9  - BW125
  * US915_HYBRID | SF9  - BW125
+ * RU864        | SF11 - BW125
  */
 #define DR_1                                        1
 
@@ -124,6 +127,7 @@
  * KR920        | SF10 - BW125
  * US915        | SF8  - BW125
  * US915_HYBRID | SF8  - BW125
+ * RU864        | SF10 - BW125
  */
 #define DR_2                                        2
 
@@ -141,6 +145,7 @@
  * KR920        | SF9  - BW125
  * US915        | SF7  - BW125
  * US915_HYBRID | SF7  - BW125
+ * RU864        | SF9  - BW125
  */
 #define DR_3                                        3
 
@@ -158,6 +163,7 @@
  * KR920        | SF8  - BW125
  * US915        | SF8  - BW500
  * US915_HYBRID | SF8  - BW500
+ * RU864        | SF8  - BW125
  */
 #define DR_4                                        4
 
@@ -175,6 +181,7 @@
  * KR920        | SF7  - BW125
  * US915        | RFU
  * US915_HYBRID | RFU
+ * RU864        | SF7  - BW125
  */
 #define DR_5                                        5
 
@@ -192,6 +199,7 @@
  * KR920        | RFU
  * US915        | RFU
  * US915_HYBRID | RFU
+ * RU864        | SF7  - BW250
  */
 #define DR_6                                        6
 
@@ -209,6 +217,7 @@
  * KR920        | RFU
  * US915        | RFU
  * US915_HYBRID | RFU
+ * RU864        | FSK
  */
 #define DR_7                                        7
 
@@ -226,6 +235,7 @@
  * KR920        | RFU
  * US915        | SF12 - BW500
  * US915_HYBRID | SF12 - BW500
+ * RU864        | RFU
  */
 #define DR_8                                        8
 
@@ -243,6 +253,7 @@
  * KR920        | RFU
  * US915        | SF11 - BW500
  * US915_HYBRID | SF11 - BW500
+ * RU864        | RFU
  */
 #define DR_9                                        9
 
@@ -260,6 +271,7 @@
  * KR920        | RFU
  * US915        | SF10 - BW500
  * US915_HYBRID | SF10 - BW500
+ * RU864        | RFU
  */
 #define DR_10                                       10
 
@@ -277,6 +289,7 @@
  * KR920        | RFU
  * US915        | SF9  - BW500
  * US915_HYBRID | SF9  - BW500
+ * RU864        | RFU
  */
 #define DR_11                                       11
 
@@ -294,6 +307,7 @@
  * KR920        | RFU
  * US915        | SF8  - BW500
  * US915_HYBRID | SF8  - BW500
+ * RU864        | RFU
  */
 #define DR_12                                       12
 
@@ -311,6 +325,7 @@
  * KR920        | RFU
  * US915        | SF7  - BW500
  * US915_HYBRID | SF7  - BW500
+ * RU864        | RFU
  */
 #define DR_13                                       13
 
@@ -328,6 +343,7 @@
  * KR920        | RFU
  * US915        | RFU
  * US915_HYBRID | RFU
+ * RU864        | RFU
  */
 #define DR_14                                       14
 
@@ -345,6 +361,7 @@
  * KR920        | RFU
  * US915        | RFU
  * US915_HYBRID | RFU
+ * RU864        | RFU
  */
 #define DR_15                                       15
 
@@ -364,6 +381,7 @@
  * KR920        | Max EIRP
  * US915        | Max ERP
  * US915_HYBRID | Max ERP
+ * RU864        | Max EIRP
  */
 #define TX_POWER_0                                  0
 
@@ -381,6 +399,7 @@
  * KR920        | Max EIRP - 2
  * US915        | Max ERP - 2
  * US915_HYBRID | Max ERP - 2
+ * RU864        | Max EIRP - 2
  */
 #define TX_POWER_1                                  1
 
@@ -398,6 +417,7 @@
  * KR920        | Max EIRP - 4
  * US915        | Max ERP - 4
  * US915_HYBRID | Max ERP - 4
+ * RU864        | Max EIRP - 4
  */
 #define TX_POWER_2                                  2
 
@@ -415,6 +435,7 @@
  * KR920        | Max EIRP - 6
  * US915        | Max ERP - 6
  * US915_HYBRID | Max ERP - 6
+ * RU864        | Max EIRP - 6
  */
 #define TX_POWER_3                                  3
 
@@ -432,6 +453,7 @@
  * KR920        | Max EIRP - 8
  * US915        | Max ERP - 8
  * US915_HYBRID | Max ERP - 8
+ * RU864        | Max EIRP - 8
  */
 #define TX_POWER_4                                  4
 
@@ -449,6 +471,7 @@
  * KR920        | Max EIRP - 10
  * US915        | Max ERP - 10
  * US915_HYBRID | Max ERP - 10
+ * RU864        | Max EIRP - 10
  */
 #define TX_POWER_5                                  5
 
@@ -466,6 +489,7 @@
  * KR920        | Max EIRP - 12
  * US915        | Max ERP - 12
  * US915_HYBRID | Max ERP - 12
+ * RU864        | Max EIRP - 12
  */
 #define TX_POWER_6                                  6
 
@@ -483,6 +507,7 @@
  * KR920        | Max EIRP - 14
  * US915        | Max ERP - 14
  * US915_HYBRID | Max ERP - 14
+ * RU864        | Max EIRP - 14
  */
 #define TX_POWER_7                                  7
 
@@ -499,6 +524,7 @@
  * KR920        | -
  * US915        | Max ERP - 16
  * US915_HYBRID | Max ERP -16
+ * RU864        | -
  */
 #define TX_POWER_8                                  8
 
@@ -515,6 +541,7 @@
  * KR920        | -
  * US915        | Max ERP - 16
  * US915_HYBRID | Max ERP - 16
+ * RU864        | -
  */
 #define TX_POWER_9                                  9
 
@@ -531,6 +558,7 @@
  * KR920        | -
  * US915        | Max ERP - 10
  * US915_HYBRID | Max ERP - 10
+ * RU864        | -
  */
 #define TX_POWER_10                                 10
 
