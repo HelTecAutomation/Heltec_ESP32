@@ -50,7 +50,7 @@
 /*!
  * Number of default channels
  */
-#define CN779_NUMB_DEFAULT_CHANNELS                 3
+#define CN779_NUMB_DEFAULT_CHANNELS                 2
 
 /*!
  * Number of channels to apply for the CF list
@@ -100,7 +100,7 @@
 /*!
  * Minimal Tx output power that can be used by the node
  */
-#define CN779_MIN_TX_POWER                          TX_POWER_5
+#define CN779_MIN_TX_POWER                          TX_POWER_7
 
 /*!
  * Maximal Tx output power that can be used by the node
@@ -115,7 +115,7 @@
 /*!
  * Default Max EIRP
  */
-#define CN779_DEFAULT_MAX_EIRP                      12.15f
+#define CN779_DEFAULT_MAX_EIRP                      16.0f
 
 /*!
  * Default antenna gain
@@ -187,7 +187,7 @@
 /*!
  * Second reception window channel frequency definition.
  */
-#define CN779_RX_WND_2_FREQ                         786000000
+#define CN779_RX_WND_2_FREQ                         869100000
 
 /*!
  * Second reception window channel datarate definition.
@@ -200,7 +200,7 @@
 /*!
  * Beacon frequency
  */
-#define CN779_BEACON_CHANNEL_FREQ                   785000000
+#define CN779_BEACON_CHANNEL_FREQ                   869100000
 
 /*!
  * Payload size of a beacon frame
@@ -242,23 +242,17 @@
  * LoRaMac default channel 1
  * Channel = { Frequency [Hz], RX1 Frequency [Hz], { ( ( DrMax << 4 ) | DrMin ) }, Band }
  */
-#define CN779_LC1                                   { 779500000, 0, { ( ( DR_5 << 4 ) | DR_0 ) }, 0 }
+#define CN779_LC1                                   { 868900000, 0, { ( ( DR_5 << 4 ) | DR_0 ) }, 0 }
 /*!
  * LoRaMac default channel 2
  * Channel = { Frequency [Hz], RX1 Frequency [Hz], { ( ( DrMax << 4 ) | DrMin ) }, Band }
  */
-#define CN779_LC2                                   { 779700000, 0, { ( ( DR_5 << 4 ) | DR_0 ) }, 0 }
-
-/*!
- * LoRaMac default channel 3
- * Channel = { Frequency [Hz], RX1 Frequency [Hz], { ( ( DrMax << 4 ) | DrMin ) }, Band }
- */
-#define CN779_LC3                                   { 779900000, 0, { ( ( DR_5 << 4 ) | DR_0 ) }, 0 }
+#define CN779_LC2                                   { 869100000, 0, { ( ( DR_5 << 4 ) | DR_0 ) }, 0 }
 
 /*!
  * LoRaMac channels which are allowed for the join procedure
  */
-#define CN779_JOIN_CHANNELS                         ( uint16_t )( LC( 1 ) | LC( 2 ) | LC( 3 ) )
+#define CN779_JOIN_CHANNELS                         ( uint16_t )( LC( 1 ) | LC( 2 ) )
 
 /*!
  * Data rates table definition

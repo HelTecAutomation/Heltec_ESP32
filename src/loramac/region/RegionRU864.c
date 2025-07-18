@@ -105,7 +105,7 @@ static bool VerifyTxFreq( uint32_t freq )
         return false;
     }
 
-    if( ( freq < 779500000 ) || ( freq > 786500000 ) )
+    if( ( freq < 864000000 ) || ( freq > 870000000 ) )
     {
         return false;
     }
@@ -336,10 +336,9 @@ void RegionCN779InitDefaults( InitType_t type )
             // Channels
             Channels[0] = ( ChannelParams_t ) CN779_LC1;
             Channels[1] = ( ChannelParams_t ) CN779_LC2;
-            Channels[2] = ( ChannelParams_t ) CN779_LC3;
 
             // Initialize the channels default mask
-            ChannelsDefaultMask[0] = LC( 1 ) + LC( 2 ) + LC( 3 );
+            ChannelsDefaultMask[0] = LC( 1 ) + LC( 2 );
             // Update the channels mask
             RegionCommonChanMaskCopy( ChannelsMask, ChannelsDefaultMask, 1 );
             break;
@@ -517,7 +516,7 @@ bool RegionCN779AdrNext( AdrNextParams_t* adrNext, int8_t* drOut, int8_t* txPowO
                         if( adrNext->UpdateChanMask == true )
                         {
                             // Re-enable default channels
-                            ChannelsMask[0] |= LC( 1 ) + LC( 2 ) + LC( 3 );
+                            ChannelsMask[0] |= LC( 1 ) + LC( 2 );
                         }
                     }
                 }
@@ -918,7 +917,7 @@ bool RegionCN779NextChannel( NextChanParams_t* nextChanParams, uint8_t* channel,
 
     if( RegionCommonCountChannels( ChannelsMask, 0, 1 ) == 0 )
     { // Reactivate default channels
-        ChannelsMask[0] |= LC( 1 ) + LC( 2 ) + LC( 3 );
+        ChannelsMask[0] |= LC( 1 ) + LC( 2 );
     }
 
     if( nextChanParams->AggrTimeOff <= TimerGetElapsedTime( nextChanParams->LastAggrTx ) )
@@ -957,7 +956,7 @@ bool RegionCN779NextChannel( NextChanParams_t* nextChanParams, uint8_t* channel,
             return true;
         }
         // Datarate not supported by any channel, restore defaults
-        ChannelsMask[0] |= LC( 1 ) + LC( 2 ) + LC( 3 );
+        ChannelsMask[0] |= LC( 1 ) + LC( 2 );
         *time = 0;
         return false;
     }
