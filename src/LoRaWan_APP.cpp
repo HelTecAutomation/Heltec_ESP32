@@ -554,6 +554,9 @@ void LoRaWanClass::init(DeviceClass_t lorawanClass,LoRaMacRegion_t region)
 		case LORAMAC_REGION_US915_HYBRID:
 			Serial.print("US915_HYBRID ");
 			break;
+		case LORAMAC_REGION_RU864:
+			Serial.print("RU864");
+			break;
 		default:
 			break;
 	}
