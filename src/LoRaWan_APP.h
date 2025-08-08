@@ -85,7 +85,7 @@ public:
   void ifskipjoin();
   void generateDeveuiByChipID();
 
-#if defined(WIFI_LORA_32_V3)||defined(WIFI_LORA_32_V2)||defined(WIRELESS_STICK_V3)||defined( WIFI_LORA_32 )||defined(WIRELESS_STICK)
+#if defined(WIFI_LORA_32_V3)||defined(WIFI_LORA_32_V4)||defined(WIFI_LORA_32_V2)||defined(WIRELESS_STICK_V3)||defined( WIFI_LORA_32 )||defined(WIRELESS_STICK)
   void displayJoining();
   void displayJoined();
   void displaySending();

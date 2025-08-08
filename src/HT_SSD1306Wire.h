@@ -22,6 +22,10 @@ class SSD1306Wire : public ScreenDisplay {
       this->_sda = sda;
       this->_scl = scl;
       this->displayType = OLED;
+#ifdef WIFI_LORA_32_V4
+		pinMode(Vext, OUTPUT);
+		digitalWrite(Vext, HIGH);
+#endif
     }
 
     bool connect() {

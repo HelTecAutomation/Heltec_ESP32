@@ -12,7 +12,7 @@
 #define Class_Wifi_Kit
 #endif
 
-#if defined( WIFI_LORA_32 ) || defined( WIFI_LORA_32_V2 ) || defined( WIFI_LORA_32_V3 )
+#if defined( WIFI_LORA_32 ) || defined( WIFI_LORA_32_V2 ) || defined( WIFI_LORA_32_V3 )|| defined( WIFI_LORA_32_V4 )
 #define Class_WIFI_LORA
 #endif
 
@@ -35,7 +35,7 @@
 #endif
 
 /* wifi kit 32 and WiFi LoRa 32(V1) do not have vext */
-#if defined( WIFI_Kit_32_V3 ) || defined( WIFI_LORA_32_V2 ) || defined( WIFI_LORA_32_V3 ) || defined( Class_WIRELESS_STICK ) || defined( WIRELESS_BRIDGE )
+#if defined( WIFI_Kit_32_V3 ) || defined( WIFI_LORA_32_V2 ) || defined( WIFI_LORA_32_V3 )|| defined( WIFI_LORA_32_V4 ) || defined( Class_WIRELESS_STICK ) || defined( WIRELESS_BRIDGE )
 #define Heltec_Vext
 #endif
 

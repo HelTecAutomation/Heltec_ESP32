@@ -35,6 +35,8 @@ Maintainer: Miguel Luis ( Semtech ), Gregory Cristian ( Semtech ) and Daniel Jae
 #include "../loramac/LoRaMacConfirmQueue.h"
 #include "esp_attr.h" 
 #include "esp_sleep.h"
+#include "../driver/board-config.h"
+#include "Arduino.h"
 //#define CONFIG_LORA_CAD
 
 #ifdef CONFIG_LORA_VERIFY
@@ -705,6 +707,10 @@ static void OpenContinuousRx2Window( void );
 extern uint64_t esp32deepsleepWaketime;
 static void OnRadioTxDone( void )
 {
+#ifdef WIFI_LORA_32_V4
+    digitalWrite(LORA_PA_TX_EN,LOW);
+    pinMode(LORA_PA_TX_EN,INPUT);
+#endif
 	DIO_PRINTF("Event : Tx Done\r\n");
 	lora_txing=false;
     GetPhyParams_t getPhy;
@@ -1235,6 +1241,10 @@ void OnRadioRxDone( uint8_t *payload, uint16_t size, int16_t rssi, int8_t snr )
 
 static void OnRadioTxTimeout( void )
 {
+#ifdef WIFI_LORA_32_V4
+    digitalWrite(LORA_PA_TX_EN,LOW);
+    pinMode(LORA_PA_TX_EN,INPUT);
+#endif
     DIO_PRINTF("Event : Tx Timeout\r\n");
     lora_txing=false;
     Radio.Init( &RadioEvents );

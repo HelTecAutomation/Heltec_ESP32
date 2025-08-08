@@ -9,7 +9,7 @@
 #include "../loramac/utilities.h"
 #include "../radio/radio.h"
 #include "Arduino.h"
-
+#include "../driver/board-config.h"
 
 /*!
  * \brief Initializes the radio
@@ -898,6 +898,13 @@ void RadioSend( uint8_t *buffer, uint8_t size )
         SX126x.PacketParams.Params.Gfsk.PayloadLength = size;
     }
     SX126xSetPacketParams( &SX126x.PacketParams );
+
+#ifdef WIFI_LORA_32_V4
+    pinMode(LORA_PA_POWER,OUTPUT);
+    digitalWrite(LORA_PA_POWER,HIGH);
+    pinMode(LORA_PA_TX_EN,OUTPUT);
+    digitalWrite(LORA_PA_TX_EN,HIGH);
+#endif
 
     SX126xSendPayload( buffer, size, 0 );
     TimerSetValue( &TxTimeoutTimer, TxTimeout );
