@@ -331,7 +331,7 @@ interrupt_handle();
   pinMode(Vext,ANALOG);
   detachInterrupt(0);
   Wire.end();
-  Serial.end(true);
+  Serial.end();
   SPI.end();
   WiFi.mode(WIFI_OFF);
 	esp_sleep_enable_timer_wakeup(600*1000*(uint64_t)1000);
