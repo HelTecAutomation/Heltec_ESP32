@@ -52,7 +52,8 @@
 #define LORA_MISO      11
 #define LORA_MOSI      10
 #if defined(WIFI_LORA_32_V4)
-#define LORA_PA_POWER  45
+#define LORA_PA_POWER  7
+#define LORA_PA_EN     2
 #define LORA_PA_TX_EN  46
 #endif
 #elif defined(WIFI_LORA_32_V2)||defined(WIRELESS_STICK)||defined(WIRELESS_STICK_LITE)||defined(WIRELESS_BRIDGE)
