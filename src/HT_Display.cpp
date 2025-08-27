@@ -732,6 +732,10 @@ void ScreenDisplay::flipScreenVertically() {
 }
 
 void ScreenDisplay::clear(void) {
+  if(buffer==NULL ||displayBufferSize <=0)
+  {
+    return;
+  }
   memset(buffer, 0, displayBufferSize);
 }
 

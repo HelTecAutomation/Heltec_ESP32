@@ -95,7 +95,10 @@ RTC_DATA_ATTR bool firstrun = true;
 void setup() {
   Serial.begin(115200);
   Mcu.begin(HELTEC_BOARD,SLOW_CLK_TPYE);
-
+#ifdef WIFI_LORA_32_V4
+  pinMode(Vext, OUTPUT);
+  digitalWrite(Vext, LOW);
+#endif
   if(firstrun)
   {
     LoRaWAN.displayMcuInit();

@@ -892,9 +892,11 @@ void RadioSend( uint8_t *buffer, uint8_t size )
     rtc_gpio_hold_dis((gpio_num_t)LORA_PA_EN);
 	pinMode(LORA_PA_EN,OUTPUT);
 	digitalWrite(LORA_PA_EN,HIGH);
+    delay(1);
 
     pinMode(LORA_PA_TX_EN,OUTPUT);
 	digitalWrite(LORA_PA_TX_EN,HIGH);
+    delay(2);
 #endif
 
     SX126xSetDioIrqParams( IRQ_TX_DONE | IRQ_RX_TX_TIMEOUT,
