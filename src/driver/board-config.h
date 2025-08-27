@@ -41,7 +41,7 @@
 
 #define BOARD_TCXO_WAKEUP_TIME                      5
 
-#if defined(WIFI_LORA_32_V3)||defined(WIRELESS_TRACKER)||defined(WIRELESS_STICK_V3)||defined(WIRELESS_STICK_LITE_V3)||defined(WIRELESS_PAPER)||defined(CAPSULE_SENSOR_V3)||defined(WIRELESS_SHELL_V3)||defined(Vision_Master_E_213)||defined(Vision_Master_E290)||defined(Vision_Master_T190)
+#if defined(WIFI_LORA_32_V3)||defined(WIFI_LORA_32_V4)||defined(WIRELESS_TRACKER)||defined(WIRELESS_STICK_V3)||defined(WIRELESS_STICK_LITE_V3)||defined(WIRELESS_PAPER)||defined(CAPSULE_SENSOR_V3)||defined(WIRELESS_SHELL_V3)||defined(Vision_Master_E_213)||defined(Vision_Master_E290)||defined(Vision_Master_T190)
 
 #define RADIO_DIO_1    14
 #define RADIO_NSS      8
@@ -51,7 +51,11 @@
 #define LORA_CLK       9
 #define LORA_MISO      11
 #define LORA_MOSI      10
-
+#if defined(WIFI_LORA_32_V4)
+#define LORA_PA_POWER  7
+#define LORA_PA_EN     2
+#define LORA_PA_TX_EN  46
+#endif
 #elif defined(WIFI_LORA_32_V2)||defined(WIRELESS_STICK)||defined(WIRELESS_STICK_LITE)||defined(WIRELESS_BRIDGE)
 #define RADIO_RESET                                14
 

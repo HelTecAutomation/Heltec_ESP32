@@ -35,6 +35,8 @@ Maintainer: Miguel Luis ( Semtech ), Gregory Cristian ( Semtech ) and Daniel Jae
 #include "../loramac/LoRaMacConfirmQueue.h"
 #include "esp_attr.h" 
 #include "esp_sleep.h"
+#include "../driver/board-config.h"
+#include "Arduino.h"
 //#define CONFIG_LORA_CAD
 
 #ifdef CONFIG_LORA_VERIFY
@@ -705,6 +707,7 @@ static void OpenContinuousRx2Window( void );
 extern uint64_t esp32deepsleepWaketime;
 static void OnRadioTxDone( void )
 {
+
 	DIO_PRINTF("Event : Tx Done\r\n");
 	lora_txing=false;
     GetPhyParams_t getPhy;
