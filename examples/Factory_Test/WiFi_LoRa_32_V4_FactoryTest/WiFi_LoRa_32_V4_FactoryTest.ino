@@ -145,10 +145,9 @@ void lora_init(void)
 	RadioEvents.TxTimeout = OnTxTimeout;
 	RadioEvents.RxDone = OnRxDone;
 
-	pinMode(LORA_PA_POWER,OUTPUT);
+	pinMode(LORA_PA_POWER,ANALOG);
 	pinMode(LORA_PA_EN,OUTPUT);
 	pinMode(LORA_PA_TX_EN,OUTPUT);
-	digitalWrite(LORA_PA_POWER,HIGH);
 	digitalWrite(LORA_PA_EN,HIGH);
 	digitalWrite(LORA_PA_TX_EN,HIGH);
 
