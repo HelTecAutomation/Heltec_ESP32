@@ -889,7 +889,7 @@ void RadioSend( uint8_t *buffer, uint8_t size )
 #ifdef WIFI_LORA_32_V4
 	pinMode(LORA_PA_POWER,ANALOG);
 
-    rtc_gpio_hold_dis(LORA_PA_EN);
+    rtc_gpio_hold_dis((gpio_num_t)LORA_PA_EN);
 	pinMode(LORA_PA_EN,OUTPUT);
 	digitalWrite(LORA_PA_EN,HIGH);
 
@@ -923,7 +923,7 @@ void RadioSleep( void )
 #ifdef WIFI_LORA_32_V4
 	pinMode(LORA_PA_EN,OUTPUT);
 	digitalWrite(LORA_PA_EN,LOW);
-    rtc_gpio_hold_en(LORA_PA_EN);
+    rtc_gpio_hold_en((gpio_num_t)LORA_PA_EN);
 #endif
 
     SleepParams_t params = { 0 };
@@ -944,7 +944,7 @@ void RadioRx( uint32_t timeout )
 #ifdef WIFI_LORA_32_V4
 	pinMode(LORA_PA_POWER,ANALOG);
 
-    rtc_gpio_hold_dis(LORA_PA_EN);
+    rtc_gpio_hold_dis((gpio_num_t)LORA_PA_EN);
 	pinMode(LORA_PA_EN,OUTPUT);
     digitalWrite(LORA_PA_EN,HIGH);
 #endif
@@ -976,7 +976,7 @@ void RadioRxBoosted( uint32_t timeout )
 #ifdef WIFI_LORA_32_V4
 	pinMode(LORA_PA_POWER,ANALOG);
 
-    rtc_gpio_hold_dis(LORA_PA_EN);
+    rtc_gpio_hold_dis((gpio_num_t)LORA_PA_EN);
 	pinMode(LORA_PA_EN,OUTPUT);
     digitalWrite(LORA_PA_EN,HIGH);
 #endif
@@ -1007,7 +1007,7 @@ void RadioSetRxDutyCycle( uint32_t rxTime, uint32_t sleepTime )
 #ifdef WIFI_LORA_32_V4
 	pinMode(LORA_PA_POWER,ANALOG);
 
-    rtc_gpio_hold_dis(LORA_PA_EN);
+    rtc_gpio_hold_dis((gpio_num_t)LORA_PA_EN);
 	pinMode(LORA_PA_EN,OUTPUT);
     digitalWrite(LORA_PA_EN,HIGH);
 #endif
