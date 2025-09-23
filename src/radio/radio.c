@@ -887,7 +887,8 @@ extern bool lora_txing;;
 void RadioSend( uint8_t *buffer, uint8_t size )
 {
 #ifdef WIFI_LORA_32_V4
-	pinMode(LORA_PA_POWER,ANALOG);
+	pinMode(LORA_PA_POWER,OUTPUT);
+    digitalWrite(LORA_PA_POWER,HIGH);
 
     rtc_gpio_hold_dis((gpio_num_t)LORA_PA_EN);
 	pinMode(LORA_PA_EN,OUTPUT);
@@ -944,7 +945,8 @@ void RadioStandby( void )
 void RadioRx( uint32_t timeout )
 {
 #ifdef WIFI_LORA_32_V4
-	pinMode(LORA_PA_POWER,ANALOG);
+	pinMode(LORA_PA_POWER,OUTPUT);
+    digitalWrite(LORA_PA_POWER,HIGH);
 
     rtc_gpio_hold_dis((gpio_num_t)LORA_PA_EN);
 	pinMode(LORA_PA_EN,OUTPUT);
@@ -976,7 +978,8 @@ void RadioRx( uint32_t timeout )
 void RadioRxBoosted( uint32_t timeout )
 {
 #ifdef WIFI_LORA_32_V4
-	pinMode(LORA_PA_POWER,ANALOG);
+	pinMode(LORA_PA_POWER,OUTPUT);
+    digitalWrite(LORA_PA_POWER,HIGH);
 
     rtc_gpio_hold_dis((gpio_num_t)LORA_PA_EN);
 	pinMode(LORA_PA_EN,OUTPUT);
@@ -1007,8 +1010,9 @@ void RadioRxBoosted( uint32_t timeout )
 void RadioSetRxDutyCycle( uint32_t rxTime, uint32_t sleepTime )
 {
 #ifdef WIFI_LORA_32_V4
-	pinMode(LORA_PA_POWER,ANALOG);
-
+	pinMode(LORA_PA_POWER,OUTPUT);
+    digitalWrite(LORA_PA_POWER,HIGH);
+    
     rtc_gpio_hold_dis((gpio_num_t)LORA_PA_EN);
 	pinMode(LORA_PA_EN,OUTPUT);
     digitalWrite(LORA_PA_EN,HIGH);
@@ -1056,6 +1060,19 @@ void RadioTx( uint32_t timeout )
 
 void RadioSetTxContinuousWave( uint32_t freq, int8_t power, uint16_t time )
 {
+#ifdef WIFI_LORA_32_V4
+	pinMode(LORA_PA_POWER,OUTPUT);
+    digitalWrite(LORA_PA_POWER,HIGH);
+
+    rtc_gpio_hold_dis((gpio_num_t)LORA_PA_EN);
+	pinMode(LORA_PA_EN,OUTPUT);
+	digitalWrite(LORA_PA_EN,HIGH);
+    delay(1);
+
+    pinMode(LORA_PA_TX_EN,OUTPUT);
+	digitalWrite(LORA_PA_TX_EN,HIGH);
+    delay(2);
+#endif
     SX126xSetRfFrequency( freq );
     SX126xSetRfTxPower( power );
     SX126xSetTxContinuousWave( );
