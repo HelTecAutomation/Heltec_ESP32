@@ -849,13 +849,12 @@ size_t ScreenDisplay::write(uint8_t c) {
   return 1;
 }
 
-size_t ScreenDisplay::write(const char* str) {
+size_t ScreenDisplay::write(const uint8_t* str, size_t size) {
   if (str == NULL) return 0;
-  size_t length = strlen(str);
-  for (size_t i = 0; i < length; i++) {
+  for (size_t i = 0; i < size; i++) {
     write(str[i]);
   }
-  return length;
+  return size;
 }
 
 

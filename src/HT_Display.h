@@ -271,7 +271,7 @@ class ScreenDisplay : public Print  {
 
     // Implement needed function to be compatible with Print class
     size_t write(uint8_t c);
-    size_t write(const char* s);
+    size_t write(const uint8_t* s, size_t size);
 	
     // Implement needed function to be compatible with Stream clas
 

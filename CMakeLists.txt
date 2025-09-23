@@ -1,15 +1,14 @@
 set(srcs
     src/BMP180.cpp
-    src/oled/OLEDDisplay.cpp
-    src/oled/OLEDDisplayUi.cpp
     src/heltec.cpp
     src/lora/LoRa.cpp
+    src/HT_Display.cpp
+    src/HT_DisplayUi.cpp
   )
 
 set(includedirs
     src
     src/lora
-    src/oled
   )
 
 set(priv_includes )
