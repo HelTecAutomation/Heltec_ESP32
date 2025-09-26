@@ -8,7 +8,7 @@
 #include "esp_sleep.h"
 #include "Arduino.h"
 #include <string.h>
-
+#include <math.h>
 /*!
  * \brief Radio registers definition
  */
@@ -521,15 +521,28 @@ void SX126xSetTxParams( int8_t power, RadioRampTimes_t rampTime )
                 break;
             }
         } 
-
+#ifdef WIFI_LORA_32_V4
+        //y = 0.0004x^3 - 0.011x^2 + 1.0866x - 11.365
+        int8_t pa_power = power;
+        power =  floor(0.0004*pow(pa_power, 3) - 0.011*pow(pa_power, 2) + 1.0866*pa_power - 11.365);
+        if( power > 20 )
+        {
+            power = 20;
+        }
+        else if( power < -9 )
+        {
+            power = -9;
+        }
+#else
         if( power > 22 )
         {
             power = 22;
         }
         else if( power < -3 )
-        {
+        { 
             power = -3;
         }
+#endif
         SX126xWriteRegister( REG_OCP, 0x38 ); // current max 160mA for the whole device
     }
     buf[0] = power;
