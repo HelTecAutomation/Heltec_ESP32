@@ -886,7 +886,7 @@ uint32_t RadioTimeOnAir( RadioModems_t modem, uint8_t pktLen )
 extern bool lora_txing;;
 void RadioSend( uint8_t *buffer, uint8_t size )
 {
-#ifdef WIFI_LORA_32_V4
+#if defined(WIFI_LORA_32_V4)||defined(WIRELESS_TRACKER_V2)
 	pinMode(LORA_PA_POWER,OUTPUT);
     digitalWrite(LORA_PA_POWER,HIGH);
 
@@ -923,7 +923,7 @@ void RadioSend( uint8_t *buffer, uint8_t size )
 
 void RadioSleep( void )
 {
-#ifdef WIFI_LORA_32_V4
+#if defined(WIFI_LORA_32_V4)||defined(WIRELESS_TRACKER_V2)
 	pinMode(LORA_PA_EN,OUTPUT);
 	digitalWrite(LORA_PA_EN,LOW);
     rtc_gpio_hold_en((gpio_num_t)LORA_PA_EN);
@@ -944,7 +944,7 @@ void RadioStandby( void )
 
 void RadioRx( uint32_t timeout )
 {
-#ifdef WIFI_LORA_32_V4
+#if defined(WIFI_LORA_32_V4)||defined(WIRELESS_TRACKER_V2)
 	pinMode(LORA_PA_POWER,OUTPUT);
     digitalWrite(LORA_PA_POWER,HIGH);
 
@@ -977,7 +977,7 @@ void RadioRx( uint32_t timeout )
 
 void RadioRxBoosted( uint32_t timeout )
 {
-#ifdef WIFI_LORA_32_V4
+#if defined(WIFI_LORA_32_V4)||defined(WIRELESS_TRACKER_V2)
 	pinMode(LORA_PA_POWER,OUTPUT);
     digitalWrite(LORA_PA_POWER,HIGH);
 
@@ -1009,7 +1009,7 @@ void RadioRxBoosted( uint32_t timeout )
 
 void RadioSetRxDutyCycle( uint32_t rxTime, uint32_t sleepTime )
 {
-#ifdef WIFI_LORA_32_V4
+#if defined(WIFI_LORA_32_V4)||defined(WIRELESS_TRACKER_V2)
 	pinMode(LORA_PA_POWER,OUTPUT);
     digitalWrite(LORA_PA_POWER,HIGH);
     
@@ -1060,7 +1060,7 @@ void RadioTx( uint32_t timeout )
 
 void RadioSetTxContinuousWave( uint32_t freq, int8_t power, uint16_t time )
 {
-#ifdef WIFI_LORA_32_V4
+#if defined(WIFI_LORA_32_V4)||defined(WIRELESS_TRACKER_V2)
 	pinMode(LORA_PA_POWER,OUTPUT);
     digitalWrite(LORA_PA_POWER,HIGH);
 

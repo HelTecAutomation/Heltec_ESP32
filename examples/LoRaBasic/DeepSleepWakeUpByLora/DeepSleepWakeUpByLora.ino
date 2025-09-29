@@ -52,7 +52,7 @@ void print_wakeup_reason() {
 }
 
 void setup() {
-#ifdef WIFI_LORA_32_V4
+#if defined(WIFI_LORA_32_V4)||defined(WIRELESS_TRACKER_V2)
     rtc_gpio_hold_dis((gpio_num_t)LORA_PA_EN);
 #endif
     Serial.begin(115200);
@@ -91,7 +91,7 @@ void loop()
   {
     Serial.println("into RX mode");
     Radio.Rx(0);
-#ifdef WIFI_LORA_32_V4
+#if defined(WIFI_LORA_32_V4)||defined(WIRELESS_TRACKER_V2)
     pinMode(LORA_PA_EN,OUTPUT);
     digitalWrite(LORA_PA_EN,HIGH);
     rtc_gpio_hold_en((gpio_num_t)LORA_PA_EN);

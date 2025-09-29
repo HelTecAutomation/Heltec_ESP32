@@ -521,7 +521,7 @@ void SX126xSetTxParams( int8_t power, RadioRampTimes_t rampTime )
                 break;
             }
         } 
-#ifdef WIFI_LORA_32_V4
+#if defined(WIFI_LORA_32_V4)||defined(WIRELESS_TRACKER_V2)
         //y = 0.0004x^3 - 0.011x^2 + 1.0866x - 11.365
         int8_t pa_power = power;
         power =  floor(0.0004*pow(pa_power, 3) - 0.011*pow(pa_power, 2) + 1.0866*pa_power - 11.365);
