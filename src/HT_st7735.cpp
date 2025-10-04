@@ -209,6 +209,11 @@ void HT_st7735::st7735_init(void)
     st7735_execute_cmd_list(init_cmds2);
     st7735_execute_cmd_list(init_cmds3);
     st7735_unselect();
+    
+#if defined(WIRELESS_TRACKER_V2)
+    st7735_invert_colors(false);
+#endif
+
 }
 
 void HT_st7735::st7735_draw_pixel(uint16_t x, uint16_t y, uint16_t color) 
