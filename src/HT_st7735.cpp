@@ -134,7 +134,11 @@ void HT_st7735::st7735_write_cmd(uint8_t cmd)
 void HT_st7735::st7735_write_data(uint8_t* buff, size_t buff_size) 
 {
     digitalWrite(_dc_pin, HIGH); 
-    st7735_spi.transfer(buff, buff_size);
+	for(size_t i=0; i<buff_size; i++)
+    {
+        st7735_spi.transfer(buff[i]);
+    }
+    // st7735_spi.transfer(buff, buff_size);
 }
 
 void HT_st7735::st7735_execute_cmd_list(const uint8_t *addr)
