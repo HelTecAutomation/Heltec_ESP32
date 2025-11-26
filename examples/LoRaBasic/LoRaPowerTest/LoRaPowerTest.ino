@@ -16,7 +16,7 @@
 #include "LoRaWan_APP.h"
 #include "Arduino.h"
 #include "HT_SSD1306Wire.h"
-
+#include "HT_st7735.h"
 
 #define RF_FREQUENCY                                915000000 // Hz
 
@@ -53,6 +53,9 @@ void OnTxTimeout( void );
 #if defined(WIFI_LORA_32_V4)
 SSD1306Wire  factory_display(0x3c, 500000, SDA_OLED, SCL_OLED, GEOMETRY_128_64, RST_OLED); // addr , freq , i2c group , resolution , rst
 #endif
+#if defined(WIRELESS_TRACKER_V2)
+HT_st7735 st7735;
+#endif
 void VextON(void)
 {
   pinMode(Vext,OUTPUT);
@@ -64,7 +67,7 @@ void VextOFF(void) //Vext default OFF
   pinMode(Vext,OUTPUT);
   digitalWrite(Vext, HIGH);
 }
-uint8_t power = TX_OUTPUT_POWER;
+int8_t power = TX_OUTPUT_POWER;
 bool interrupt_flag = false;
 String powerStr,freqStr;
 void interrupt_GPIO0(void)
@@ -96,6 +99,13 @@ void interrupt_handle(void)
           factory_display.drawString(0, 30, freqStr);
           factory_display.display();
 #endif
+#if defined(WIRELESS_TRACKER_V2)
+			    st7735.st7735_fill_screen(ST7735_BLACK);
+          powerStr = "power: "+String(power,DEC)+" dBm";
+          freqStr = "freq: "+String(RF_FREQUENCY/1000000,DEC)+" MHz";
+          st7735.st7735_write_str(0, 0, powerStr);
+          st7735.st7735_write_str(0, 30, freqStr);
+#endif
 				}
 		}
 	}
@@ -119,7 +129,14 @@ void setup() {
     factory_display.drawString(0, 30, freqStr);
     factory_display.display();
 #endif
-
+#if defined(WIRELESS_TRACKER_V2)
+    st7735.st7735_init();
+    st7735.st7735_fill_screen(ST7735_BLACK);
+    powerStr = "power: "+String(power,DEC)+" dBm";
+    freqStr = "freq: "+String(RF_FREQUENCY/1000000,DEC)+" MHz";
+    st7735.st7735_write_str(0, 0, powerStr);
+    st7735.st7735_write_str(0, 30, freqStr);
+#endif
     txNumber=0;
 
     RadioEvents.TxDone = OnTxDone;
