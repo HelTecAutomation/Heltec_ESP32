@@ -33,27 +33,27 @@ typedef void (*Demo)(void);
  * ANGLE_270_DEGREE
  */
 #define DIRECTION ANGLE_0_DEGREE
+
+#define VBAT_PIN 7
 #define Resolution 0.000244140625 
-#define battary_in 3.3
+#define battery_in 3.3
 #define coefficient 1.03
 int width, height;
 int demoMode = 0;
 
 // get http
 const char *ntpServer = "ntp.aliyun.com";
+const char *ssid = "Your Wi-Fi SSID";
+const char *password = "Your Wi-Fi password";
 
-const long gmtOffset_sec = 28800;  // Time offset
-
-const int daylightOffset_sec = 0;
-const char *ssid = "Heltec-RD";
-const char *password = "hunter_3120";
 const char *host = "api.seniverse.com"; //Weather API provider
-
 // Users should apply for their own private key
 // For demonstration only, not for commercial purposes
 const char *privateKey = "Sfv1t8EYrow1Zi-5o";
 const char *city = "chengdu";
 const char *language = "en";
+const long gmtOffset_sec = 28800;  // Time offset
+const int daylightOffset_sec = 0;
 
 struct WetherData {
   char city[32];
@@ -69,11 +69,14 @@ struct WetherData {
 uint8_t code_tday, code_pday;
 WiFiClient client;
 struct WetherData weatherdata = { 0 };
+
 void setup() {
   Serial.begin(115200);
   if (DIRECTION == ANGLE_0_DEGREE || DIRECTION == ANGLE_180_DEGREE) {
   }
   VextON();
+  pinMode(46, OUTPUT); // Enable ADC_CTrl
+  digitalWrite(46, HIGH);
   delay(100);
   display.init();
   display.screenRotate(DIRECTION);
@@ -104,6 +107,15 @@ void setup() {
   display.display();
   delay(1000);
 }
+
+void loop() {
+  display.clear();
+  Navigation_bar();
+  drawImageDemo();
+  display.display();
+  delay(1000 * 60);
+}
+
 void Navigation_bar() {
   display.setFont(ArialMT_Plain_10);
   display.drawLine(0, 15, 296, 15);
@@ -111,43 +123,57 @@ void Navigation_bar() {
   display.drawString(25, 0, ssid);
   battery();
 }
-void battery() {
-analogReadResolution(12);
-    int battery_levl = analogRead(7)* Resolution * battary_in * coefficient;//battary/4096*3.3* coefficient
-    float battery_one = 0.4125;
-    Serial.printf("ADC analog value = %.2f\n", battery_levl );
-    if (battery_levl < battery_one)
+void battery()
+{
+    analogReadResolution(12);
+    float battery_data = analogRead(VBAT_PIN)* Resolution * battery_in * coefficient * 4.9;//battary/4096*3.3*coefficient
+    Serial.printf("ADC analog value = %.2f V\r\n", battery_data );
+    if (battery_data <=3.3)
     {
-        display.drawString(230, 0, "N/A");
-        display.drawXbm(255, 0, battery_w, battery_h, battery0);
+      display.drawString(225, 1, String(battery_data, 2)+"V");
     }
-    else if (battery_levl < 2 * battery_one && battery_levl > battery_one)
+    else display.drawString(240, 1, String(battery_data, 2)+"V");
+
+    if (battery_data <= 3.3)
     {
-        display.drawXbm(270, 0, battery_w, battery_h, battery1);
+        display.drawString(270, 1, "N/A");
+        display.drawXbm(255, 1, battery_w, battery_h, battery0);
+        Serial.println("battery0");
     }
-    else if (battery_levl < 3 * battery_one && battery_levl > 2 * battery_one)
+    else if (battery_data <= 3.4 && battery_data > 3.3)
     {
-        display.drawXbm(270, 0, battery_w, battery_h, battery2);
+        display.drawXbm(270, 1, battery_w, battery_h, battery1);
+        Serial.println("battery1");
     }
-    else if (battery_levl < 4 * battery_one && battery_levl > 3 * battery_one)
+    else if (battery_data <= 3.5 && battery_data > 3.4)
     {
-        display.drawXbm(270, 0, battery_w, battery_h, battery3);
+        display.drawXbm(270, 1, battery_w, battery_h, battery2);
+        Serial.println("battery2");
     }
-    else if (battery_levl < 5 * battery_one && battery_levl > 4 * battery_one)
+    else if (battery_data <= 3.6 && battery_data > 3.5)
     {
-        display.drawXbm(270, 0, battery_w, battery_h, battery4);
+        display.drawXbm(270, 1, battery_w, battery_h, battery3);
+        Serial.println("battery3");
     }
-    else if (battery_levl < 6 * battery_one && battery_levl > 5 * battery_one)
+    else if (battery_data <= 3.8 && battery_data > 3.6)
     {
-        display.drawXbm(270, 0, battery_w, battery_h, battery5);
+        display.drawXbm(270, 1, battery_w, battery_h, battery4);
+        Serial.println("battery4");
     }
-    else if (battery_levl < 7 * battery_one && battery_levl > 6 * battery_one)
+    else if (battery_data <= 3.9 && battery_data > 3.8)
     {
-        display.drawXbm(270, 0, battery_w, battery_h, battery6);
+        display.drawXbm(270, 1, battery_w, battery_h, battery5);
+        Serial.println("battery5");
     }
-    else if (battery_levl < 7 * battery_one && battery_levl > 6 * battery_one)
+    else if (battery_data <= 4.1 && battery_data > 3.9)
     {
-        display.drawXbm(270, 0, battery_w, battery_h, batteryfull);
+        display.drawXbm(270, 1, battery_w, battery_h, battery6);
+        Serial.println("battery6");
+    }
+    else if (battery_data > 4.1)
+    {
+        display.drawXbm(270, 1, battery_w, battery_h, batteryfull);
+        Serial.println("batteryfull");
     }
 }
 void drawImageDemo() {
@@ -646,13 +672,4 @@ void VextOFF(void)  // Vext default OFF
 {
   pinMode(18, OUTPUT);
   digitalWrite(18, LOW);
-}
-
-void loop() {
-  display.clear();
-  display.clear();
-  Navigation_bar();
-  drawImageDemo();
-  display.display();
-  delay(1000 * 60);
 }
