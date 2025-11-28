@@ -4,6 +4,7 @@
 #include <HT_Display.h>
 #include <SPI.h>
 #include "HT_st7735_fonts.h"
+#include <HT_lCMEN2R13EFC1_LUT.h>
 SPIClass ESPI(HSPI);
 
 
@@ -106,9 +107,68 @@ public:
 		end();
 	}
 
-	void dis_img_Partial_Refresh(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const unsigned char *img)
+	// After enabling rotation and mirroring, make sure there is enough space for display
+	void dis_img_Partial_Refresh(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const unsigned char *img, bool rotated = false, bool y_mirror = false)
 	{
-
+		// Serial.printf("Corrected Partial Refresh - x:%d, y:%d, w:%d, h:%d, rotated:%d, y_mirror:%d \r\n", x, y, w, h, rotated, y_mirror);
+		
+		uint16_t bytes_per_row = (w + 7) / 8;
+		
+		if (!rotated) {
+			for(uint16_t row = 0; row < h; row++) {
+				for(uint16_t col = 0; col < w; col++) {
+					uint16_t byte_index = row * bytes_per_row + (col / 8);
+					uint8_t bit_index = 7 - (col % 8); // MSB first
+					
+					uint8_t pixel_value = (img[byte_index] >> bit_index) & 1;
+					
+					uint16_t screen_x = x + col;
+					uint16_t screen_y = y + row;
+					
+					if(screen_x < this->width() && screen_y < this->height()) {
+						uint16_t buffer_index = screen_x + (screen_y >> 3) * this->width();
+						uint8_t bit_mask = 1 << (screen_y & 7);
+						
+						if(pixel_value == 1) { 
+							buffer[buffer_index] &= ~bit_mask;
+						} else { 
+							buffer[buffer_index] |= bit_mask;
+						}
+					}
+				}
+			}
+		} else {
+			for(uint16_t row = 0; row < h; row++) {
+				for(uint16_t col = 0; col < w; col++) {
+					uint16_t byte_index = row * bytes_per_row + (col / 8);
+					uint8_t bit_index = 7 - (col % 8); // MSB first
+					
+					uint8_t pixel_value = (img[byte_index] >> bit_index) & 1;
+					
+					uint16_t rotated_x = row;
+					uint16_t rotated_y = w - 1 - col;
+					
+					if (y_mirror) {
+						rotated_y = (w - 1) - rotated_y; 
+					}
+					
+					uint16_t screen_x = x + rotated_x;
+					uint16_t screen_y = y + rotated_y;
+					
+					if(screen_x < this->width() && screen_y < this->height()) {
+						uint16_t buffer_index = screen_x + (screen_y >> 3) * this->width();
+						uint8_t bit_mask = 1 << (screen_y & 7);
+						
+						if(pixel_value == 1) {
+							buffer[buffer_index] &= ~bit_mask;
+						} else {
+							buffer[buffer_index] |= bit_mask;
+						}
+					}
+				}
+			}
+		}
+		Serial.println("Corrected partial refresh completed \r\n");
 	}
 
 private:
