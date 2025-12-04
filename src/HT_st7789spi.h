@@ -70,6 +70,17 @@
 #define ST7789_RDID4 0xDD
 
 // Some ready-made 16-bit ('565') color settings:
+#ifdef  WIFI_LORA_32_V4
+#define ST7789_BLACK 0x0000
+#define ST7789_WHITE 0xFFFF
+#define ST7789_RED 0x001F
+#define ST7789_GREEN 0x07E0
+#define ST7789_BLUE 0xF800
+#define ST7789_CYAN 0xFFE0
+#define ST7789_MAGENTA 0xF81F
+#define ST7789_YELLOW 0x07FF
+#define ST7789_ORANGE 0xFC00
+#else
 #define ST7789_BLACK 0x0000
 #define ST7789_WHITE 0xFFFF
 #define ST7789_RED 0xF800
@@ -79,7 +90,7 @@
 #define ST7789_MAGENTA 0xF81F
 #define ST7789_YELLOW 0xFFE0
 #define ST7789_ORANGE 0xFC00
-
+#endif
 /// Subclass of SPITFT for ST7789 displays (lots in common!)
 class HT_ST7789 : public Adafruit_SPITFT {
 public:
