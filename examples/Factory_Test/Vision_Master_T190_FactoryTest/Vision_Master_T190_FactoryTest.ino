@@ -13,6 +13,8 @@
  *
  * - I2C sensor interface function;
  *
+ * - Joystick test;
+ * 
  * - ADC test.
  *
  * - Timer test and some other Arduino basic functions;
@@ -30,6 +32,7 @@
 #include "images.h"
 #include "LoRaWan_APP.h"
 #include <Wire.h>  
+#include "HT_TinyGPS++.h"
 #include <Adafruit_GFX.h>    // Core graphics library
 #include <Adafruit_ST7789.h> // Hardware-specific library for ST7789
 #include <driver/gpio.h>
@@ -59,13 +62,28 @@
 #define BUFFER_SIZE                                 30 // Define the payload size here
 
 #define USERKEY 0
-#define TEST_WIFI_SSID       "Wi-Fi SSID"          //Your Wi-Fi SSID
-#define TEST_WIFI_PWD        "Password"           //Your Wi-Fi Password
+#define VGNSS_CTRL 18
+#define TEST_WIFI_SSID       "Your WiFi SSID"          //Your Wi-Fi SSID
+#define TEST_WIFI_PWD        "Your Password"           //Your Wi-Fi Password
 
 #define Resolution 0.000244140625
 #define battary_in 3.3
 #define coefficient 5
+
+typedef enum 
+{
+  SWITCH_TEST,
+  GPS_TEST,
+	WIFI_CONNECT_TEST,
+	WIFI_SCAN_TEST,
+	LORA_TEST_INIT,
+	LORA_COMMUNICATION_TEST,
+	DEEPSLEEP_TEST,
+}test_status_t;
+
 static SPIClass  *gspi_lcd  = NULL;//spi object pointer for lcd display
+TinyGPSPlus gps;
+test_status_t  test_status;
 static Adafruit_ST7789  *factory_display = NULL;
 uint8_t txpacket[BUFFER_SIZE];
 uint8_t rxpacket[BUFFER_SIZE];
@@ -93,13 +111,14 @@ bool receiveflag = false; // software flag for LoRa receiver, received data make
 uint64_t chipid;
 uint8_t rx_cnt=0;
 int test_mode=0;
+int16_t red_x=155,red_y=80;
 int wifiScanCnt=0;
 int wifiScanMaxRssi=-255;
 bool wifiConnected=false;
 bool loratimeout=false;
 bool Boot1_state = false;
 float battery_levl;
-extern uint32_t ex_32k_start_cnt;
+// extern uint32_t ex_32k_start_cnt;
 
 void spi_init(void){
  gspi_lcd = new SPIClass(HSPI);
@@ -411,6 +430,8 @@ void checkUserkey(void *pvParameters)
   uint32_t keydowntime;
   pinMode(USERKEY,INPUT);
   pinMode(21,INPUT);
+  pinMode(16, INPUT);//CW
+  pinMode(15, INPUT);//CCW
   while(1)
   {
     if(digitalRead(USERKEY)==0)
@@ -425,6 +446,7 @@ void checkUserkey(void *pvParameters)
       }
       if( (millis()-keydowntime)>3000 )
       {
+        test_status = LORA_TEST_INIT;
         test_mode=1;
         factory_display->fillScreen(ST77XX_BLACK);
         packet ="LORA MODE "+String(test_mode);
@@ -437,46 +459,111 @@ void checkUserkey(void *pvParameters)
         intodeepsleep();
       }
     }
+
+    if(digitalRead(21)==0) {
+      if(test_status == SWITCH_TEST ) test_status = GPS_TEST;
+      else if(test_status == GPS_TEST ) test_status = WIFI_CONNECT_TEST;
+      delay(300);
+    }
+
   }
 }
 
-extern void checklicense();
-void setup()
-{
-  Serial.begin(115200);
-  checklicense();
-  spi_init();
-  factory_display = new Adafruit_ST7789(gspi_lcd, 39, 47, 40);
-  Mcu.begin(HELTEC_BOARD,SLOW_CLK_TPYE);
-  chipid=ESP.getEfuseMac();//The chip ID is essentially its MAC address(length: 6 bytes).
-  Serial.printf("ESP32ChipID=%04X",(uint16_t)(chipid>>32));//print High 2 bytes
-  Serial.printf("%08X\r\n",(uint32_t)chipid);//print Low 4bytes.
-  xTaskCreateUniversal(checkUserkey, "checkUserkey1Task", 2048, NULL, 1, &checkUserkey1kHandle, CONFIG_ARDUINO_RUNNING_CORE);
-  delay(100);
-  VextON();
-  factory_display->init(170, 320);
-  factory_display->setRotation(1);
-  factory_display->fillScreen(ST77XX_GREEN);
-  if(ex_32k_start_cnt>5)
-  {
-    VextON();
-    delay(100);
-    factory_display->init(170, 320);
-    factory_display->fillScreen(ST77XX_BLACK);
-    packet ="EX 32K ERROR";
-    testdrawtext(50,72,(char*)packet.c_str(),ST77XX_WHITE,2);
-    while(1);
+void DIP_switch_test(void) {
+  if(digitalRead(16)==0) {
+    // red_x = red_x +20;
+    if(red_x<= -5)  red_x = 315;
+    else          red_x = red_x -20;
   }
-  lora_init();
-	WIFISetUp();
-	delay(100);
-	WIFIScan(1);
-	packet ="LORA MODE "+String(test_mode);
+  else if(digitalRead(15)==0) {
+    if(red_x >= 315) red_x = -5;
+    else          red_x = red_x +20;
+  }
+  // if(digitalRead(21)==0) {
+  //   // if(red_y<= 0)  red_y = 160;
+  //   // else           red_y = red_y -20;
+  // }
   factory_display->fillScreen(ST77XX_BLACK);
-  testdrawtext(50,72,(char*)packet.c_str(),ST77XX_WHITE,3);
+  factory_display->fillRect(red_x,red_y,20,20,ST77XX_RED);
+  delay(100);
 }
 
-void loop()
+void gps_test(void)
+{
+	uint32_t clear_num = 0;
+	uint32_t last_second=0;
+	pinMode(VGNSS_CTRL,OUTPUT);
+	digitalWrite(VGNSS_CTRL,LOW);
+	pinMode(42,OUTPUT);
+	digitalWrite(42,HIGH);
+	Serial1.begin(9600,SERIAL_8N1,43,42);
+	Serial.println("gps_test");
+  factory_display->fillScreen(ST77XX_BLACK);
+	delay(100);
+  packet ="gps_test";
+  testdrawtext(0,0,(char*)packet.c_str(),ST77XX_WHITE,2);
+
+	while(1)
+	{
+    if(test_status == WIFI_CONNECT_TEST || test_status == LORA_TEST_INIT) {
+      break;
+    }
+		if(Serial1.available()>0)
+		{
+			if(Serial1.peek()!='\n')
+			{
+				gps.encode(Serial1.read());
+			}
+			else
+			{
+				Serial1.read();
+				// factory_display.clear();
+				// factory_display.drawString(0, 0, (String)"gps_detected");
+				// factory_display.display();
+        packet ="gps_test: gps_detected";
+        testdrawtext(0,0,(char*)packet.c_str(),ST77XX_WHITE,2);
+				if(gps.time.second()==0)
+				{
+					continue;
+				}
+				String time_str = (String)gps.time.hour() + ":" + (String)gps.time.minute() + ":" + (String)gps.time.second()+ ":"+(String)gps.time.centisecond();
+				// factory_display.drawString(0, 15, time_str);
+        testdrawtext(0,15,(char*)time_str.c_str(),ST77XX_WHITE,2);
+				String latitude = "LAT: " + (String)gps.location.lat();
+				// factory_display.drawString(0, 30, latitude);
+        testdrawtext(0,30,(char*)latitude.c_str(),ST77XX_WHITE,2);
+				String longitude  = "LON: "+  (String)gps.location.lng();
+				// factory_display.drawString(0, 45, longitude);
+        testdrawtext(0,45,(char*)longitude.c_str(),ST77XX_WHITE,2);
+				// factory_display.display();
+
+				Serial.printf(" %02d:%02d:%02d.%02d",gps.time.hour(),gps.time.minute(),gps.time.second(),gps.time.centisecond());
+				Serial.print("LAT: ");
+				Serial.print(gps.location.lat(),6);
+				Serial.print(", LON: ");
+				Serial.print(gps.location.lng(),6);
+				Serial.println();
+				if(last_second != gps.time.second())
+				{
+					last_second = gps.time.second();
+					delay(1000);
+					while(Serial1.read()>0);
+				}
+				else
+				{
+					delay(10);
+					clear_num++;
+					if(clear_num%5==0)
+					{
+						while(Serial1.read()>0);
+					}
+				}
+			}
+		}
+	}
+}
+
+void lora_test(void)
 {
   if(test_mode)
   {
@@ -529,5 +616,71 @@ void loop()
     }
   }
   Mcu.timerhandler();
-  Radio.IrqProcess( );
+  Radio.IrqProcess();
+}
+
+extern void checklicense();
+
+void setup()
+{
+  Serial.begin(115200);
+  checklicense();
+  spi_init();
+  factory_display = new Adafruit_ST7789(gspi_lcd, 39, 47, 40);
+  Mcu.begin(HELTEC_BOARD,SLOW_CLK_TPYE);
+  chipid=ESP.getEfuseMac();//The chip ID is essentially its MAC address(length: 6 bytes).
+  Serial.printf("ESP32ChipID=%04X",(uint16_t)(chipid>>32));//print High 2 bytes
+  Serial.printf("%08X\r\n",(uint32_t)chipid);//print Low 4bytes.
+  xTaskCreateUniversal(checkUserkey, "checkUserkey1Task", 2048, NULL, 1, &checkUserkey1kHandle, CONFIG_ARDUINO_RUNNING_CORE);
+  delay(100);
+  VextON();
+  factory_display->init(170, 320);
+  factory_display->setRotation(1);
+  factory_display->fillScreen(ST77XX_GREEN);
+  
+  test_status = SWITCH_TEST;
+  delay(1000);
+}
+
+void loop()
+{
+  Serial.printf("test_status:%d \r\n",test_status);
+  switch (test_status)
+	{
+		case SWITCH_TEST:
+		{
+			DIP_switch_test();
+      break;
+		}
+    case GPS_TEST:
+		{
+			gps_test();
+      break;
+		}
+    case WIFI_CONNECT_TEST:
+		{
+			WIFISetUp();
+			test_status = WIFI_SCAN_TEST;
+		}
+		case WIFI_SCAN_TEST:
+		{
+			WIFIScan(1);
+			test_status = LORA_TEST_INIT;
+			break;
+		}
+		case LORA_TEST_INIT:
+		{
+			lora_init();
+      packet ="LORA MODE "+String(test_mode);
+      factory_display->fillScreen(ST77XX_BLACK);
+      testdrawtext(50,72,(char*)packet.c_str(),ST77XX_WHITE,3);
+			test_status = LORA_COMMUNICATION_TEST;
+			break;
+		}
+    case LORA_COMMUNICATION_TEST:
+		{
+      lora_test();
+			break;
+		}
+  }
 }

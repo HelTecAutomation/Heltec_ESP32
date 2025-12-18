@@ -132,9 +132,9 @@ int chsc6x_platform::chsc6x_tp_reset(chsc6x_reset_e type)
     return OS_OK;
 }
 
-bool state = false;
+bool Touch_state = false;
 void blink() {
-  state = !state;
+  Touch_state = !Touch_state;
 }
 /* GPIO-INT*/
 int chsc6x_platform::semi_touch_get_int(void)
