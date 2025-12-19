@@ -496,7 +496,7 @@ void gps_test(void)
 	digitalWrite(VGNSS_CTRL,LOW);
 	pinMode(42,OUTPUT);
 	digitalWrite(42,HIGH);
-	Serial1.begin(9600,SERIAL_8N1,43,42);
+	Serial1.begin(9600,SERIAL_8N1,43,44);
 	Serial.println("gps_test");
   factory_display->fillScreen(ST77XX_BLACK);
 	delay(100);
@@ -644,7 +644,6 @@ void setup()
 
 void loop()
 {
-  Serial.printf("test_status:%d \r\n",test_status);
   switch (test_status)
 	{
 		case SWITCH_TEST:
