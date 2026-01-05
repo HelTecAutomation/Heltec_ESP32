@@ -84,7 +84,7 @@ static void prepareTxFrame( uint8_t port )
   *the max value for different DR can be found in MaxPayloadOfDatarateCN470 refer to DataratesCN470 and BandwidthsCN470 in "RegionCN470.h".
   */
 
-  Wire.begin(21, 20);
+  gxhtc.begin(21, 20);
   gxhtc.read_data();
   Serial.print("Temperature:");
   Serial.print(gxhtc.g_temperature);
