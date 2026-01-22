@@ -1118,7 +1118,7 @@ void RadioSetTxContinuousWave( uint32_t freq, int8_t power, uint16_t time )
     delay(2);
 #endif
 
-#if defined(USE_KCT8103L_PA3)
+#if defined(USE_KCT8103L_PA)
 	pinMode(LORA_PA_POWER,OUTPUT);
     digitalWrite(LORA_PA_POWER,HIGH);
 

@@ -145,13 +145,6 @@ void lora_init(void)
 	RadioEvents.TxTimeout = OnTxTimeout;
 	RadioEvents.RxDone = OnRxDone;
 
-	pinMode(LORA_PA_POWER,ANALOG);
-	pinMode(LORA_PA_EN,OUTPUT);
-	pinMode(LORA_PA_TX_EN,OUTPUT);
-	digitalWrite(LORA_PA_EN,HIGH);
-	digitalWrite(LORA_PA_TX_EN,HIGH);
-
-
 	Radio.Init( &RadioEvents );
 	Radio.SetChannel( RF_FREQUENCY );
 	Radio.SetTxConfig( MODEM_LORA, TX_OUTPUT_POWER, 0, LORA_BANDWIDTH,
@@ -335,10 +328,6 @@ void enter_deepsleep(void)
 	VextOFF();
 	Radio.Sleep();
 	SPI.end();
-	pinMode(2,OUTPUT);
-	digitalWrite(2,LOW);
-	rtc_gpio_hold_en(GPIO_NUM_2);
-	rtc_gpio_isolate(GPIO_NUM_2);
 	pinMode(7,OUTPUT);
 	digitalWrite(7,LOW);
 	rtc_gpio_hold_en(GPIO_NUM_7);
