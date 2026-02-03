@@ -172,7 +172,7 @@ void HT_st7735::st7735_set_address_window(uint8_t x0, uint8_t y0, uint8_t x1, ui
 {
     // column address set
     st7735_write_cmd(ST7735_CASET);
-    uint8_t data[] = { 0x00, x0 + _x_start, 0x00, x1 + _x_start };
+    uint8_t data[] = { 0x00, (uint8_t)(x0 + _x_start), 0x00, (uint8_t)(x1 + _x_start) };
     st7735_write_data(data, sizeof(data));
 
     // row address set
@@ -230,7 +230,7 @@ void HT_st7735::st7735_draw_pixel(uint16_t x, uint16_t y, uint16_t color)
     st7735_select();
 
     st7735_set_address_window(x, y, x+1, y+1);
-    uint8_t data[] = { color >> 8, color & 0xFF };
+    uint8_t data[] = { (uint8_t)(color >> 8), (uint8_t)(color & 0xFF) };
     st7735_write_data(data, sizeof(data));
 
     st7735_unselect();
@@ -246,10 +246,10 @@ void HT_st7735::st7735_write_char(uint16_t x, uint16_t y, char ch, FontDef font,
         b = font.data[(ch - 32) * font.height + i];
         for(j = 0; j < font.width; j++) {
             if((b << j) & 0x8000)  {
-                uint8_t data[] = { color >> 8, color & 0xFF };
+                uint8_t data[] = { (uint8_t)(color >> 8), (uint8_t)(color & 0xFF) };
                 st7735_write_data(data, sizeof(data));
             } else {
-                uint8_t data[] = { bgcolor >> 8, bgcolor & 0xFF };
+                uint8_t data[] = { (uint8_t)(bgcolor >> 8), (uint8_t)(bgcolor & 0xFF) };
                 st7735_write_data(data, sizeof(data));
             }
         }
@@ -294,7 +294,7 @@ void HT_st7735::st7735_fill_rectangle(uint16_t x, uint16_t y, uint16_t w, uint16
     st7735_select();
     st7735_set_address_window(x, y, x+w-1, y+h-1);
 
-    uint8_t data[] = { color >> 8, color & 0xFF };
+    uint8_t data[] = { (uint8_t)(color >> 8), (uint8_t)(color & 0xFF) };
     digitalWrite(ST7735_DC_Pin, HIGH); 
     for(y = h; y > 0; y--) 
     {
