@@ -12,6 +12,17 @@
 #include "../driver/board-config.h"
 #include "driver/gpio.h"
 #include "esp_sleep.h"
+#if !defined(GPIO_PIN_COUNT)
+#if defined(__has_include)
+#if __has_include("soc/soc_caps.h")
+#include "soc/soc_caps.h"
+#endif
+#endif
+// Compatibility mapping for ESP32-S3/modern ESP-IDF where GPIO_PIN_COUNT was renamed.
+#if defined(SOC_GPIO_PIN_COUNT)
+#define GPIO_PIN_COUNT SOC_GPIO_PIN_COUNT
+#endif
+#endif
 #include "driver/rtc_io.h"
 /*!
  * \brief Initializes the radio
