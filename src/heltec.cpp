@@ -109,13 +109,13 @@ void Heltec_ESP32::begin(bool DisplayEnable, bool LoRaEnable, bool SerialEnable,
 void Heltec_ESP32::VextON(void)
 {
 	pinMode(Vext,OUTPUT);
-	digitalWrite(Vext, LOW);
+	digitalWrite(Vext, VEXT_ON_LEVEL);
 }
 
 void Heltec_ESP32::VextOFF(void) //Vext default OFF
 {
 	pinMode(Vext,OUTPUT);
-	digitalWrite(Vext, HIGH);
+	digitalWrite(Vext, VEXT_OFF_LEVEL);
 }
 #endif
 
