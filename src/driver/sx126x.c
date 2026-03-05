@@ -475,7 +475,30 @@ RadioPacketTypes_t SX126xGetPacketType( void )
 {
     return PacketType;
 }
+int8_t powerConversion(int8_t loraOutputPower,uint16_t *gain, uint16_t gain_num)
+{
+    uint16_t *tx_gain,tx_gain_num;
+    tx_gain = (uint16_t*)gain;
+    tx_gain_num = gain_num;
 
+    for (int radio_dbm = 0; radio_dbm < tx_gain_num; radio_dbm++) {
+        if (((radio_dbm + tx_gain[radio_dbm]) > loraOutputPower) ||
+            ((radio_dbm == (tx_gain_num - 1)) && ((radio_dbm + tx_gain[radio_dbm]) <= loraOutputPower))) {
+            // we've exceeded the power limit, or hit the max we can do
+            loraOutputPower -= tx_gain[radio_dbm];
+            break;
+        }
+    }
+        if( loraOutputPower > 22 )
+        {
+            loraOutputPower = 22;
+        }
+        else if( loraOutputPower < -9 )
+        {
+            loraOutputPower = -9;
+        }
+    return loraOutputPower;
+}
 void SX126xSetTxParams( int8_t power, RadioRampTimes_t rampTime )
 {
     uint8_t buf[2];
@@ -534,14 +557,11 @@ void SX126xSetTxParams( int8_t power, RadioRampTimes_t rampTime )
             power = -9;
         }
 #elif defined(WIFI_LORA_32_V4) && defined(USE_KCT8103L_PA)
-        if( power > 22 )
-        {
-            power = 22;
-        }
-        else if( power < -9 )
-        {
-            power = -9;
-        }
+        const uint16_t kct8103l_tx_gain[] = {13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 12, 12, 11, 11, 10,9, 8, 7};
+        power = powerConversion(power, kct8103l_tx_gain, sizeof(kct8103l_tx_gain)/sizeof(kct8103l_tx_gain[0]));
+#elif defined(WIRELESS_TRACKER_V2) && defined(USE_KCT8103L_PA)
+        const uint16_t kct8103l_tx_gain[] = {14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 13, 13, 13, 12, 12, 11, 10, 9, 8, 7};
+        power = powerConversion(power, kct8103l_tx_gain, sizeof(kct8103l_tx_gain)/sizeof(kct8103l_tx_gain[0]));
 #else
         if( power > 22 )
         {

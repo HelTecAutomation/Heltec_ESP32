@@ -129,7 +129,7 @@ extern "C" {
 #ifndef LORA_MAC_PUBLIC_SYNCWORD
 #define LORA_MAC_PUBLIC_SYNCWORD                    0x3444
 #endif
- */
+
 #define RANDOM_NUMBER_GENERATORBASEADDR             0x0819
 
 /*!
