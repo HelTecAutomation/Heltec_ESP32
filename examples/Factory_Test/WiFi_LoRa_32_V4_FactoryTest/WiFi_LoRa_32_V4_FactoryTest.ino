@@ -313,13 +313,13 @@ void interrupt_handle(void)
 void VextON(void)
 {
   pinMode(Vext,OUTPUT);
-  digitalWrite(Vext, LOW);
+  digitalWrite(Vext, HIGH);
 }
 
 void VextOFF(void) //Vext default OFF
 {
   pinMode(Vext,OUTPUT);
-  digitalWrite(Vext, HIGH);
+  digitalWrite(Vext, LOW);
 }
 
 

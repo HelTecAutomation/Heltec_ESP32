@@ -82,7 +82,11 @@ void setup() {
 
 #if defined(WIFI_LORA_32_V3) || defined(WIFI_LORA_32_V4)
   pinMode(Vext,OUTPUT);
+#if defined(WIFI_LORA_32_V4)
+  digitalWrite(Vext, HIGH);
+#else
   digitalWrite(Vext, LOW);
+#endif
   delay(100);
 	factory_display.init();
 	factory_display.clear();
