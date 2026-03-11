@@ -17,8 +17,17 @@ CubeCell_NeoPixel pixels(1, RGB, NEO_GRB + NEO_KHZ800);
 #endif
 
 
+/* VEXT polarity: V4 uses Active HIGH (NPN + PMOS), others use Active LOW */
+#if defined(WIFI_LORA_32_V4)
+  #define VEXT_ON_LEVEL  HIGH
+  #define VEXT_OFF_LEVEL LOW
+#else
+  #define VEXT_ON_LEVEL  LOW
+  #define VEXT_OFF_LEVEL HIGH
+#endif
+
 #if defined(WIFI_LORA_32_V3)||defined(WIFI_LORA_32_V4)||defined(WIFI_LORA_32_V2)||defined(WIFI_LORA_32)||defined(WIRELESS_STICK_V3)||defined(WIRELESS_STICK)
-#include <Wire.h>  
+#include <Wire.h>
 #include "HT_SSD1306Wire.h"
 RTC_DATA_ATTR uint8_t ifDisplayAck=0;
 RTC_DATA_ATTR uint8_t isDispayOn=0;
@@ -740,7 +749,7 @@ void LoRaWanClass::displayJoining()
 void LoRaWanClass::displayJoined()
 {
 #if (SLOW_CLK_TPYE==1)
-	digitalWrite(Vext,LOW);
+	digitalWrite(Vext,VEXT_ON_LEVEL);
 	display.init();
 	display.setFont(ArialMT_Plain_16);
 	display.setTextAlignment(TEXT_ALIGN_CENTER);
@@ -753,7 +762,7 @@ void LoRaWanClass::displayJoined()
 void LoRaWanClass::displaySending()
 {
     isDispayOn = 1;
-	digitalWrite(Vext,LOW);
+	digitalWrite(Vext,VEXT_ON_LEVEL);
 	display.init();
 	display.setFont(ArialMT_Plain_16);
 	display.setTextAlignment(TEXT_ALIGN_CENTER);
@@ -770,7 +779,7 @@ void LoRaWanClass::displayAck()
     }
     ifDisplayAck--;
 #if (SLOW_CLK_TPYE==1)
-		digitalWrite(Vext,LOW);
+		digitalWrite(Vext,VEXT_ON_LEVEL);
 		display.init();
 		display.setFont(ArialMT_Plain_16);
 		display.setTextAlignment(TEXT_ALIGN_CENTER);
@@ -794,14 +803,14 @@ void LoRaWanClass::displayAck()
 	{
 		delay(2000);
 		isDispayOn = 0;
-		digitalWrite(Vext,HIGH);
+		digitalWrite(Vext,VEXT_OFF_LEVEL);
 		display.stop();
 	}
 }
 void LoRaWanClass::displayMcuInit()
 {
 	isDispayOn = 1;
-	digitalWrite(Vext,LOW);
+	digitalWrite(Vext,VEXT_ON_LEVEL);
 	display.init();
 	display.setFont(ArialMT_Plain_16);
 	display.setTextAlignment(TEXT_ALIGN_CENTER);

@@ -3,7 +3,7 @@
  *
  * Function summary:
  *
- * - Vext connected to 3.3V via a MOS-FET, the gate pin connected to GPIO21;
+ * - Vext connected to 3.3V via a MOS-FET (active LOW on V2/V3, active HIGH on V4);
  *
  * - OLED display and PE4259(RF switch) use Vext as power supply;
  *
@@ -37,11 +37,11 @@ void setup()
 void loop()
 {
 	Heltec.display->sleep();//OLED sleep
-	Heltec.VextON();
+	Heltec.VextOFF();
 	Serial.println("Turn OFF Vext");
 	delay(5000);
 
-	Heltec.VextOFF();
+	Heltec.VextON();
 	Serial.println("Turn ON Vext");
 	Heltec.display->wakeup();
 	delay(5000);
