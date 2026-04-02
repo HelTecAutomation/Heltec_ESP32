@@ -1,5 +1,5 @@
 /*
- * HelTec Automation(TM) WiFi_LoRa_32_V4_FactoryTest factory test code, witch includ
+ * HelTec Automation(TM) WiFi_LoRa_32_V4_R8 FactoryTest factory test code, witch includ
  * follow functions:
  * 
  * - Basic OLED function test;
@@ -32,6 +32,7 @@
 #include "driver/gpio.h"
 #include "esp_sleep.h"
 #include "driver/rtc_io.h"
+#include "driver/board-config.h"
 
 typedef enum 
 {
@@ -46,9 +47,10 @@ typedef enum
 
 SSD1306Wire  factory_display(0x3c, 500000, SDA_OLED, SCL_OLED, GEOMETRY_128_64, RST_OLED); // addr , freq , i2c group , resolution , rst
 TinyGPSPlus gps;
-#define VGNSS_CTRL 34
+#define VGNSS_CTRL 42
+#define VEXT_ON_VALUE LOW
 test_status_t  test_status;
-uint16_t wifi_connect_try_num = 15;
+int8_t wifi_connect_try_num = 3;
 bool resendflag=false;
 bool deepsleepflag=false;
 bool interrupt_flag = false;
@@ -318,15 +320,14 @@ void interrupt_handle(void)
 void VextON(void)
 {
   pinMode(Vext,OUTPUT);
-  digitalWrite(Vext, LOW);
+  digitalWrite(Vext, VEXT_ON_VALUE);
 }
 
 void VextOFF(void) //Vext default OFF
 {
   pinMode(Vext,OUTPUT);
-  digitalWrite(Vext, HIGH);
+  digitalWrite(Vext, !VEXT_ON_VALUE);
 }
-
 
 void enter_deepsleep(void)
 {
@@ -414,8 +415,6 @@ void gps_test(void)
 	uint32_t last_second=0;
 	pinMode(VGNSS_CTRL,OUTPUT);
 	digitalWrite(VGNSS_CTRL,LOW);
-	pinMode(42,OUTPUT);
-	digitalWrite(42,HIGH);
 	Serial1.begin(9600,SERIAL_8N1,39,38);    
 	Serial.println("gps_test");
 	factory_display.clear();
@@ -482,7 +481,6 @@ void logo(){
 }
 void setup()
 {
-	rtc_gpio_hold_dis(GPIO_NUM_2);
 	rtc_gpio_hold_dis(GPIO_NUM_7);
 	Serial.begin(115200);
 	Mcu.begin(HELTEC_BOARD,SLOW_CLK_TPYE);
@@ -522,7 +520,7 @@ void loop()
 		}
 		case WIFI_CONNECT_TEST:
 		{
-			if(wifi_connect_try(2) || (--wifi_connect_try_num == 0))
+			if(wifi_connect_try(2) || (--wifi_connect_try_num <= 0))
 			{
 				test_status = WIFI_SCAN_TEST;
 			}

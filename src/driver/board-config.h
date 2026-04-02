@@ -41,7 +41,7 @@
 
 #define BOARD_TCXO_WAKEUP_TIME                      5
 
-#if defined(WIFI_LORA_32_V3)||defined(WIFI_LORA_32_V4)||defined(WIRELESS_TRACKER)||defined(WIRELESS_TRACKER_V2)||defined(WIRELESS_STICK_V3)||defined(WIRELESS_STICK_LITE_V3)||defined(WIRELESS_PAPER)||defined(CAPSULE_SENSOR_V3)||defined(WIRELESS_SHELL_V3)||defined(Vision_Master_E_213)||defined(Vision_Master_E290)||defined(Vision_Master_T190)
+#if defined(WIFI_LORA_32_V3)||defined(WIFI_LORA_32_V4)||defined(WIRELESS_TRACKER)||defined(WIRELESS_TRACKER_V2)||defined(WIRELESS_STICK_V3)||defined(WIRELESS_STICK_LITE_V3)||defined(WIRELESS_PAPER)||defined(CAPSULE_SENSOR_V3)||defined(WIRELESS_SHELL_V3)||defined(Vision_Master_E_213)||defined(Vision_Master_E290)||defined(Vision_Master_T190)||defined(WIFI_LORA_32_V4_R8)
 
 #define RADIO_DIO_1    14
 #define RADIO_NSS      8
@@ -67,6 +67,11 @@
 #if defined(WIRELESS_TRACKER_V2)
 #define LORA_PA_POWER   7
 #define LORA_PA_CSD     4
+#define LORA_PA_CTX     5
+#endif
+#if defined(WIFI_LORA_32_V4_R8)
+#define LORA_PA_POWER   7
+#define LORA_PA_CSD     2
 #define LORA_PA_CTX     5
 #endif
 #elif defined(WIFI_LORA_32_V2)||defined(WIRELESS_STICK)||defined(WIRELESS_STICK_LITE)||defined(WIRELESS_BRIDGE)
