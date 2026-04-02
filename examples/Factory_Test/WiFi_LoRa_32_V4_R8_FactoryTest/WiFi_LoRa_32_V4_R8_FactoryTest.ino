@@ -50,7 +50,7 @@ TinyGPSPlus gps;
 #define VGNSS_CTRL 42
 #define VEXT_ON_VALUE LOW
 test_status_t  test_status;
-int8_t wifi_connect_try_num = 5;
+int8_t wifi_connect_try_num = 3;
 bool resendflag=false;
 bool deepsleepflag=false;
 bool interrupt_flag = false;
@@ -197,22 +197,13 @@ void wifi_connect_init(void)
 	custom_delay(100);
 	WiFi.mode(WIFI_STA);
 	WiFi.setAutoReconnect(true);
-	WiFi.begin("TP-LINK_74864531","heltec_test");//fill in "Your WiFi SSID","Your Password"
+	WiFi.begin("Your WiFi SSID","Your Password");//fill in "Your WiFi SSID","Your Password"
 	factory_display.drawString(0, 20, "WIFI Setup done");
 	factory_display.display();
 }
 
 bool wifi_connect_try(uint8_t try_num)
 {
-	uint8_t count;
-	while(WiFi.status() != WL_CONNECTED && count < try_num)
-	{
-		count ++;
-		factory_display.clear();
-		factory_display.drawString(0, 0, "wifi connecting...");
-		factory_display.display();
-		custom_delay(500);
-	}
 	if(WiFi.status() == WL_CONNECTED)
 	{
 		factory_display.clear();
@@ -221,15 +212,29 @@ bool wifi_connect_try(uint8_t try_num)
 		custom_delay(2500);
 		return true;
 	}
-	else
+
+	factory_display.clear();
+	factory_display.drawString(0, 0, "wifi connecting...");
+	factory_display.display();
+
+	for(uint8_t count = 0; count < try_num; count++)
 	{
-		factory_display.clear();
-		factory_display.drawString(0, 0, "wifi connect failed");
-		factory_display.display();
-		custom_delay(1000);
-		return false;
+		custom_delay(500);
+		if(WiFi.status() == WL_CONNECTED)
+		{
+			factory_display.clear();
+			factory_display.drawString(0, 0, "wifi connect OK");
+			factory_display.display();
+			custom_delay(2500);
+			return true;
+		}
 	}
-	
+
+	factory_display.clear();
+	factory_display.drawString(0, 0, "wifi connect failed");
+	factory_display.display();
+	custom_delay(1000);
+	return false;
 }
 
 void wifi_scan(unsigned int value)
@@ -515,7 +520,7 @@ void loop()
 		}
 		case WIFI_CONNECT_TEST:
 		{
-			if((wifi_connect_try(wifi_connect_try_num--)==true) || (wifi_connect_try_num<=0))
+			if(wifi_connect_try(2) || (--wifi_connect_try_num <= 0))
 			{
 				test_status = WIFI_SCAN_TEST;
 			}
