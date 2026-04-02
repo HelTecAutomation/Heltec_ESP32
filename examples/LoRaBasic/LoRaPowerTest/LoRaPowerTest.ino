@@ -59,21 +59,13 @@ HT_st7735 st7735;
 void VextON(void)
 {
   pinMode(Vext,OUTPUT);
-#if defined(WIFI_LORA_32_V4)
-  digitalWrite(Vext, HIGH);
-#else
   digitalWrite(Vext, LOW);
-#endif
 }
 
 void VextOFF(void) //Vext default OFF
 {
   pinMode(Vext,OUTPUT);
-#if defined(WIFI_LORA_32_V4)
-  digitalWrite(Vext, LOW);
-#else
   digitalWrite(Vext, HIGH);
-#endif
 }
 int8_t power = TX_OUTPUT_POWER;
 bool interrupt_flag = false;
