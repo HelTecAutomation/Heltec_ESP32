@@ -562,13 +562,16 @@ void SX126xSetTxParams( int8_t power, RadioRampTimes_t rampTime )
 #elif defined(WIRELESS_TRACKER_V2) && defined(USE_KCT8103L_PA)
         const uint16_t kct8103l_tx_gain[] = {14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 13, 13, 13, 12, 12, 11, 10, 9, 8, 7};
         power = powerConversion(power, kct8103l_tx_gain, sizeof(kct8103l_tx_gain)/sizeof(kct8103l_tx_gain[0]));
+#elif defined(WIFI_LORA_32_V4_R8) && defined(USE_KCT8103L_PA)
+        const uint16_t kct8103l_tx_gain[] = {0};
+        power = powerConversion(power, kct8103l_tx_gain, sizeof(kct8103l_tx_gain)/sizeof(kct8103l_tx_gain[0]));
 #else
         if( power > 22 )
         {
             power = 22;
         }
         else if( power < -3 )
-        { 
+        {
             power = -3;
         }
 #endif

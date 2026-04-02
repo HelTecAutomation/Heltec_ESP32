@@ -26,7 +26,7 @@ CubeCell_NeoPixel pixels(1, RGB, NEO_GRB + NEO_KHZ800);
   #define VEXT_OFF_LEVEL HIGH
 #endif
 
-#if defined(WIFI_LORA_32_V3)||defined(WIFI_LORA_32_V4)||defined(WIFI_LORA_32_V2)||defined(WIFI_LORA_32)||defined(WIRELESS_STICK_V3)||defined(WIRELESS_STICK)
+#if defined(WIFI_LORA_32_V3)||defined(WIFI_LORA_32_V4)||defined(WIFI_LORA_32_V4_R8)||defined(WIFI_LORA_32_V2)||defined(WIFI_LORA_32)||defined(WIRELESS_STICK_V3)||defined(WIRELESS_STICK)
 #include <Wire.h>
 #include "HT_SSD1306Wire.h"
 RTC_DATA_ATTR uint8_t ifDisplayAck=0;
@@ -260,7 +260,7 @@ static void McpsIndication( McpsIndication_t *mcpsIndication )
 	{
 		return;
 	}
-#if defined(WIFI_LORA_32_V3)||defined(WIFI_LORA_32_V4)||defined(WIFI_LORA_32_V2)||defined(WIRELESS_STICK_V3)||defined( WIFI_LORA_32 )||defined(WIRELESS_STICK)
+#if defined(WIFI_LORA_32_V3)||defined(WIFI_LORA_32_V4)||defined(WIFI_LORA_32_V4_R8)||defined(WIFI_LORA_32_V2)||defined(WIRELESS_STICK_V3)||defined( WIFI_LORA_32 )||defined(WIRELESS_STICK)
 	ifDisplayAck=1;
 	revrssi=mcpsIndication->Rssi;
 	revsnr=mcpsIndication->Snr;
@@ -347,7 +347,7 @@ static void MlmeConfirm( MlmeConfirm_t *mlmeConfirm )
 			if( mlmeConfirm->Status == LORAMAC_EVENT_INFO_STATUS_OK )
 			{
 
-#if defined(WIFI_LORA_32_V3)||defined(WIFI_LORA_32_V4)||defined(WIFI_LORA_32_V2)||defined(WIRELESS_STICK_V3)||defined( WIFI_LORA_32 )||defined(WIRELESS_STICK)
+#if defined(WIFI_LORA_32_V3)||defined(WIFI_LORA_32_V4)||defined(WIFI_LORA_32_V4_R8)||defined(WIFI_LORA_32_V2)||defined(WIRELESS_STICK_V3)||defined( WIFI_LORA_32 )||defined(WIRELESS_STICK)
 				if(isDispayOn)
 				{
 					LoRaWAN.displayJoined();
@@ -734,7 +734,7 @@ void LoRaWanClass::ifskipjoin()
 }
 #endif
 
-#if defined(WIFI_LORA_32_V3)||defined(WIFI_LORA_32_V4)||defined( WIFI_LORA_32_V2 )||defined(WIRELESS_STICK_V3)||defined( WIFI_LORA_32 )||defined(WIRELESS_STICK)
+#if defined(WIFI_LORA_32_V3)||defined(WIFI_LORA_32_V4)||defined(WIFI_LORA_32_V4_R8)||defined( WIFI_LORA_32_V2 )||defined(WIRELESS_STICK_V3)||defined( WIFI_LORA_32 )||defined(WIRELESS_STICK)
 void LoRaWanClass::displayJoining()
 {
 	display.setFont(ArialMT_Plain_16);
