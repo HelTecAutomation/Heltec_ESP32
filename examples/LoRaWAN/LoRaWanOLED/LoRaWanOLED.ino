@@ -103,7 +103,7 @@ void setup() {
   Mcu.begin(HELTEC_BOARD,SLOW_CLK_TPYE);
 #ifdef WIFI_LORA_32_V4
   pinMode(Vext, OUTPUT);
-  digitalWrite(Vext, HIGH);
+  digitalWrite(Vext, LOW);
 #endif
   if(firstrun)
   {

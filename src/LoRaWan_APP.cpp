@@ -17,14 +17,9 @@ CubeCell_NeoPixel pixels(1, RGB, NEO_GRB + NEO_KHZ800);
 #endif
 
 
-/* VEXT polarity: V4 uses Active HIGH (NPN + PMOS), others use Active LOW */
-#if defined(WIFI_LORA_32_V4)
-  #define VEXT_ON_LEVEL  HIGH
-  #define VEXT_OFF_LEVEL LOW
-#else
-  #define VEXT_ON_LEVEL  LOW
-  #define VEXT_OFF_LEVEL HIGH
-#endif
+/* VEXT polarity for supported ESP32 OLED boards */
+#define VEXT_ON_LEVEL  LOW
+#define VEXT_OFF_LEVEL HIGH
 
 #if defined(WIFI_LORA_32_V3)||defined(WIFI_LORA_32_V4)||defined(WIFI_LORA_32_V4_R8)||defined(WIFI_LORA_32_V2)||defined(WIFI_LORA_32)||defined(WIRELESS_STICK_V3)||defined(WIRELESS_STICK)
 #include <Wire.h>
