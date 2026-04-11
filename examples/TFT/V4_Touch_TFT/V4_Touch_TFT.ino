@@ -206,7 +206,7 @@ void draw_line(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint8_t size,
 
 void VextON(void) {
   pinMode(Vext_Ctrl, OUTPUT);
-  digitalWrite(Vext_Ctrl, HIGH);
+  digitalWrite(Vext_Ctrl, LOW);
 }
 
 void blk_ctrl(bool state) {
@@ -215,7 +215,7 @@ void blk_ctrl(bool state) {
     digitalWrite(TFT_BLK, HIGH);
   }
   else {
-    pinMode(TFT_BLK, LOW);
+    pinMode(TFT_BLK, OUTPUT);
     digitalWrite(TFT_BLK, LOW);
   }
 
@@ -223,5 +223,5 @@ void blk_ctrl(bool state) {
 void VextOFF(void)  // Vext default OFF
 {
   pinMode(Vext_Ctrl, OUTPUT);
-  digitalWrite(Vext_Ctrl, LOW);
+  digitalWrite(Vext_Ctrl, HIGH);
 }
