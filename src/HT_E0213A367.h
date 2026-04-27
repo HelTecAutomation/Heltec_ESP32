@@ -140,6 +140,8 @@ public:
 		}
 	}
 
+	void setRotateAngle(DISPLAY_ANGLE new_angle) {rotate_angle = new_angle;}
+
 	void stop()
 	{
 		end();
@@ -290,7 +292,6 @@ private:
 
 	void sendScreenRotateCommand()
 	{
-
 	}
 
 	inline void sendCommand(uint8_t com) __attribute__((always_inline))
