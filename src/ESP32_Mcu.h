@@ -24,6 +24,7 @@
 * Vision_Master_E_213      36
 * Vision_Master_E290       37
 * Vision_Master_T190       38
+* HELTEC_RADIO_CORE_S3R8   39
 *
 * If value come to 49, next one should be 61
 * CAPSULE_SENSOR_V3 50
@@ -32,6 +33,9 @@
 *
 * ESP32C3 CHIP
 * WIRELESS_MINI_SHELL      70
+*
+* ESP32C6 CHIP
+* HELTEC_RADIO_CORE_C6     81
 *
 *
 * ESP32D0 CHIP
@@ -51,7 +55,36 @@
 #define LORA_DEFAULT_DIO0_PIN   26
 #define LORA_DEFAULT_DIO1_PIN   33
 #define Timer_DEFAULT_DIV       80
+
+#ifdef RADIO_BUSY
+#define LORA_DEFAULT_BUSY_PIN   RADIO_BUSY
+#else
+#define LORA_DEFAULT_BUSY_PIN   -1
+#endif
+
 extern uint8_t mcuStarted;
+
+typedef struct
+{
+  int8_t radioDio1;
+  int8_t radioNss;
+  int8_t radioReset;
+  int8_t radioBusy;
+  int8_t loraClk;
+  int8_t loraMiso;
+  int8_t loraMosi;
+} McuRadioPins_t;
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+McuRadioPins_t McuGetRadioPins(void);
+
+#ifdef __cplusplus
+}
+#endif
+
 class McuClass{
 public:
   McuClass();
