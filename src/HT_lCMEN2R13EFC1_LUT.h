@@ -1,3 +1,6 @@
+#ifndef __HT_ICMEN2R13EFC1_LUT_H__
+#define __HT_ICMEN2R13EFC1_LUT_H__
+
 const unsigned char LUT_VCOM[] = {
     0x00,
     0x00,
@@ -226,3 +229,5 @@ const unsigned char CMD_USER[] = {
     0X09,
     0x13,
 };
+
+#endif
