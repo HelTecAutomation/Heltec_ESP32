@@ -107,7 +107,6 @@ int wifiScanMaxRssi=-255;
 bool wifiConnected=false;
 bool loratimeout=false;
 float battery_levl;
-extern uint32_t ex_32k_start_cnt;
 void OnTxDone( void )
 {
 	state=STATE_RX;
@@ -313,7 +312,7 @@ void WIFISetUp(void)
 	WiFi.disconnect(true);
 	delay(100);
 	WiFi.mode(WIFI_STA);
-	WiFi.setAutoConnect(true);
+	WiFi.setAutoReconnect(true);
 	WiFi.begin(TEST_WIFI_SSID,TEST_WIFI_PWD);//fill in "Your WiFi SSID","Your Password"
 	delay(100);
 	byte count = 0;
@@ -446,20 +445,6 @@ void setup()
 {
   Serial.begin(115200);
   checklicense();
-  if(ex_32k_start_cnt>5)
-  {
-    VextON();
-    delay(100);
-    factory_display.init();
-    factory_display.setFont(ArialMT_Plain_24);
-    factory_display.setTextAlignment(TEXT_ALIGN_LEFT);
-    packet ="EX 32K ERROR";
-    factory_display.clear();
-    factory_display.drawString(40, 48, packet);
-    factory_display.update(BLACK_BUFFER);
-    factory_display.display();
-    while(1);
-  }
   Mcu.begin(HELTEC_BOARD,SLOW_CLK_TPYE);
   chipid=ESP.getEfuseMac();//The chip ID is essentially its MAC address(length: 6 bytes).
   Serial.printf("ESP32ChipID=%04X",(uint16_t)(chipid>>32));//print High 2 bytes
