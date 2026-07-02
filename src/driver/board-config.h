@@ -41,7 +41,7 @@
 
 #define BOARD_TCXO_WAKEUP_TIME                      5
 
-#if defined(WIFI_LORA_32_V3)||defined(WIFI_LORA_32_V4)||defined(WIRELESS_TRACKER)||defined(WIRELESS_TRACKER_V2)||defined(WIRELESS_STICK_V3)||defined(WIRELESS_STICK_LITE_V3)||defined(WIRELESS_PAPER)||defined(CAPSULE_SENSOR_V3)||defined(WIRELESS_SHELL_V3)||defined(Vision_Master_E_213)||defined(Vision_Master_E290)||defined(Vision_Master_T190)||defined(WIFI_LORA_32_V4_R8)
+#if defined(WIFI_LORA_32_V3)||defined(WIFI_LORA_32_V4)||defined(WIRELESS_TRACKER)||defined(WIRELESS_TRACKER_V2)||defined(WIRELESS_STICK_V3)||defined(WIRELESS_STICK_LITE_V3)||defined(WIRELESS_PAPER)||defined(CAPSULE_SENSOR_V3)||defined(WIRELESS_SHELL_V3)||defined(HELTEC_VISION_MASTER_E_213)||defined(Vision_Master_E290)||defined(Vision_Master_T190)||defined(WIFI_LORA_32_V4_R8)
 
 #define RADIO_DIO_1    14
 #define RADIO_NSS      8
@@ -115,6 +115,24 @@
 #define LORA_CLK 10
 #define LORA_MISO 6
 #define LORA_MOSI 7
+#elif defined(HELTEC_RADIO_CORE_S3R8)
+#define RADIO_DIO_1    14
+#define RADIO_NSS      10
+#define RADIO_RESET    9
+#define RADIO_BUSY     1
+
+#define LORA_CLK       11
+#define LORA_MISO      13
+#define LORA_MOSI      12
+#elif defined(HELTEC_RADIO_CORE_C6)
+#define RADIO_DIO_1    19
+#define RADIO_NSS      23
+#define RADIO_RESET    8
+#define RADIO_BUSY     10
+
+#define LORA_CLK       21
+#define LORA_MISO      20
+#define LORA_MOSI      22
 #endif
 
 
