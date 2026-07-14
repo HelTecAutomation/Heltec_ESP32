@@ -1281,6 +1281,7 @@ extern void write0(uint16_t address, uint8_t value);
 extern uint8_t read0(uint16_t address);
 extern void writefifo(uint16_t address, uint8_t *buffer, uint8_t size);
 extern void readfifo(uint16_t address, uint8_t *buffer, uint8_t size);
+extern uint8_t SpiInOut(Spi_t *obj, uint8_t outData);
 
 void SX1276Write( uint16_t addr, uint8_t data )
 {
