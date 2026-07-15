@@ -24,7 +24,7 @@
 * Vision_Master_E_213      36
 * Vision_Master_E290       37
 * Vision_Master_T190       38
-* HELTEC_RADIO_CORE_S3R8   39
+* HELTEC_RC32              39
 *
 * If value come to 49, next one should be 61
 * CAPSULE_SENSOR_V3 50
@@ -35,7 +35,7 @@
 * WIRELESS_MINI_SHELL      70
 *
 * ESP32C6 CHIP
-* HELTEC_RADIO_CORE_C6     81
+* HELTEC_RCC6              81
 *
 *
 * ESP32D0 CHIP
