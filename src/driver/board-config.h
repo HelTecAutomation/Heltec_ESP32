@@ -115,7 +115,7 @@
 #define LORA_CLK 10
 #define LORA_MISO 6
 #define LORA_MOSI 7
-#elif defined(HELTEC_RADIO_CORE_S3R8)
+#elif defined(HELTEC_RC32)
 #define RADIO_DIO_1    14
 #define RADIO_NSS      10
 #define RADIO_RESET    9
@@ -124,7 +124,7 @@
 #define LORA_CLK       11
 #define LORA_MISO      13
 #define LORA_MOSI      12
-#elif defined(HELTEC_RADIO_CORE_C6)
+#elif defined(HELTEC_RCC6)
 #define RADIO_DIO_1    19
 #define RADIO_NSS      23
 #define RADIO_RESET    8
