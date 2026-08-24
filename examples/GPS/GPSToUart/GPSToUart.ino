@@ -1,3 +1,4 @@
+//This example applies only to tracker_v1; pin modifications are required for use with other boards.
 #include "Arduino.h"
 #include "HT_TinyGPS++.h"
 
