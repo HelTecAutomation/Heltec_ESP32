@@ -88,7 +88,7 @@ McuRadioPins_t McuGetRadioPins(void);
 class McuClass{
 public:
   McuClass();
-  void setlicense(uint32_t * license,uint8_t board_type);
+  void setlicense(unsigned long * license,uint8_t board_type);
   int begin(uint8_t board_type,uint8_t ex_32k);
   void addwakeio(uint8_t gpio);
   void setSPIFrequency(uint32_t frequency);
